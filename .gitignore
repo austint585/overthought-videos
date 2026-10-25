@@ -1,0 +1,5 @@
+pipeline/vendor/
+pipeline/preview/
+pipeline/out/
+__pycache__/
+*.wav
