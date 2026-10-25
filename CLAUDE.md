@@ -15,8 +15,10 @@ An AI-run, faceless Instagram account, **@overthought.daily** (display name "Ove
 | Video | State |
 |---|---|
 | Last Flag Standing (elimination sim, 43 s) | Posted as Trial Reel, Oct 25 ~1:00 pm ET: https://www.instagram.com/reel/De7L-22ChQ0/ |
-| Folding Paper 103 Times (what-if counter, 48 s) | Approved, scheduled for Oct 25 7:00 pm ET from the claude.ai chat (it fires there). Confirm it posted; if not, post it with the approved caption below. |
+| Folding Paper 103 Times (what-if counter, 48 s) | Posted as Trial Reel, Oct 25 7:00 pm ET: https://www.instagram.com/reel/De71w3qERvN/ |
 | How Tap-To-Pay Works (narrated explainer, 48 s) | Rendered and in `videos/`. **Not approved yet.** Proposed: Trial Reel, Mon Oct 26 12:30 pm ET. |
+
+Early numbers, Last Flag Standing at ~6 h (trial audience only): 116 plays, avg watch 13.1 s of 43 s (30%), skip rate 34%, no likes, comments, shares, or saves yet. Read: a third of viewers swipe in the first seconds, and most leave long before the winner reveal. Ideas to test: a louder first second, a shorter sim (25-30 s), and teasing the final duel on screen.
 
 Approved captions:
 - Last Flag Standing: "48 countries, 1 ring, 1 survivor. Comment your country and it's in the next round. #simulation #flags #countries"
