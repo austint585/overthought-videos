@@ -2,7 +2,11 @@
 # One-time setup for a fresh machine: Python libs, fonts (OFL, via Fontsource) and flag images (MIT, flag-icons).
 set -euo pipefail
 cd "$(dirname "$0")"
-pip install --break-system-packages -q skia-python pymunk cairosvg fonttools brotli numpy pillow kokoro-onnx soundfile
+PY=$(command -v python3 || command -v python)
+PIPPKGS="skia-python pymunk fonttools brotli numpy pillow kokoro-onnx soundfile"
+$PY -m pip install -q $PIPPKGS 2>/dev/null || $PY -m pip install -q --break-system-packages $PIPPKGS
+command -v ffmpeg >/dev/null || echo 'WARNING: ffmpeg not found. Windows: winget install Gyan.FFmpeg  (or: conda install -c conda-forge ffmpeg)'
+command -v npm >/dev/null || { echo 'ERROR: npm not found. Install Node.js LTS (winget install OpenJS.NodeJS.LTS), then re-run.'; exit 1; }
 # free narration voice (Kokoro, Apache-2.0), hosted on GitHub
 mkdir -p vendor/tts
 [ -f vendor/tts/kokoro-v1.0.onnx ] || curl -sL -o vendor/tts/kokoro-v1.0.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
@@ -11,7 +15,7 @@ mkdir -p vendor/fonts
 cd vendor
 [ -f package.json ] || npm init -y >/dev/null
 npm install --silent @fontsource/bricolage-grotesque @fontsource/jetbrains-mono flag-icons
-python3 - <<'PY'
+$PY - <<'PY'
 from fontTools.ttLib import TTFont
 src = "node_modules/@fontsource"
 for out, p in {

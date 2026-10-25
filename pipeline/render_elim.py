@@ -1,7 +1,7 @@
 """Render 'Last Flag Standing' from the elimination sim."""
 import math, random, sys, io, os, tempfile
 import numpy as np
-import skia, cairosvg
+import skia
 from common import *
 import sim_elim as S
 
@@ -13,10 +13,14 @@ END_HOLD = 4.2                # seconds of winner screen
 TRAY_Y0, TRAY_PITCH, TRAY_COLS, TRAY_D = 1432, 43, 16, 36
 
 def load_flags(countries):
+    """Rasterize each flag SVG with Skia's own SVG renderer (no cairo needed, works on Windows)."""
     imgs = {}
     for code, _ in countries:
-        png = cairosvg.svg2png(url=f"{FLAG_DIR}/{code}.svg", output_width=160, output_height=160)
-        imgs[code] = skia.Image.MakeFromEncoded(skia.Data.MakeWithCopy(png))
+        dom = skia.SVGDOM.MakeFromStream(skia.FILEStream.Make(os.path.join(FLAG_DIR, f"{code}.svg")))
+        dom.setContainerSize(skia.Size(160, 160))
+        surf = skia.Surface(160, 160)
+        dom.render(surf.getCanvas())
+        imgs[code] = surf.makeImageSnapshot()
     return imgs
 
 def gray_image(img):
