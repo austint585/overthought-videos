@@ -2,7 +2,11 @@
 # One-time setup for a fresh machine: Python libs, fonts (OFL, via Fontsource) and flag images (MIT, flag-icons).
 set -euo pipefail
 cd "$(dirname "$0")"
-pip install --break-system-packages -q skia-python pymunk cairosvg fonttools brotli numpy pillow
+pip install --break-system-packages -q skia-python pymunk cairosvg fonttools brotli numpy pillow kokoro-onnx soundfile
+# free narration voice (Kokoro, Apache-2.0), hosted on GitHub
+mkdir -p vendor/tts
+[ -f vendor/tts/kokoro-v1.0.onnx ] || curl -sL -o vendor/tts/kokoro-v1.0.onnx https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/kokoro-v1.0.onnx
+[ -f vendor/tts/voices-v1.0.bin ] || curl -sL -o vendor/tts/voices-v1.0.bin https://github.com/thewh1teagle/kokoro-onnx/releases/download/model-files-v1.0/voices-v1.0.bin
 mkdir -p vendor/fonts
 cd vendor
 [ -f package.json ] || npm init -y >/dev/null
