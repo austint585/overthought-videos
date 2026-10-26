@@ -23,7 +23,7 @@ os.makedirs(OUT, exist_ok=True)
 B.clear_scene()
 scene = B.scene
 rng = random.Random(7)
-AWAY = Vector((0, 0, -5000))
+AWAY = Vector((0, 0, -1.0e6))     # far below the ground: a hidden 6 km pile must not shade anything
 HORIZON = (0.9, 0.84, 0.76)
 HAZE = (0.68, 0.76, 0.88)          # distant land fades toward a clear-day blue, not gray
 

@@ -58,8 +58,8 @@ def build_audio(sents, E, duration, path):
     env = np.interp(np.arange(int(duration * SR)) / SR, ts, a)
     hiss = noise_burst(duration, tau=1e9, lp=0.35, seed=31)[:len(env)]
     rumble = noise_burst(duration, tau=1e9, lp=0.02, seed=32)[:len(env)]
-    add(tr, 0.0, hiss * env * (1 - env) * 0.35 + rumble * env ** 2 * 1.6)
-    add(tr, E["s64"], K.layer(K.clunk(5), sweep(80, 28, 1.6, tau=0.6) * 1.2), 0.7)
+    add(tr, 0.0, hiss * env * (1 - env) * 0.35 + rumble * env ** 2 * 0.8)     # rumble sits 6 dB under the voice
+    add(tr, E["s64"], K.layer(K.clunk(5), sweep(80, 28, 1.6, tau=0.6) * 1.2), 0.5)
     add(tr, E["loop"] - 0.05, K.whoosh(41, 0.4), 0.35)
     save_wav(tr, path, duration)
 
