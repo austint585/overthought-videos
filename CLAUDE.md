@@ -40,8 +40,8 @@ Approved captions:
 
 - `ops/queue.json` is the source of truth: every post with its video, exact caption, trial setting, slot (ET) and status (`approved`, `posted`, `failed`). Only items on `main` with `"status": "approved"` ever get posted.
 - **Posting routine** (Claude Code cloud routine, `45 0,17 * * *` UTC, so 1:45 and 8:45 pm EDT, 12:45 and 7:45 pm EST): follows `ops/post.md`. Checks Instagram first so nothing posts twice, posts the earliest due approved item (one per run), writes `reports/daily/` on the evening run, commits the queue.
-- **Weekly routine** (Saturdays `0 14 * * 6` UTC, 10 am EDT / 9 am EST): follows `ops/weekly.md`. Weekly report, renders next week's 2D videos (the cloud has no GPU), opens a pull request `Week of ...`. **Austin merging that pull request is his approval** of every video and caption in it.
-- 3D videos are rendered on Austin's laptop in a desktop session and added to the queue once he approves them in chat.
+- **Weekly planning routine** (Saturdays `0 14 * * 6` UTC, 10 am EDT / 9 am EST): follows `ops/weekly.md`. Writes `reports/weekly/` and next week's 3D episode plan in `ops/plan/` (topics, scripts, sourced numbers, captions). It renders nothing: the account is 3D only and the cloud has no GPU.
+- **3D only, from Oct 26 (Austin's call).** No more 2D videos. Episodes are rendered on Austin's laptop (RTX 3060) from the plan, then go up for approval: in chat, or as a pull request whose merge is Austin's approval. Approved episodes go into `ops/queue.json` on `main`, and the posting routine takes it from there.
 - Both routines need the vidIQ connector attached on their routine page at claude.ai/code/routines, and the Claude GitHub app with access to this repo.
 - Change what the routines do by editing `ops/post.md` and `ops/weekly.md`; the routine prompts just point at them.
 
@@ -71,6 +71,13 @@ Setup on a new machine (Git Bash on Windows): `bash pipeline/setup.sh`. Needs Py
 | `render_lock.py`, `lock_scene.py`, `lock_anim.py` | 3D cutaway explainer (pin tumbler lock). `render_lock.py` reuses the tap-to-pay narration and captions, writes `out/lock/timing.json`, runs Blender headless on `lock_scene.py` (every mesh, material, light and camera move built in Python, Eevee, 60 fps), then draws captions, labels and the end card over the frames and mixes synthesized sound. `lock_anim.py` holds the shared geometry and motion (pin heights from the key profile, plug turn, glows) so the picture and the pin clicks stay in sync. Blender frames cache in `out/lock/frames`; delete them after changing the scene. About 1.4 s per frame on Austin's laptop (RTX 3060), so a 41 s video is about an hour. |
 
 Every script: `python <script>.py out.mp4 out.wav` to render, `python <script>.py preview <times>` to dump PNG frames into `preview/` for checking.
+
+### 3D kits
+
+A kit is a reusable Blender scene plus its narration and overlay pass, so a new episode is mostly new numbers and a new script.
+
+- **Cutaway explainer** (`render_lock.py`, `lock_scene.py`, `lock_anim.py`): an everyday object on a dark studio floor, sawn in half, labeled parts, glows on what matters. Each new object needs its own modeling code.
+- **What-if escalation**: in progress, see the next commit.
 
 setup.sh also fetches portable Blender 5.2.3 into `pipeline/vendor/blender_dl/` from the Berkeley mirror (blender.org and winget's source return 403 to scripts) and checks its SHA-256. Override with `BLENDER=/path/to/blender`.
 
