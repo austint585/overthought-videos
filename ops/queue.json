@@ -1,0 +1,30 @@
+[
+  {
+    "id": "2026-10-26-tap-to-pay",
+    "title": "How Tap-To-Pay Works",
+    "format": "2D narrated explainer",
+    "video": "videos/2026-10-25_How_Tap_To_Pay_Works.mp4",
+    "caption": "Your phone never sends your card number when you tap to pay. It sends a stand-in and a one-time code. #howitworks #tech #nfc",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-10-26T12:30:00-04:00",
+    "status": "approved",
+    "approved": "Austin in chat, 2026-10-25",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
+  },
+  {
+    "id": "2026-10-26-lock",
+    "title": "Why Only Your Key Opens Your Door",
+    "format": "3D cutaway explainer",
+    "video": "videos/2026-10-25_Why_Only_Your_Key_Opens_Your_Door.mp4",
+    "caption": "Five tiny pins decide whether your door opens. Comment what we should cut open next. #howitworks #engineering #locks",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-10-26T19:00:00-04:00",
+    "status": "approved",
+    "approved": "Austin in chat, 2026-10-25",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
+  }
+]

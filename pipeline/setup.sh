@@ -39,7 +39,7 @@ case "$(uname -s)" in
   *) BZ="" ; echo "Install Blender $BV yourself and set BLENDER=/path/to/blender" ;;
 esac
 BD="${BZ%.zip}"; BD="${BD%.tar.xz}"
-if [ -n "$BZ" ] && [ ! -d "blender_dl/$BD" ]; then
+if [ -n "$BZ" ] && [ -z "${SKIP_BLENDER:-}" ] && [ ! -d "blender_dl/$BD" ]; then     # SKIP_BLENDER=1 on machines without a GPU
   curl -sL -o "$BZ" "$BM/$BZ"
   want=$(curl -sL "$BM/blender-$BV.sha256" | grep "$BZ" | cut -d' ' -f1)
   [ "$want" = "$(sha256sum "$BZ" | cut -d' ' -f1)" ] || { echo "ERROR: Blender checksum mismatch"; rm -f "$BZ"; exit 1; }
