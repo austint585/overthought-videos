@@ -17,7 +17,8 @@ An AI-run, faceless Instagram account, **@overthought.daily** (display name "Ove
 | Last Flag Standing (elimination sim, 43 s) | Posted as Trial Reel, Oct 25 ~1:00 pm ET: https://www.instagram.com/reel/De7L-22ChQ0/ |
 | Folding Paper 103 Times (what-if counter, 48 s) | Posted as Trial Reel, Oct 25 7:00 pm ET: https://www.instagram.com/reel/De71w3qERvN/ |
 | How Tap-To-Pay Works (narrated explainer, 48 s) | Approved Oct 25 (exact video, caption below, Trial Reel SS_PERFORMANCE). Posted as Trial Reel, Oct 26 12:30 pm ET: https://www.instagram.com/reel/De9tt6ZD7Q7/ |
-| Why Only Your Key Opens Your Door (3D cutaway, 41 s) | First 3D video (Blender). Approved Oct 25 (exact video, caption below, Trial Reel SS_PERFORMANCE) In `ops/queue.json` for Mon Oct 26 7:00 pm ET. The desktop session posts it at 7:00 if the app is open; otherwise the posting routine picks it up at 8:45 pm. |
+| Why Only Your Key Opens Your Door (3D cutaway, 41 s) | First 3D video (Blender). Approved Oct 25, then **held by Austin on Oct 26** before the 7 pm slot: it is built the same way as the rejected rice video (code-built shapes, no real assets). Status `held` in `ops/queue.json`, so no routine posts it. Needs a new approval. |
+| Rice On A Chessboard (3D what-if, 30 s) | Rendered Oct 26, **rejected by Austin**: forced "would you take this deal" hook, unsourced assumptions (grain mass, packing, pile slope), code-built visuals far below the creators he compares us with. Never queued. See "Next steps" for the new process. |
 
 Early numbers, Last Flag Standing at ~6 h (trial audience only): 116 plays, avg watch 13.1 s of 43 s (30%), skip rate 34%, no likes, comments, shares, or saves yet. Read: a third of viewers swipe in the first seconds, and most leave long before the winner reveal. Ideas to test: a louder first second, a shorter sim (25-30 s), and teasing the final duel on screen.
 
@@ -38,7 +39,7 @@ Approved captions:
 
 ## How posting runs now (hands-off, from Oct 26)
 
-- `ops/queue.json` is the source of truth: every post with its video, exact caption, trial setting, slot (ET) and status (`approved`, `posted`, `failed`). Only items on `main` with `"status": "approved"` ever get posted.
+- `ops/queue.json` is the source of truth: every post with its video, exact caption, trial setting, slot (ET) and status (`approved`, `posted`, `failed`, or `held` when Austin pulls an approval back). Only items on `main` with `"status": "approved"` ever get posted.
 - **Posting routine** (Claude Code cloud routine, `45 0,17 * * *` UTC, so 1:45 and 8:45 pm EDT, 12:45 and 7:45 pm EST): follows `ops/post.md`. Checks Instagram first so nothing posts twice, posts the earliest due approved item (one per run), writes `reports/daily/` on the evening run, commits the queue.
 - **Weekly planning routine** (Saturdays `0 14 * * 6` UTC, 10 am EDT / 9 am EST): follows `ops/weekly.md`. Writes `reports/weekly/` and next week's 3D episode plan in `ops/plan/` (topics, scripts, sourced numbers, captions). It renders nothing: the account is 3D only and the cloud has no GPU.
 - **3D only, from Oct 26 (Austin's call).** No more 2D videos. Episodes are rendered on Austin's laptop (RTX 3060) from the plan, then go up for approval: in chat, or as a pull request whose merge is Austin's approval. Approved episodes go into `ops/queue.json` on `main`, and the posting routine takes it from there.
@@ -91,6 +92,7 @@ setup.sh also fetches portable Blender 5.2.3 into `pipeline/vendor/blender_dl/` 
 
 ## Next steps
 
+0. **New process after the rice rejection (Oct 26).** Research comes before any render. For each episode, Austin first approves a pre-production pack: why people care (with evidence), every number with a source and every assumption written out, the hook (no invented premise or question nobody would ask), and a shot list with test stills next to frames from his reference reels. Visual bar: real assets (Poly Haven and similar), real light, real simulation where the story is physical. Then a 5-second final-quality test, then the full render. Austin is naming the creators he means; break their reels down shot by shot before planning.
 1. Get Austin's approval for Tap-To-Pay and post it.
 2. About 48 h after each post, pull insights and compare the three formats on watched %, skip rate, shares, saves.
 3. Daily routine: done (see "How posting runs now"). After Nov 1 the cron's UTC times land an hour earlier in ET; still after both slots.
