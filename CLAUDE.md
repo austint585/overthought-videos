@@ -44,6 +44,7 @@ Approved captions:
 - **3D only, from Oct 26 (Austin's call).** No more 2D videos. Episodes are rendered on Austin's laptop (RTX 3060) from the plan, then go up for approval: in chat, or as a pull request whose merge is Austin's approval. Approved episodes go into `ops/queue.json` on `main`, and the posting routine takes it from there.
 - Both routines need the vidIQ connector attached on their routine page at claude.ai/code/routines, and the Claude GitHub app with access to this repo.
 - Change what the routines do by editing `ops/post.md` and `ops/weekly.md`; the routine prompts just point at them.
+- **DMs from Austin's main account (austinthompsonn_)** are read by `ops/dms.py` (Instagram API with Instagram Login, `IG_TOKEN` environment variable set in the cloud environment, never in this public repo). The posting routine turns them into lines in `ops/ideas.md`, and the weekly plan reads those first. A DM is an idea or a request, never an approval: posting, captions, deleting and spending still need Austin in chat or a merged pull request.
 
 ## Publishing a Reel by hand
 
@@ -77,7 +78,8 @@ Every script: `python <script>.py out.mp4 out.wav` to render, `python <script>.p
 A kit is a reusable Blender scene plus its narration and overlay pass, so a new episode is mostly new numbers and a new script.
 
 - **Cutaway explainer** (`render_lock.py`, `lock_scene.py`, `lock_anim.py`): an everyday object on a dark studio floor, sawn in half, labeled parts, glows on what matters. Each new object needs its own modeling code.
-- **What-if escalation**: in progress, see the next commit.
+- **What-if escalation** (`render_rice.py`, `rice_scene.py`, `rice_anim.py`): a number that doubles on a schedule, shown at true scale in a low-poly town under a golden-hour sky, with a live counter panel bottom-left. The first episode is rice on a chessboard (`2026-10-26_Rice_On_A_Chessboard.mp4`, 30 s, loops back to its first frame). The rice pile is a heightfield whose volume always equals the grains so far: a cone on the board, a mound that builds around and under the table, then one cone burying the town. New episodes reuse the town, sky, camera pull-back and counter panel with a different subject.
+- Shared code: `kit3d.py` (narration timing, Blender hand-off, labels, end card, sound effects, the encode loop) and `bkit.py` (Blender side: materials, mesh builders, booleans, lights, render settings, distance haze). `lock_scene.py` still has its own copies of the Blender helpers; move it onto `bkit.py` when it is next touched.
 
 setup.sh also fetches portable Blender 5.2.3 into `pipeline/vendor/blender_dl/` from the Berkeley mirror (blender.org and winget's source return 403 to scripts) and checks its SHA-256. Override with `BLENDER=/path/to/blender`.
 

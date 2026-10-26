@@ -2,7 +2,7 @@
 
 Austin's call on Oct 26: **3D only from now on, no more 2D videos.** This cloud has no GPU, so it cannot render 3D. Your job here is the report and the plan; Austin's laptop renders the episodes (in a desktop session or its scheduled render task) and puts them up for approval.
 
-Sync first, because the checkout can start out of date: `git fetch -q origin && git checkout -q -B main origin/main`. Then read `CLAUDE.md`, `RULES.md`, `ops/queue.json`, the newest files in `reports/daily/`, and the newest plan in `ops/plan/`. No em dashes anywhere.
+Sync first, because the checkout can start out of date: `git fetch -q origin && git checkout -q -B main origin/main`. Then read `CLAUDE.md`, `RULES.md`, `ops/queue.json`, the newest files in `reports/daily/`, the newest plan in `ops/plan/`, and `ops/ideas.md`. Ideas Austin sent by DM come first when they fit a kit. No em dashes anywhere.
 
 ## Steps
 
