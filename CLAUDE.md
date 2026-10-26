@@ -1,6 +1,6 @@
 # Overthought: passdown for Claude Code
 
-Last updated 2026-10-25 by Claude (moved here from a claude.ai chat). Read this and RULES.md before doing anything.
+Last updated 2026-10-25 evening by Claude Code on Austin's laptop (first 3D video, Blender pipeline). Read this and RULES.md before doing anything.
 
 ## What this is
 
@@ -16,14 +16,16 @@ An AI-run, faceless Instagram account, **@overthought.daily** (display name "Ove
 |---|---|
 | Last Flag Standing (elimination sim, 43 s) | Posted as Trial Reel, Oct 25 ~1:00 pm ET: https://www.instagram.com/reel/De7L-22ChQ0/ |
 | Folding Paper 103 Times (what-if counter, 48 s) | Posted as Trial Reel, Oct 25 7:00 pm ET: https://www.instagram.com/reel/De71w3qERvN/ |
-| How Tap-To-Pay Works (narrated explainer, 48 s) | Rendered and in `videos/`. **Not approved yet.** Proposed: Trial Reel, Mon Oct 26 12:30 pm ET. |
+| How Tap-To-Pay Works (narrated explainer, 48 s) | Approved Oct 25 (exact video, caption below, Trial Reel SS_PERFORMANCE). Uploaded to vidIQ (uploadId `69a3c81a-60df-4fc0-9f65-1ff2aa107463`). Set to publish Mon Oct 26 ~12:30 pm ET by a session-only timer in the Claude Code desktop session, which only fires if that app stays open. Check it posted; if not, it still has approval for that post. |
+| Why Only Your Key Opens Your Door (3D cutaway, 41 s) | First 3D video (Blender). Approved Oct 25 (exact video, caption below, Trial Reel SS_PERFORMANCE) for Mon Oct 26 7:00 pm ET, set by a session-only timer in the Claude Code desktop session (fires only if that app stays open). Check it posted; if not, it still has approval for that post. |
 
 Early numbers, Last Flag Standing at ~6 h (trial audience only): 116 plays, avg watch 13.1 s of 43 s (30%), skip rate 34%, no likes, comments, shares, or saves yet. Read: a third of viewers swipe in the first seconds, and most leave long before the winner reveal. Ideas to test: a louder first second, a shorter sim (25-30 s), and teasing the final duel on screen.
 
 Approved captions:
 - Last Flag Standing: "48 countries, 1 ring, 1 survivor. Comment your country and it's in the next round. #simulation #flags #countries"
 - Folding Paper: "Every fold doubles it. By fold 42 it reaches the Moon. The real-life record is 12. #math #space #science"
-- Proposed for Tap-To-Pay: "Your phone never sends your card number when you tap to pay. It sends a stand-in and a one-time code. #howitworks #tech #nfc"
+- Tap-To-Pay: "Your phone never sends your card number when you tap to pay. It sends a stand-in and a one-time code. #howitworks #tech #nfc"
+- Why Only Your Key Opens Your Door: "Five tiny pins decide whether your door opens. Comment what we should cut open next. #howitworks #engineering #locks"
 
 ## Connections
 
@@ -57,8 +59,11 @@ Setup on a new machine (Git Bash on Windows): `bash pipeline/setup.sh`. Needs Py
 | `render_fold.py` | Folding Paper 103 Times: true-scale zoom-out with landmark lines, shrinking Earth, Moon and Sun dots. |
 | `render_tap.py` | Narrated explainer template. `SCRIPT` = (scene, sentence) with `*keyword*` and `13.56{thirteen point five six}` for spoken forms. Voice `am_adam`, speed 1.05. Word timing from phoneme weights snapped to energy dips. Captions top third, keywords boxed orange. |
 | `pfp.py` | Profile picture. |
+| `render_lock.py`, `lock_scene.py`, `lock_anim.py` | 3D cutaway explainer (pin tumbler lock). `render_lock.py` reuses the tap-to-pay narration and captions, writes `out/lock/timing.json`, runs Blender headless on `lock_scene.py` (every mesh, material, light and camera move built in Python, Eevee, 60 fps), then draws captions, labels and the end card over the frames and mixes synthesized sound. `lock_anim.py` holds the shared geometry and motion (pin heights from the key profile, plug turn, glows) so the picture and the pin clicks stay in sync. Blender frames cache in `out/lock/frames`; delete them after changing the scene. About 1.4 s per frame on Austin's laptop (RTX 3060), so a 41 s video is about an hour. |
 
 Every script: `python <script>.py out.mp4 out.wav` to render, `python <script>.py preview <times>` to dump PNG frames into `preview/` for checking.
+
+setup.sh also fetches portable Blender 5.2.3 into `pipeline/vendor/blender_dl/` from the Berkeley mirror (blender.org and winget's source return 403 to scripts) and checks its SHA-256. Override with `BLENDER=/path/to/blender`.
 
 ## What the research found (Oct 2026)
 
@@ -72,8 +77,8 @@ Every script: `python <script>.py out.mp4 out.wav` to render, `python <script>.p
 2. About 48 h after each post, pull insights and compare the three formats on watched %, skip rate, shares, saves.
 3. Set up the daily routine: a scheduled task renders the next video, pushes it, uploads to vidIQ, and asks Austin for a one-word OK.
 4. Test the untried formats above (justice story, choose-your-path, graph comedy, birth-month race).
-5. Explainer backlog (everyday, not his topics): microwave door mesh, car key fob, fridge, Face ID in the dark, why phones die in the cold, how a lock and key work, how noise travels through walls. Austin is a mechanical engineering student and can sanity-check mechanisms.
-6. Upgrade explainer visuals toward his level (more detailed object illustrations).
+5. Explainer backlog (everyday, not his topics): microwave door mesh, car key fob, fridge, Face ID in the dark, why phones die in the cold, how noise travels through walls. Lock and key is done (3D). Austin is a mechanical engineering student and can sanity-check mechanisms.
+6. Austin wants the realistic 3D look, not flat 2D (Oct 25: "looks a whole lot less ai"). References he picked: @alloyrobotics lidar-in-snow reel (https://www.instagram.com/p/Dec8Nx2kU2_/, 26 s, cinematic scene, moving camera, short centered captions) and @wemakebuild "How a Wooden Plank Becomes a Bridge" (https://www.instagram.com/p/Deiz8tguWYI/, 98 s, 1.8M likes, cross-section diorama that upgrades step by step, one big word at a time, a running joke character). New explainers should be Blender cutaways built on the lock pipeline.
 7. Later: a comment-keyword giveaway with DM automation, and a way for the account to make money.
 
 ## Austin's preferences

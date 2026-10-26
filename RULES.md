@@ -33,6 +33,12 @@ Every video follows these. They exist so each new format starts from what alread
 - Labeled cutaway diagrams with thin leader lines and caps labels.
 - Honesty notes in small text where needed ("magnified", "not to scale").
 
+## 3D formats (Blender)
+- Real lighting, metal materials, depth of field and camera moves are what make it read as real. Keep the camera moving a little in every shot.
+- Dark studio floor and backdrop in the brand near-black. Orange shows up as glows on the part being talked about, red for whatever blocks or fails.
+- Labels sit on dark pills so they stay readable over busy geometry.
+- Open on the real object in its real place (the door, the phone in a hand) before cutting to the cutaway.
+
 ## Facts
 - Every number shown is checked against a source before render. Prefer phrasing that stays true at the margin ("almost as tall as you" when 1.64 m vs 1.75 m).
 

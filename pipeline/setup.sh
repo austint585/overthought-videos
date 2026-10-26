@@ -29,3 +29,22 @@ for out, p in {
     f = TTFont(f"{src}/{p}"); f.flavor = None; f.save(f"fonts/{out}.ttf")
 print("fonts ready")
 PY
+# Blender for the 3D formats: portable build from an official blender.org mirror (blender.org itself
+# sits behind a bot check that blocks curl and winget), verified against the published SHA-256
+BV=5.2.3
+BM="https://mirrors.ocf.berkeley.edu/blender/release/Blender${BV%.*}"
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*) BZ="blender-$BV-windows-x64.zip" ;;
+  Linux) BZ="blender-$BV-linux-x64.tar.xz" ;;
+  *) BZ="" ; echo "Install Blender $BV yourself and set BLENDER=/path/to/blender" ;;
+esac
+BD="${BZ%.zip}"; BD="${BD%.tar.xz}"
+if [ -n "$BZ" ] && [ ! -d "blender_dl/$BD" ]; then
+  curl -sL -o "$BZ" "$BM/$BZ"
+  want=$(curl -sL "$BM/blender-$BV.sha256" | grep "$BZ" | cut -d' ' -f1)
+  [ "$want" = "$(sha256sum "$BZ" | cut -d' ' -f1)" ] || { echo "ERROR: Blender checksum mismatch"; rm -f "$BZ"; exit 1; }
+  mkdir -p blender_dl
+  case "$BZ" in *.zip) unzip -q "$BZ" -d blender_dl ;; *) tar -xf "$BZ" -C blender_dl ;; esac
+  rm -f "$BZ"
+  echo "blender ready"
+fi
