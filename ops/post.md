@@ -12,6 +12,7 @@ You are the posting run for @overthought.daily. Read `CLAUDE.md` and `RULES.md` 
 
 ## Steps
 
+0. Sync first, because the checkout can start out of date: `git fetch -q origin && git checkout -q -B main origin/main`.
 1. Run `date -u` for the current time.
 2. Read `ops/queue.json`.
 3. Reconcile with Instagram: call `vidiq_instagram_owner_insights` with `platformAccountId` `29135912216032186` and `recentMediaLimit` 12. For every queue item that is not `"posted"`, if a Reel's caption is exactly the item's caption, set `"status": "posted"`, `"posted_at"` (the Reel's timestamp) and `"permalink"`. This keeps the queue right even when something else posted it, and stops double posts.

@@ -2,7 +2,7 @@
 
 Goal: one pull request a week that holds the next week's posts. Austin watches the videos on his phone and merges it. Merging is his approval; until then the posting run cannot see those items, because it only reads `main`.
 
-Read `CLAUDE.md`, `RULES.md`, `ops/queue.json` and the newest files in `reports/daily/` first. No em dashes anywhere.
+Sync first, because the checkout can start out of date: `git fetch -q origin && git checkout -q -B main origin/main`. Then read `CLAUDE.md`, `RULES.md`, `ops/queue.json` and the newest files in `reports/daily/`. No em dashes anywhere.
 
 ## Steps
 
