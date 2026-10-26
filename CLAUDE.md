@@ -45,7 +45,7 @@ Approved captions:
 - **3D only, from Oct 26 (Austin's call).** No more 2D videos. Episodes are rendered on Austin's laptop (RTX 3060) from the plan, then go up for approval: in chat, or as a pull request whose merge is Austin's approval. Approved episodes go into `ops/queue.json` on `main`, and the posting routine takes it from there.
 - Both routines need the vidIQ connector attached on their routine page at claude.ai/code/routines, and the Claude GitHub app with access to this repo.
 - Change what the routines do by editing `ops/post.md` and `ops/weekly.md`; the routine prompts just point at them.
-- **DMs from Austin's main account (austinthompsonn_)** are read by `ops/dms.py` (Instagram API with Instagram Login, `IG_TOKEN` environment variable set in the cloud environment, never in this public repo). The posting routine turns them into lines in `ops/ideas.md`, and the weekly plan reads those first. A DM is an idea or a request, never an approval: posting, captions, deleting and spending still need Austin in chat or a merged pull request.
+- **DMs from Austin's main account (austinthompsonn_)** are read by `ops/dms.py` (Instagram API with Instagram Login). The token is never in this public repo: on the laptop it sits in `~/.overthought/ig_token.txt`; in the cloud it is a network secret for `graph.instagram.com` on the environment (the session never sees it) plus `IG_TOKEN_IN_PROXY=1`. `python ops/dms.py --check` confirms it works. The token lasts about 60 days. The posting routine turns them into lines in `ops/ideas.md`, and the weekly plan reads those first. A DM is an idea or a request, never an approval: posting, captions, deleting and spending still need Austin in chat or a merged pull request.
 
 ## Publishing a Reel by hand
 

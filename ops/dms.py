@@ -1,25 +1,39 @@
 """Read new Instagram DMs to @overthought.daily from Austin's main account, for the posting routine.
 
-Needs IG_TOKEN in the environment: an Instagram User access token for @overthought.daily with
-instagram_business_basic and instagram_business_manage_messages (Instagram API with Instagram Login).
-Never write the token into this repo: it is public.
+The token is an Instagram User access token for @overthought.daily with instagram_business_basic and
+instagram_business_manage_messages (Instagram API with Instagram Login). Never write it into this repo: it is public.
+- Cloud routines: a network secret on the cloud environment for graph.instagram.com, plus the plain environment
+  variable IG_TOKEN_IN_PROXY=1. The agent proxy adds the Authorization header, so the session never sees the token.
+- Austin's laptop: the token sits in ~/.overthought/ig_token.txt (or IG_TOKEN in the environment).
+The token always travels in the Authorization header, never in a URL.
 
 python ops/dms.py            print new messages from the sender as JSON lines, then remember where it stopped
 python ops/dms.py --peek     print them without moving the bookmark
-Exit code 2 means no token, 3 means the API refused (expired token, missing permission, network blocked).
+python ops/dms.py --check    confirm the token works: prints the account's username, reads no messages
+Exit code 2 means no token is set up, 3 means the API refused (expired token, missing permission, network blocked).
 """
 import json, os, sys, urllib.error, urllib.parse, urllib.request
 
 API = "https://graph.instagram.com/v23.0"
 SENDER = "austinthompsonn_"
 STATE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dms_state.json")
+TOKEN_FILE = os.path.join(os.path.expanduser("~"), ".overthought", "ig_token.txt")
+
+
+def token():
+    tok = os.environ.get("IG_TOKEN")
+    if not tok and os.path.exists(TOKEN_FILE):
+        tok = open(TOKEN_FILE, encoding="utf-8-sig").read().strip()
+    return tok or None
 
 
 def get(path, **params):
-    params["access_token"] = os.environ["IG_TOKEN"]
-    url = f"{API}/{path}?{urllib.parse.urlencode(params)}"
+    req = urllib.request.Request(f"{API}/{path}?{urllib.parse.urlencode(params)}")
+    tok = token()
+    if tok:
+        req.add_header("Authorization", f"Bearer {tok}")
     try:
-        with urllib.request.urlopen(url, timeout=30) as r:
+        with urllib.request.urlopen(req, timeout=30) as r:
             return json.load(r)
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", "replace")[:300]
@@ -44,9 +58,12 @@ def links(msg):
 
 
 def main():
-    if not os.environ.get("IG_TOKEN"):
-        print(json.dumps({"error": "IG_TOKEN is not set"}))
+    if not token() and os.environ.get("IG_TOKEN_IN_PROXY") != "1":
+        print(json.dumps({"error": "no Instagram token set up"}))
         sys.exit(2)
+    if "--check" in sys.argv:
+        print(json.dumps({"ok": True, "username": get("me", fields="username").get("username")}))
+        return
     peek = "--peek" in sys.argv
     state = json.load(open(STATE)) if os.path.exists(STATE) else {"last": ""}
     convs = get("me/conversations", fields="participants,updated_time", limit=25).get("data", [])
