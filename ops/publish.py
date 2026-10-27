@@ -9,6 +9,8 @@ only, up to 3 a day, under the guardrails you listed." The guardrails below are 
 - At most 3 posts per Eastern calendar day, one per run, and only once the item's slot has passed.
 - The video must already be on GitHub (raw URL answers 200) and the item must say "qa": "passed".
 - A Reel with the same caption already on the account means it was posted: the item is marked posted, not re-posted.
+- A token, permission or network problem before media_publish posts nothing, so the item stays "ready" for the next run
+  (the error goes in "last_error"). Anything else, or any error once media_publish was called, marks it "failed".
 
 python ops/publish.py next      publish the earliest due item (one per run), then update ops/queue.json
 python ops/publish.py status    say what `next` would do, publish nothing
@@ -75,10 +77,24 @@ def reconcile(q):
     return changed
 
 
+class NotPosted(Exception):
+    """Failed before anything could be published: safe to try again next run."""
+
+
+def harmless(e):
+    s = str(e)
+    return s.startswith("network") or any(k in s for k in ('"code":190', '"code":10,', '"code":200,', "OAuthException", "permission"))
+
+
 def publish(it):
-    me = ig.get("me", fields="user_id")["user_id"]
-    c = ig.post(f"{me}/media", media_type="REELS", video_url=RAW + it["video"], caption=it["caption"],
-                trial_params=json.dumps({"graduation_strategy": "SS_PERFORMANCE"}))["id"]
+    try:
+        me = ig.get("me", fields="user_id")["user_id"]
+        c = ig.post(f"{me}/media", media_type="REELS", video_url=RAW + it["video"], caption=it["caption"],
+                    trial_params=json.dumps({"graduation_strategy": "SS_PERFORMANCE"}))["id"]
+    except ig.ApiError as e:
+        if harmless(e):
+            raise NotPosted(str(e))
+        raise
     for _ in range(40):                      # up to 10 minutes of processing
         time.sleep(15)
         st = ig.get(c, fields="status_code,status")
@@ -124,6 +140,10 @@ def main():
         ig.die(0, result="would publish", id=it["id"], slot=it["slot"])
     try:
         mid, link, ts = publish(it)
+    except NotPosted as e:
+        it["last_error"] = str(e)
+        save(q)
+        ig.die(3, result="not posted, will retry next run", id=it["id"], error=str(e))
     except ig.ApiError as e:
         it.update(status="failed", error=str(e))
         save(q)
