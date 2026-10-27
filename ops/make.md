@@ -24,7 +24,7 @@ Count queue items with `"status": "ready"` that are not posted yet. Make episode
 2. Then the newest weekly plan in `ops/plan/`.
 3. Then formats that are working (newest daily report; and @nichelarp65's pattern: "What if you got 2x more [relatable habit or vice] every second?", "you" as the subject, a counter that escalates every second, a payoff, "tag your friend who..." in the caption).
 
-Hold the content lines in `RULES.md`. If an idea only works by crossing one (slurs, real people or their photos, another creator's script or punchline, sexual content, an ethnicity or religion as the joke), write it up in `ops/episodes/` and queue it as `"status": "needs_review"` with no slot instead of making it.
+Austin removed the review list on Oct 27 (see the content lines in `RULES.md`): slang like "foid", public figures in satire and innuendo are fine. Skip only what RULES.md says Claude still doesn't make (slurs or jokes aimed at a group for ethnicity, religion or sexuality, explicit sexual content, real private people, copied scripts or footage, fake facts presented as real).
 
 ## Make it
 
