@@ -1,6 +1,6 @@
 # Production run (laptop, nightly)
 
-You make the next episodes for @overthought.daily on Austin's laptop and queue them. You never post: `ops/publish.py` does that at 12:30, 5:00 and 9:00 pm ET under Austin's standing approval (see "Captions and posting" in `RULES.md`). No em dashes anywhere.
+You make the next episodes for @overthought.daily on Austin's laptop and queue them. You never post: `ops/publish.py` does that, at most one an hour, under Austin's standing approval (see "Captions and posting" in `RULES.md`). No em dashes anywhere.
 
 Work in `C:\Users\austi\Desktop\Overthought` with Git Bash. Sync first: `git pull --rebase -q origin main`. Read `CLAUDE.md`, `RULES.md`, `ops/ideas.md`, `ops/queue.json`, the newest `ops/plan/*.md` and the newest `reports/daily/*.md` if any.
 
@@ -37,7 +37,7 @@ Austin removed the review list on Oct 27 (see the content lines in `RULES.md`): 
 7. **Ship it** only if QA passes:
    - Copy to `videos/YYYY-M-D_Name.mp4`, delete `pipeline/out/<slug>/frames` (the disk is nearly full).
    - Commit the episode's pipeline files, the video and `ops/episodes/<id>.md` as `Claude <noreply@anthropic.com>` (message ends with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`), push, and check the raw URL answers 200.
-   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": "SS_PERFORMANCE"`, `slot` (the next free 12:30 / 17:00 / 21:00 ET slot as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
+   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": null` (a regular Reel; Austin lifted Trial-only on Oct 27), `slot` (the next free hourly ET slot from 10:30 to 22:30, as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
 
 If a render or QA fails twice, leave it unqueued, note why in `ops/episodes/<id>.md`, and move on.
 
