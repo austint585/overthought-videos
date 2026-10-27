@@ -4,3 +4,4 @@ Austin DMs other creators' AI and 3D reels, sometimes pointing at one thing he l
 
 - 2026-10-26: https://www.instagram.com/p/De7GWzZgy2d/ and https://www.instagram.com/p/De9tphNA-Xj/ (@larpforlarp). Deadpan straight-faced delivery of absurd slang, a title card hook, word-by-word captions, about 30 to 36 s, one fake-academic closing line. The humor is the slang density: keep the buzzwords.
 - 2026-10-26: @nichelarp65 (account, not a DM). "What if you got 2x more [habit] every second?" with "you" as the subject, a counter panel top-left, labels on the scene, 3 to 5 posts a day. Hits are relatable vices and identity; a "tag your friend who..." caption.
+- 2026-10-27: Austin, with the @_nofoodwasted_ steak clip: the TikTok "children of khan" type of videos, PS2-era animation style, framed like "how that one dude in the back of class..." with a lot of wit. Look up that style before the next classroom or everyday-character episode.
