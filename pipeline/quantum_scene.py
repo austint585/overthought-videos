@@ -266,7 +266,7 @@ D_YOU, D_THEM = figure("d_you", state="dating", **YOU), figure("d_them", state="
 N_YOU, N_THEM = figure("n_you", state="not", phone=True, **YOU), figure("n_them", state="not", phone=True, **THEM)
 PINKH = gmat((1.0, 0.25, 0.45), "dating", 0.4, 3.0)
 heart = boxes("heart", [((-0.3, -0.05, -0.06, 0.06, 0.1, 0.35), PINKH), ((0.05, 0.3, -0.06, 0.06, 0.1, 0.35), PINKH),
-                        ((-0.22, 0.22, -0.06, 0.06, -0.1, 0.12), PINKH), ((-0.1, 0.1, -0.06, 0.06, -0.25, -0.08), PINKH)], (0, SEAT_Y - 0.1, 3.75))
+                        ((-0.22, 0.22, -0.06, 0.06, -0.1, 0.12), PINKH), ((-0.1, 0.1, -0.06, 0.06, -0.25, -0.08), PINKH)], (0, SEAT_Y - 0.1, 3.05))
 FRIEND = figure("friend", (0.05, 0.04, 0.04), (0.20, 0.45, 0.25), (0.15, 0.15, 0.18), (0.45, 0.30, 0.20))
 torch = boxes("torch", [((-0.06, 0.06, -0.06, 0.06, -1.1, -0.7), colmat((0.15, 0.15, 0.16), 0.4)),
                         ((-0.08, 0.08, -0.08, 0.08, -1.18, -1.1), colmat((1.0, 0.95, 0.8), 0.3, emit=8.0))], (0, 0, 0), FRIEND["armR"])
@@ -321,7 +321,7 @@ def couple_state(t):
         place(D_YOU, -0.32, SEAT_Y, z=SEAT_Z); place(D_THEM, 0.32, SEAT_Y, z=SEAT_Z)
         pose(D_YOU, sit=True, arms=(-0.25, (-0.15, 0, 0.25)), head_tilt=-0.18 + breathe)
         pose(D_THEM, sit=True, arms=((-0.15, 0, -0.25), -0.25), head_tilt=0.22 - breathe, head_turn=0.15)
-        heart.location = (0, SEAT_Y - 0.1, 3.75 + 0.08 * math.sin(t * 3))
+        heart.location = (0, SEAT_Y - 0.1, 3.05 + 0.08 * math.sin(t * 3))   # low enough to clear the caption and STATE panel in the close shots
     else:
         hide(D_YOU); hide(D_THEM); heart.location = AWAY
     if a_n > 0.01:
@@ -451,7 +451,7 @@ def anchors():
         apply_state(t)
         vl.update()
         pts = {
-            "heart": Vector((0, SEAT_Y - 0.1, 4.1)),
+            "heart": Vector((0, SEAT_Y - 0.1, 3.4)),
             "you": Vector((-1.55, SEAT_Y, 3.0)),
             "them": Vector((1.55, SEAT_Y, 3.0)),
             "cat": Vector((0, -0.6, 2.0)),
