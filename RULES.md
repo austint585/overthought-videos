@@ -25,7 +25,7 @@ Every video follows these. They exist so each new format starts from what alread
 - Length: 40-60 s for music-only formats; up to 90 s when narrated.
 
 ## Sound
-- Every visual event gets a sound (bounce, fold, elimination, reveal). Original synthesized audio only, no copyrighted music.
+- Every visual event gets a sound (bounce, fold, elimination, reveal). Use the recorded effects in `Inputs/sonniss_gdc2026` through `pipeline/sfx.py` (royalty-free, no attribution); no copyrighted music.
 - Loudness around -14 to -20 dB RMS per second after the soft limiter in common.save_wav.
 
 ## Narrated formats (when a voice is used)
@@ -45,7 +45,10 @@ Every video follows these. They exist so each new format starts from what alread
 ## Captions and posting
 - Caption: one or two plain sentences that restate the hook or ask for a comment, then 3 hashtags. No emoji walls, no "you won't believe".
 - New formats go out as Trial Reels first (non-followers only), auto-sharing to followers if they perform.
-- Every post needs Austin's approval of the exact video and caption before it goes out.
+- **Standing approval (Austin, in chat, Oct 26 2026):** "Go fully hands-off: post through our own Meta app, Trial Reels only, up to 3 a day, under the guardrails you listed." Videos Claude makes and QA's go into `ops/queue.json` as `"status": "ready"` with `"qa": "passed"`, and `ops/publish.py` posts them through the Overthought Meta app. vidIQ still needs Austin's OK on each exact video, so vidIQ is not used for these.
+- Guardrails (enforced in `ops/publish.py`): Trial Reels only; at most 3 posts per Eastern day; nothing while `ops/PAUSE` exists; never re-post a failed item; the video must be on GitHub and QA must have passed.
+- Content lines Claude holds even without review: no slurs (including "foid"), no real people or real people's photos, no copying another creator's script or punchline, every number sourced, nothing sexual, nothing about a specific ethnicity or religion as the joke. If an idea needs one of these to work, it waits for Austin in chat (`"status": "needs_review"`).
+- Austin can stop everything by saying "pause posting" in chat or creating `ops/PAUSE`, and can delete any post.
 - File names: YYYY-M-D_Descriptive_Name.
 
 ## QA before sending
