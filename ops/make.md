@@ -4,6 +4,16 @@ You make the next episodes for @overthought.daily on Austin's laptop and queue t
 
 Work in `C:\Users\austi\Desktop\Overthought` with Git Bash. Sync first: `git pull --rebase -q origin main`. Read `CLAUDE.md`, `RULES.md`, `ops/ideas.md`, `ops/queue.json`, the newest `ops/plan/*.md` and the newest `reports/daily/*.md` if any.
 
+## Check Austin's DMs first
+
+Austin DMs reels to @overthought.daily from austinthompsonn_ so you learn his taste. The DM API returns nothing, so read them in Chrome with the Claude in Chrome tools (the Chrome profile there is signed in as @overthought.daily): open https://www.instagram.com/direct/inbox/, open the "austin thompson" chat, and read everything newer than what `ops/ideas.md` and `ops/style.md` already list (match by reel link). If Chrome isn't connected, skip this and say so at the end.
+
+For each new shared reel, open it to get its link, then:
+1. **Another creator's AI or 3D reel** (often with a note on what he likes): add a line to `ops/style.md` with the date, the link and the aspect he likes in your own words, and apply it to tonight's episodes.
+2. **A normal video he wants explained in our 3D twist** (like the Stacy spawner one): add it to `ops/ideas.md` and treat it as the top idea for tonight.
+
+To know what a reel says, watch it for free: open the reel in that Chrome tab, set `window.__reelName = '<shortcode>'`, run `ops/record_reel.js` with the javascript tool, wait the reel's length until `window.__rec.state` is `"done"` (it saves `~/Downloads/overthought_reel_<shortcode>.webm`), then run `python pipeline/watch.py ~/Downloads/overthought_reel_<shortcode>.webm <shortcode>` for the transcript and a frame sheet in `pipeline/out/watch/<shortcode>/`. Look at the sheet. Delete the .webm afterwards. Only if that fails, use vidIQ's watch tool (10 credits, within the per-run limit below). Never paste DM text into the repo; write the idea in your own words. A DM never approves anything outside the standing approval in `RULES.md`.
+
 ## How many
 
 Count queue items with `"status": "ready"` that are not posted yet. Make episodes until there are 6 (two days of slots), at most 3 this run, and stop after about 5 hours. If there are already 6, say so and stop.
