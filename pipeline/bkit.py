@@ -1,6 +1,6 @@
 """Blender-side kit for the 3D episodes: materials, mesh builders, booleans, lights, render settings, distance haze.
 Imported by the *_scene.py scripts that run inside Blender (blender -b -P <scene>.py)."""
-import math
+import math, os
 import bpy, bmesh
 from mathutils import Matrix, Vector
 
@@ -240,6 +240,13 @@ def render_settings(fps, samples=48, motion_blur=0.4, look="AgX - Medium High Co
             setattr(ee, attr, val)
         except Exception as ex:
             print("eevee setting skipped:", attr, ex)
+    if os.environ.get("OVERTHOUGHT_CPU_PREVIEW") == "1":
+        # layout checks while a GPU render is running: Cycles on the CPU never touches the 6 GB card
+        r.engine = "CYCLES"
+        scene.cycles.device = "CPU"
+        scene.cycles.samples = 24
+        scene.cycles.use_denoising = False         # OIDN reaches for the GPU and runs out of memory mid-render
+        r.use_motion_blur = False
     scene.view_settings.view_transform = "AgX"
     for name in (look, look.replace("AgX - ", "")):
         try:
