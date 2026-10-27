@@ -39,3 +39,7 @@ In 1935 Schrödinger imagined a cat in a box that was alive and dead at once. Si
 ## Notes
 
 - Oct 27: BLENDED materials failed to compile (magenta) in the overnight preview; switched to the default dithered method. CPU stills at 1.0, 9.5 and 20.0 s look right.
+
+## QA
+
+Passed Oct 27 (laptop). 40.0 s, 1080x1920 60 fps, 28.7 MB, -13.1 LUFS integrated, peak -0.8 dBFS, per-second levels steady with a quiet tail. Frames checked across all shots: no magenta, captions in the top third, labels readable, pills above y=1540. Fixes before shipping: the heart lowered to clear the STATE panel and caption; the "TEXTS EVERY MORNING" label moved right of the heart (it covered the word "Dating."); the first encode was 46 MB, so the encoder in `common.py` now caps video at 6.5 Mbps.

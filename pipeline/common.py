@@ -150,6 +150,7 @@ def open_encoder(path, audio_path=None):
     if audio_path:
         cmd += ["-i", audio_path]
     cmd += ["-c:v", "libx264", "-preset", "veryfast", "-crf", "18", "-pix_fmt", "yuv420p",
+            "-maxrate", "6500k", "-bufsize", "13M",   # keeps a 45 s grainy 3D video under 40 MB (Schrodinger hit 46 MB uncapped)
             "-profile:v", "high", "-movflags", "+faststart"]
     if audio_path:
         cmd += ["-c:a", "aac", "-b:a", "192k", "-shortest"]

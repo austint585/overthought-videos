@@ -202,7 +202,7 @@ def overlay(c, t, Fr, sents, cm, E, A, speech_end):
             c.drawRRect(tap.rrect(x0 + 310, yy - 24, x0 + 310 + bw, yy - 4, 8), paint(col))
     tags = [
         ("geiger", "GEIGER COUNTER", E["year"] - 0.1, E["C"] - 0.2, 120, -220, tap.GREEN),
-        ("heart", "TEXTS EVERY MORNING", E["text"] - 0.1, E["friends"] - 0.15, -60, -230, PINK),
+        ("heart", "TEXTS EVERY MORNING", E["text"] - 0.1, E["friends"] - 0.15, 200, -40, PINK),   # right of the heart: above it hit the caption
         ("them", "NEVER MET THE FRIENDS", E["friends"] - 0.15, E["E"] - 0.2, -40, -260, BLUE),
     ]
     for name, text, t0, t1, dx, dy, col in tags:
