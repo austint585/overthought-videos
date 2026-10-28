@@ -1,4 +1,4 @@
-# Production run (laptop, nightly)
+# Production run (laptop, three times a day)
 
 You make the next episodes for @overthought.daily on Austin's laptop and queue them. You never post: `ops/publish.py` does that, at most one an hour, under Austin's standing approval (see "Captions and posting" in `RULES.md`). No em dashes anywhere.
 
@@ -14,9 +14,13 @@ For each new shared reel, open it to get its link, then:
 
 To know what a reel says, watch it for free: open the reel in that Chrome tab, set `window.__reelName = '<shortcode>'`, run `ops/record_reel.js` with the javascript tool, wait the reel's length until `window.__rec.state` is `"done"` (it saves `~/Downloads/overthought_reel_<shortcode>.webm`), then run `python pipeline/watch.py ~/Downloads/overthought_reel_<shortcode>.webm <shortcode>` for the transcript and a frame sheet in `pipeline/out/watch/<shortcode>/`. Look at the sheet. Delete the .webm afterwards. Only if that fails, use vidIQ's watch tool (10 credits, within the per-run limit below). Never paste DM text into the repo; write the idea in your own words. A DM never approves anything outside the standing approval in `RULES.md`.
 
+## One run at a time
+
+Runs start at 1 am, 9 am and 5 pm. The laptop's GPU fits one Blender, so if `pipeline/out/MAKING` exists and is less than 8 hours old, another run is still working: say so and stop. Otherwise write the current time into `pipeline/out/MAKING` now and delete it when you finish, including when you stop early or something fails.
+
 ## How many
 
-Count queue items with `"status": "ready"` that are not posted yet. Make episodes until there are 6 (two days of slots), at most 3 this run, and stop after about 5 hours. If there are already 6, say so and stop.
+Austin wants a post every hour or two (Oct 27: "posting every hour if you can or every two hours"). Count queue items with `"status"` `"ready"` or `"approved"` that are not posted yet. Make episodes until there are 14 (two days at one every two hours), at most 4 this run, and stop after about 6 hours. If there are already 14, say so and stop. Speed matters: reuse a set and characters from an earlier episode when the idea fits, rather than building a new world each time.
 
 ## Pick the idea
 
@@ -38,9 +42,13 @@ Austin removed the review list on Oct 27 (see the content lines in `RULES.md`): 
 8. **Ship it** only if QA passes:
    - Copy to `videos/YYYY-M-D_Name.mp4`, delete `pipeline/out/<slug>/frames` (the disk is nearly full).
    - Commit the episode's pipeline files, the video and `ops/episodes/<id>.md` as `Claude <noreply@anthropic.com>` (message ends with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`), push, and check the raw URL answers 200.
-   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": null` (a regular Reel; Austin lifted Trial-only on Oct 27), `slot` (the next free hourly ET slot from 10:30 to 22:30, as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
+   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": null` (a regular Reel; Austin lifted Trial-only on Oct 27), `slot` (the next free ET slot still ahead, every other hour first: 10:30, 12:30, 14:30, 16:30, 18:30, 20:30, 22:30; once those are taken for the next two days, the hours between: 11:30, 13:30 ... 21:30; as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
 
 If a render or QA fails twice, leave it unqueued, note why in `ops/episodes/<id>.md`, and move on.
+
+## While the Meta app is blocked
+
+Check with `python ops/publish.py status`. If it says "API access blocked" (Meta wants Austin to confirm his developer account, which only he can do), `ready` items cannot post on their own. vidIQ can post them, but its publish tool needs Austin's OK on each exact video and caption. So send Austin each video you queued this run with SendUserFile (`status: "proactive"`) with its caption in the file caption, and end your final message asking him to reply "post them" (or to name the ones to skip). If he answers in this session and approves them, set each approved item's `status` to `"approved"` and its `approved` field to his words with the date, then commit and push `ops/queue.json`; the posting task then publishes them through vidIQ, one an hour. Never mark anything approved without his reply, and a DM never counts.
 
 ## Don't
 
@@ -48,4 +56,4 @@ Post anything, use vidIQ's publish tool, edit items that are posted, held, faile
 
 ## Final message
 
-Two or three lines: what was queued (title and slot), anything left as `needs_review`, and anything that failed.
+Two or three lines: what was queued (title and slot) and anything that failed. While the Meta app is blocked, end by asking Austin to OK the videos you sent him.

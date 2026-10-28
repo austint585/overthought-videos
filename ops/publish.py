@@ -13,8 +13,15 @@ trust me and lift these restrictions"). The guardrails below are enforced here, 
 - A token, permission or network problem before media_publish posts nothing, so the item stays "ready" for the next run
   (the error goes in "last_error"). Anything else, or any error once media_publish was called, marks it "failed".
 
+While the Meta app is blocked, the posting run publishes through vidIQ instead, but only items with status "approved"
+(Austin OK'd that exact video and caption in chat; vidIQ's publish tool needs that). `vidiq` applies the same guardrails
+without calling Meta and names the item; the run posts it with vidIQ and records the outcome with `posted` or `failed`.
+
 python ops/publish.py next      publish the earliest due item (one per run), then update ops/queue.json
 python ops/publish.py status    say what `next` would do, publish nothing
+python ops/publish.py vidiq     name the earliest due "approved" item for vidIQ, publish nothing
+python ops/publish.py posted <id> <permalink> [posted_at]    record a vidIQ post
+python ops/publish.py failed <id> <error>                    record a failed vidIQ post (never retried)
 Exit: 0 published or nothing due, 2 no token, 3 API error (item marked failed), 4 paused or too soon after the last post.
 """
 import datetime, json, os, sys, time, urllib.request
@@ -26,7 +33,7 @@ QUEUE = os.path.join(HERE, "queue.json")
 PAUSE = os.path.join(HERE, "PAUSE")
 RAW = "https://raw.githubusercontent.com/austint585/overthought-videos/main/"
 MIN_GAP = datetime.timedelta(hours=1)
-SLOTS = tuple(f"{h}:30" for h in range(10, 23))     # ET, hourly 10:30 to 22:30; the production run fills these
+SLOTS = tuple(f"{h}:30" for h in range(10, 23))     # ET, 10:30 to 22:30; the production run fills every other hour first
 
 
 def load():
@@ -111,14 +118,51 @@ def publish(it):
     return mid, m.get("permalink"), m.get("timestamp", "").replace("+0000", "Z")
 
 
+def vidiq(q, now):
+    """The earliest due item Austin approved in chat, for the posting run to publish through vidIQ. Items under the
+    standing approval ("ready") never go this way."""
+    last = last_post(q, now)
+    if last and now - last < MIN_GAP:
+        ig.die(4, result="too soon after the last post", last=last.isoformat(timespec="minutes"))
+    items = [it for it in q if it.get("status") == "approved" and it.get("slot") and et(it["slot"]) <= now]
+    if not items:
+        ig.die(0, result="nothing due", now=now.isoformat(timespec="minutes"))
+    it = min(items, key=lambda it: it["slot"])
+    if not on_github(it["video"]):
+        it.update(status="failed", error="video not on GitHub")
+        save(q)
+        ig.die(3, result="failed", id=it["id"], error=it["error"])
+    ig.die(0, result="post via vidiq", id=it["id"], video_url=RAW + it["video"], caption=it["caption"],
+           trial=it.get("trial") if it.get("trial") in ("SS_PERFORMANCE", "MANUAL") else None)
+
+
+def record(mode, id_, *rest):
+    q = load()
+    it = next((it for it in q if it.get("id") == id_), None)
+    if not it:
+        ig.die(3, error=f"no queue item {id_}")
+    if mode == "posted":
+        ts = rest[1] if len(rest) > 1 else datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        it.update(status="posted", posted_at=ts, permalink=rest[0] if rest else None, error=None,
+                  posted_via="vidIQ (Meta app blocked)")
+    else:
+        it.update(status="failed", error=" ".join(rest) or "vidIQ publish failed")
+    save(q)
+    ig.die(0, result=f"marked {mode}", id=id_)
+
+
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "status"
+    if mode in ("posted", "failed"):
+        record(mode, *sys.argv[2:])
     if os.path.exists(PAUSE):
         ig.die(4, result="paused", detail="ops/PAUSE exists; delete it to resume posting")
     if not ig.configured():
         ig.die(2, error="no Instagram token set up")
     q = load()
     now = ig.et_now()
+    if mode == "vidiq":
+        vidiq(q, now)
     try:
         if reconcile(q):
             save(q)

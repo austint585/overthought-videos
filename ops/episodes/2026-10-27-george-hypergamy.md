@@ -61,3 +61,8 @@ Austin, in chat on Oct 27 at about 6:30 pm: animate it and "get it posted immedi
 ## QA
 
 Passed Oct 27 (evening, laptop). 38.3 s, 1080x1920 60 fps, 14.6 MB, -13.2 LUFS integrated, peak -0.8 dBFS. Frames checked at 0.3, 6.5, 12.2, 17.8, 21.95, 23.7, 29.3, 32.6, 34.8 and 37.8 s: title readable on frame 1, captions in the top third, tier list, chart marks and the 720 grid readable, pills above y=1540. The Blender pass took about 62 minutes (1.6 s a frame), slower than the steak hall.
+
+## After posting
+
+- Posted 8:15 pm Oct 27 as a regular Reel through vidIQ: https://www.instagram.com/reel/DfBHw6viI7z/ . At 30 minutes: 60 plays, 2 likes, 0% skip, 104% average watched (people rewatch it).
+- Austin heard a buzz (the electric hum bed) and two misread words: "Lives" as the plural of life, "hypergamy" as hyper-GAY-mee. Fixed in the pipeline (LEXICON, `{/IPA/}`, qa_audio.py). Austin chose to keep the original up; a fixed render (`Lives{/lˈɪvz/}`, hy-PUR-guh-mee, no hum) is kept as a spare in case we need it.

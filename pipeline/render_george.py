@@ -24,7 +24,7 @@ SCRIPT = [
     ("A", "What happens when *Curious George* learns about *hypergamy?*"),
     ("B", "Hard case. George is a *monkey.*"),
     ("C", "Except he has *no tail,* so technically he's an *ape.* Mislabeled since *1941{nineteen forty-one}.*"),
-    ("D", "By the books, he's a *mid-tier* primate. No job. No car. Lives with his *roommate.*"),
+    ("D", "By the books, he's a *mid-tier* primate. No job. No car. Lives{/lˈɪvz/} with his *roommate.*"),
     ("E", "He also comes up to the roommate's *belt.* *Not ideal.*"),
     ("F", "Because the roommate is the *Chad in the yellow hat.* *Tall,* plus the *hat.*"),
     ("G", "George is getting *height-mogged* at *home.*"),
