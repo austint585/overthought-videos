@@ -62,5 +62,9 @@ def onsets(rel, min_gap=0.3, top=8, win=0.12):
     peaks = [i for i in range(1, len(e) - 1) if e[i] >= e[i - 1] and e[i] > e[i + 1] and e[i] > 0.2 * e.max()]
     gap = int(min_gap / 0.005)
     iso = [i for i in peaks if all(abs(i - j) > gap or j == i for j in peaks)]
+    if not iso:                     # dense takes (clock ticks, arcs): keep the loudest peaks at least min_gap apart
+        for i in sorted(peaks, key=lambda i: -e[i]):
+            if all(abs(i - j) > gap for j in iso):
+                iso.append(i)
     iso.sort(key=lambda i: -e[i])
     return sorted(max(0.0, i * 0.005 - 0.01) for i in iso[:top])
