@@ -17,7 +17,7 @@ def narrate(script, out_dir, extra_gap=None, lead_in=0.2):
     extra_gap = extra_gap or {}
     os.makedirs(out_dir, exist_ok=True)
     cache = os.path.join(out_dir, "narration.pkl")
-    key = repr((script, extra_gap, lead_in, tap.VOICE, tap.SPEED))
+    key = repr((script, extra_gap, lead_in, tap.VOICE, tap.SPEED, sorted(tap.LEXICON.items())))
     if os.path.exists(cache):
         d = pickle.load(open(cache, "rb"))
         if d["key"] == key:

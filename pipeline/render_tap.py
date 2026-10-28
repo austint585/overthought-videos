@@ -9,6 +9,7 @@ SPEED = 1.05
 TTS_DIR = os.environ.get("OT_TTS_DIR", os.path.join(ROOT, "vendor", "tts"))
 
 # Each sentence: display text with *keyword* marks and {spoken form} after tokens that read differently.
+# {/IPA/} instead gives the exact phonemes, for words the voice gets wrong in context: Lives{/lˈɪvz/} (the verb).
 SCRIPT = [
     ("A", "You tap your *phone,* and a *second* later, you've paid."),
     ("B", "But your phone doesn't need the *internet* for this."),
@@ -24,6 +25,17 @@ SCRIPT = [
     ("F", "The card network swaps the token for your *real* card, and your bank says *yes.*"),
     ("G", "All of that happens in a *fraction* of a second."),
 ]
+# Words the voice mispronounces everywhere, as Kokoro (espeak) phonemes. Add to this when QA hears a wrong word.
+LEXICON = {
+    "hypergamy": "haɪpˈɜːɡəmi",          # hy-PUR-guh-mee (espeak says hyper-GAY-mee); Austin, Oct 27
+    "schrödinger": "ʃɹˈoʊdɪŋɚ",          # SHROH-ding-er, no hard g
+    "schrodinger": "ʃɹˈoʊdɪŋɚ",
+}
+# Same spelling, two sounds: the run prints how each one came out so the script can be checked before rendering.
+HETERONYMS = {"lives", "live", "read", "lead", "wind", "tear", "close", "use", "bass", "bow", "row", "wound", "minute",
+              "object", "present", "record", "content", "desert", "produce", "refuse", "permit", "project", "subject",
+              "does", "dove", "excuse", "separate", "estimate", "graduate", "alternate", "invalid", "conduct", "contract",
+              "house", "polish", "moped", "sow", "resume", "attribute", "rebel", "console", "entrance", "wound"}
 GAP = 0.22          # pause between sentences
 LEAD_IN = 0.35      # silence before the first word
 TAIL = 2.6          # end card after the last word
@@ -38,12 +50,21 @@ def parse(sentence):
         key = "*" in tok
         tok = tok.replace("*", "")
         m = re.match(r"^(.*?)\{(.*?)\}(.*)$", tok)
-        if m:
+        ipa = None
+        if m and m.group(2).startswith("/"):
+            display = spoken = m.group(1) + m.group(3)
+            ipa = m.group(2).strip("/")
+        elif m:
             display = m.group(1) + m.group(3)
             spoken = m.group(2).replace("_", " ") + m.group(3)
         else:
             display = spoken = tok
-        words.append({"display": display, "spoken": spoken, "key": key})
+        bare = re.sub(r"[^\w']", "", spoken).lower()
+        if ipa is None and bare in LEXICON:
+            ipa = LEXICON[bare]
+        elif ipa is None and bare.endswith("'s") and bare[:-2] in LEXICON:
+            ipa = LEXICON[bare[:-2]] + "z"
+        words.append({"display": display, "spoken": spoken, "key": key, "ipa": ipa})
     # keyword runs: "*13.56 million*" marks both words
     inside = False
     for w, tok in zip(words, sentence.split()):
@@ -55,6 +76,30 @@ def parse(sentence):
             inside = False
     return words
 
+def phonemes(words, tok):
+    """Kokoro phonemes for a sentence: espeak for runs of ordinary words, the override for LEXICON and {/IPA/} words."""
+    out, run = [], []
+    def flush():
+        if run:
+            out.append(tok.phonemize(" ".join(run), "en-us"))
+            run.clear()
+    for w in words:
+        if w.get("ipa"):
+            flush()
+            out.append(w["ipa"] + re.sub(r"^[\w'-]+", "", w["spoken"]))
+        else:
+            run.append(w["spoken"])
+    flush()
+    return " ".join(out)
+
+def pronounce_report(words, tok):
+    """Print the phonemes used for overridden words and heteronyms, so a wrong reading shows before the render."""
+    for w in words:
+        bare = re.sub(r"[^\w']", "", w["spoken"]).lower()
+        if w.get("ipa") or bare in HETERONYMS:
+            ph = w["ipa"] or tok.phonemize(re.sub(r"[^\w\s'-]", "", w["spoken"]), "en-us") + " (alone; check it in context)"
+            print(f"PRONOUNCE {w['display']}: {ph}", flush=True)
+
 def synth_all():
     from kokoro_onnx import Kokoro
     from kokoro_onnx.tokenizer import Tokenizer
@@ -63,8 +108,8 @@ def synth_all():
     sents = []
     for scene, s in SCRIPT:
         words = parse(s)
-        spoken = " ".join(w["spoken"] for w in words)
-        audio, sr = k.create(spoken, voice=VOICE, speed=SPEED, lang="en-us")
+        pronounce_report(words, tok)
+        audio, sr = k.create(phonemes(words, tok), voice=VOICE, speed=SPEED, lang="en-us", is_phonemes=True)
         audio = np.asarray(audio, dtype=np.float64)
         # trim silence
         env = np.abs(audio)
@@ -75,7 +120,7 @@ def synth_all():
         # word weights from phoneme counts, with extra weight for punctuation pauses
         weights = []
         for w in words:
-            ph = tok.phonemize(re.sub(r"[^\w\s'-]", "", w["spoken"]), "en-us")
+            ph = w.get("ipa") or tok.phonemize(re.sub(r"[^\w\s'-]", "", w["spoken"]), "en-us")
             n = len(re.sub(r"[ˈˌː\s]", "", ph)) or 1
             pause = 4.0 if w["spoken"][-1] in ".?!" else (2.6 if w["spoken"][-1] == "," else 0.0)
             weights.append((n, pause))

@@ -49,7 +49,6 @@ def events(sents, speech_end):
 # ------------------------------------------------------------------ sound (recorded effects from the Sonniss GDC 2026 bundle, see sfx.py)
 
 F = {
-    "hum": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
     "walla": "Sonik Sound Library - Spanish Wallas/CRWDWalla_Crowd, Walla, Dense Immersive Group of Adults, After or Befor a Show, Exterior, Spanish-Stereo_KSL_KS014.wav",
     "door": "InMotionAudio - USA Hotel/DOORMetl_StairWellDoor01_InMotionAudio_USAHotel.wav",
     "steps": "TheWorkRoom - Flip Flops/FFG002.wav",
@@ -74,7 +73,7 @@ def build_audio(sents, E, duration, path):
     import steak_anim as SA
     n = int(duration * SR)
     voice = K.voice_track(sents, duration)[:n]
-    beds = sfx.bed(F["hum"], duration, 0.03, hp=90) + sfx.bed(F["walla"], duration, 0.012, start=20.0, lp=900)
+    beds = sfx.bed(F["walla"], duration, 0.012, start=20.0, lp=900)    # the electric hum bed read as a buzz (Austin, Oct 27)
     env = np.sqrt(np.convolve(voice ** 2, np.ones(2400) / 2400, "same"))
     beds *= 1 - 0.4 * np.clip(env / 0.08, 0, 1)
     tr = new_track(duration)

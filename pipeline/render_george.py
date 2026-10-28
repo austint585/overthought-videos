@@ -60,7 +60,6 @@ def events(sents, speech_end):
 # ------------------------------------------------------------------ sound (recorded effects from the Sonniss GDC 2026 bundle, see sfx.py)
 
 F = {
-    "hum": "344 Audio - East Coast America Vol. 1/AMBSubn_Electricity Hum, Lightbulb,  Coil Pickup 01_344 Audio_East Coast America.wav",
     "rain": "Jake Fielding - Interior Wind Rain and Storms/RAINInt_Heavy Rain on Window,  Constant _JF_INT Storm.wav",
     "thunder": "Jake Fielding - Interior Wind Rain and Storms/THUN_Interior Thunder Rumble_JF_INT Storm_01.wav",
     "tape": "Epic Stock Media - HD Lock And Mechanism Sound Design Kit/MECHMisc_Tool Tape Measure Pull Retract Spring Slide Spin Long 07_ESM_HDLM.wav",
@@ -83,7 +82,7 @@ def build_audio(sents, E, duration, path):
     voice = K.voice_track(sents, duration)[:n]
     tt = np.arange(n) / SR
     rain_on = np.clip((tt - (E["I"] - 0.3)) / 0.8, 0, 1)
-    beds = sfx.bed(F["hum"], duration, 0.025, hp=90) + sfx.bed(F["rain"], duration, 0.05, lp=5000) * rain_on
+    beds = sfx.bed(F["rain"], duration, 0.05, lp=5000) * rain_on    # no electric hum bed: it read as a buzz (Austin, Oct 27)
     env = np.sqrt(np.convolve(voice ** 2, np.ones(2400) / 2400, "same"))
     beds *= 1 - 0.4 * np.clip(env / 0.08, 0, 1)
     tr = new_track(duration)
