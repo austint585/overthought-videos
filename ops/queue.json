@@ -162,5 +162,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-10-28-microwave-door",
+    "title": "The dots on your microwave door",
+    "format": "3D voxel explainer",
+    "video": "videos/2026-10-28_Microwave_Door_Dots.mp4",
+    "caption": "The dots on your microwave door are a metal sheet full of holes too small for a 12 cm microwave, but huge for light. Send this to the friend who stands right in front of it. #howitworks #science #physics",
+    "trial": null,
+    "slot": "2026-10-28T16:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
