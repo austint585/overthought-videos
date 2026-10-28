@@ -146,5 +146,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-10-28-napoleon-2026",
+    "title": "Napoleon wakes up in 2026",
+    "format": "3D voxel brainrot explainer",
+    "video": "videos/2026-10-28_Napoleon_Wakes_Up_In_2026.mp4",
+    "caption": "Napoleon wakes up in 2026. One of his hats sold for 1.9 million euros, his height is a meme, and Waterloo is an ABBA song. Comment who should wake up next. #history #napoleon #brainrot",
+    "trial": null,
+    "slot": "2026-10-28T14:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
