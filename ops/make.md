@@ -20,7 +20,7 @@ Runs start at 1 am, 9 am and 5 pm. The laptop's GPU fits one Blender, so if `pip
 
 ## How many
 
-Austin wants a post every hour or two (Oct 27: "posting every hour if you can or every two hours"). Count queue items with `"status"` `"ready"` or `"approved"` that are not posted yet. Make episodes until there are 14 (two days at one every two hours), at most 4 this run, and stop after about 6 hours. If there are already 14, say so and stop. Speed matters: reuse a set and characters from an earlier episode when the idea fits, rather than building a new world each time.
+Austin wants a post every hour or two (Oct 27: "posting every hour if you can or every two hours"). Count queue items with `"status"` `"ready"` or `"approved"` that are not posted yet. Make episodes until there are 14 (about a day of hourly posts), at most 4 this run, and stop after about 6 hours. If there are already 14, say so and stop. Speed matters: reuse a set and characters from an earlier episode when the idea fits, rather than building a new world each time.
 
 ## Pick the idea
 
@@ -42,7 +42,7 @@ Austin removed the review list on Oct 27 (see the content lines in `RULES.md`): 
 8. **Ship it** only if QA passes:
    - Copy to `videos/YYYY-M-D_Name.mp4`, delete `pipeline/out/<slug>/frames` (the disk is nearly full).
    - Commit the episode's pipeline files, the video and `ops/episodes/<id>.md` as `Claude <noreply@anthropic.com>` (message ends with `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`), push, and check the raw URL answers 200.
-   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": null` (a regular Reel; Austin lifted Trial-only on Oct 27), `slot` (the next free ET slot still ahead, every other hour first: 10:30, 12:30, 14:30, 16:30, 18:30, 20:30, 22:30; once those are taken for the next two days, the hours between: 11:30, 13:30 ... 21:30; as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
+   - Append to `ops/queue.json`: `id`, `title`, `format`, `video`, `caption` (one or two plain sentences, a tag or share prompt, 3 hashtags), `"trial": null` (a regular Reel; Austin lifted Trial-only on Oct 27), `slot` (the next free ET slot still ahead, one an hour: 10:30, 11:30, 12:30 ... 22:30. Austin, Oct 28: "post it as non spaced out as possible that you can without it being spam", and one an hour is the publisher's minimum gap; as ISO with the right offset, -04:00 in EDT, -05:00 in EST), `"status": "ready"`, `"approved": "standing approval (Oct 26 2026)"`, `"qa": "passed"`, `posted_at`, `permalink`, `error` null. Commit and push.
 
 If a render or QA fails twice, leave it unqueued, note why in `ops/episodes/<id>.md`, and move on.
 
