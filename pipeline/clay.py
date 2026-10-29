@@ -78,13 +78,13 @@ def clay(name, color, rough=0.6, sss=0.1, prints=1.0, mottle=0.07, emit=0.0, emi
     pr = N("ShaderNodeMath"); pr.operation = "MULTIPLY"
     L(ring.outputs["Fac"], pr.inputs[0]); L(pm.outputs["Result"], pr.inputs[1])
     h1 = N("ShaderNodeMath"); h1.operation = "MULTIPLY_ADD"
-    L(grain.outputs["Fac"], h1.inputs[0]); h1.inputs[1].default_value = 0.3
+    L(grain.outputs["Fac"], h1.inputs[0]); h1.inputs[1].default_value = 0.12
     dm = N("ShaderNodeMath"); dm.operation = "MULTIPLY"; dm.inputs[1].default_value = dents
     L(dent.outputs["Distance"], dm.inputs[0]); L(dm.outputs[0], h1.inputs[2])
     h2 = N("ShaderNodeMath"); h2.operation = "MULTIPLY_ADD"
     L(pr.outputs[0], h2.inputs[0]); h2.inputs[1].default_value = 0.25 * prints; L(h1.outputs[0], h2.inputs[2])
     bump = N("ShaderNodeBump")
-    bump.inputs["Strength"].default_value = 0.75
+    bump.inputs["Strength"].default_value = 0.6
     bump.inputs["Distance"].default_value = 0.01
     L(h2.outputs[0], bump.inputs["Height"])
     L(bump.outputs["Normal"], p.inputs["Normal"])

@@ -235,6 +235,12 @@ def render_settings(fps, samples=48, motion_blur=0.4, look="AgX - Medium High Co
     r.use_lock_interface = True
     ee = scene.eevee
     ee.taa_render_samples = samples
+    try:
+        # one shader compile at a time: parallel NVIDIA compiles of the clay material ran Windows out of commit
+        # memory on Oct 28 (C9999 out of memory, magenta frames) while an encode was running
+        bpy.context.preferences.system.gpu_shader_workers = 1
+    except Exception as ex:
+        print("shader worker setting skipped:", ex)
     for attr, val in (("use_raytracing", True), ("use_shadows", True), ("use_fast_gi", True), ("fast_gi_method", "GLOBAL_ILLUMINATION")):
         try:
             setattr(ee, attr, val)
