@@ -1,4 +1,4 @@
-"""'The same hour twice': a deadpan voxel short for the end of daylight saving time (Sunday Nov 1 2026, 2 a.m.). A guy
+"""'The same hour twice': a deadpan clay short for the end of daylight saving time (Sunday Nov 1 2026, 2 a.m.). A guy
 in bed watches his clock fall back, Congress keeps half-passing the fix, and he spends the free hour on his phone.
 
 python render_dst.py out.mp4 out.wav     full render (Blender frames are cached in out/dst/frames)
@@ -33,6 +33,7 @@ SCRIPT = [
 EXTRA_GAP = {1: 0.1, 4: 0.1, 5: 0.15, 8: 0.2, 9: 0.25}
 OUT = os.path.join(ROOT, "out", "dst")
 FRAMES = os.path.join(OUT, "frames")
+tap.draw_captions = tap.draw_captions_clay          # the clay look's cream caption label
 
 def wn(sents, si, sub, nth=0):
     s = sents[si]
@@ -166,7 +167,7 @@ def overlay(c, t, Fr, sents, cm, E, A, speech_end):
     lab = font("JetBrainsMono-700", 30)
     tags = [
         ("clock", "FALLS BACK", E["1am"] - 0.05, E["B"] - 0.1, -120, 170, tap.RED),
-        ("guy", "STILL AWAKE", E["F"] + 0.3, E["G"] - 0.1, 120, -170, GOLD),
+        ("guy", "STILL AWAKE", E["F"] + 0.3, E["G"] - 0.1, 230, 120, GOLD),
         ("clock", "1:00 TO 2:00 AGAIN", E["scroll"] - 0.05, E["J"] - 0.1, -140, 200, tap.RED),
     ]
     for name, text, t0, t1, dx, dy, col in tags:
@@ -203,6 +204,13 @@ def main(out_mp4, out_wav, preview_times=None):
     frames = sorted({min(n_frames - 1, int(round(x * FPS))) for x in preview_times}) if preview_times else range(n_frames)
     K.run_blender("dst_scene.py", OUT, FRAMES, ",".join(str(f + 1) for f in frames) if preview_times else "all",
                   E, duration, FPS)
+    if preview_times:                                   # CPU previews come out at half size
+        from PIL import Image
+        for f in frames:
+            path = os.path.join(FRAMES, f"f_{f + 1:05d}.png")
+            im = Image.open(path)
+            if im.size != (1080, 1920):
+                im.resize((1080, 1920), Image.LANCZOS).save(path)
     A = json.load(open(os.path.join(FRAMES, "anchors.json")))
     cm = [x for x in tap.build_chunk_map(sents) if x[0] > 0]
     if not preview_times:

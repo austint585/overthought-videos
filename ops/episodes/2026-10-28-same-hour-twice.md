@@ -1,9 +1,9 @@
 # The same hour twice
 
 - **id:** 2026-10-28-same-hour-twice
-- **Status:** written and narrated Oct 28, not rendered. Parked when Austin moved the account off the voxel look; the script and sources can move to the clay kit (timely until Nov 1).
+- **Status:** written and narrated Oct 28 as voxel, parked when Austin moved the account off the voxel look, then rebuilt on the clay kit the night of Oct 28 (`dst_scene.py` now uses `clay.py`; same script, sources and timing).
 - **Source idea:** not from a DM. Timely: daylight saving time ends this Sunday, Nov 1 2026, at 2 a.m. Congress has now passed the permanent-daylight-time bill once in each chamber, four years apart, which is the joke. Satire with real facts, so the deadpan voice fits (Austin's screaming-narrator rule is for straight educational reels).
-- **Format:** 3D voxel deadpan short, about 37 s, in a new set: a bedroom at night, a guy in bed on his phone, a red digital clock on the nightstand that falls back from 1:59 to 1:00, moonlight through the window. He sits up to check the clock, then races the clock from 1:00 to 2:00 scrolling, then drops the phone. New motion: he bends at the hip to sit up (the figure has a torso pivot), arms hold the phone above his face, thumb flicks.
+- **Format:** clay deadpan short, 37 s (night palette, AgX Punchy, shallow focus), in a new set: a bedroom at night, a guy in bed on his phone, a red digital clock on the nightstand that falls back from 1:59 to 1:00, moonlight through the window. He sits up to check the clock, then races the clock from 1:00 to 2:00 scrolling, then drops the phone. New motion: he bends at the hip to sit up (the figure has a torso pivot), arms hold the phone above his face, thumb flicks.
 
 ## Script (render_tap markup)
 
@@ -38,3 +38,7 @@
 ## Caption
 
 "Clocks fall back this Sunday at 2 a.m. The Senate passed permanent daylight time in 2022, the House passed it this July, never the same year. Send this to whoever's still changing the oven clock. #daylightsaving #timechange #brainrot"
+
+## QA
+
+Rendered Oct 29 on the laptop (Eevee, about 2.9 s a frame, 2,235 frames). 37.25 s, 13.0 MB, -13.2 LUFS, peak -0.8 dBFS, qa_audio says no steady tones. Frames checked at 0.5, 7, 14, 21, 28, 33, 36 and 37 s: hook readable, cards clear of the guy and the clock, captions in the top third, end card and handle present. Queued ready for Oct 29 10:30 am ET.

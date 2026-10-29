@@ -1,4 +1,4 @@
-"""Blender scene for 'The same hour twice': a voxel bedroom at night, a guy in bed on his phone, a digital clock on the
+"""Blender scene for 'The same hour twice': a clay bedroom (clay.py, the @petersindex look) at night, a guy in bed on his phone, a digital clock on the
 nightstand that falls back from 1:59 to 1:00, moonlight through the window. Built in code and timed to the narration.
 
 blender -b --factory-startup -P dst_scene.py -- timing.json out_dir MODE   (MODE: 'all' or 1-based frame list)
@@ -15,6 +15,7 @@ from bpy_extras.object_utils import world_to_camera_view
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import bkit as B
+import clay as C
 
 argv = sys.argv[sys.argv.index("--") + 1:]
 TIMING, OUT, MODE = argv[0], argv[1], argv[2]
@@ -33,134 +34,26 @@ def smooth01(u):
 def ramp(t, t0, t1):
     return smooth01((t - t0) / (t1 - t0))
 
-# ------------------------------------------------------------------ pixel-texture materials (same method as spawner_scene)
+# ------------------------------------------------------------------ materials (clay kit, night palette)
 
-def pixel_mat(name, pal, rough=0.85, lines=None):
-    m = bpy.data.materials.new(name)
-    m.use_nodes = True
-    nt = m.node_tree
-    p = nt.nodes["Principled BSDF"]
-    p.inputs["Roughness"].default_value = rough
-    geo = nt.nodes.new("ShaderNodeNewGeometry")
-    nudge = nt.nodes.new("ShaderNodeVectorMath"); nudge.operation = "MULTIPLY_ADD"
-    nudge.inputs[1].default_value = (-0.01, -0.01, -0.01)
-    nt.links.new(geo.outputs["Normal"], nudge.inputs[0])
-    nt.links.new(geo.outputs["Position"], nudge.inputs[2])
-    snap = nt.nodes.new("ShaderNodeVectorMath"); snap.operation = "SNAP"
-    snap.inputs[1].default_value = (1 / 16, 1 / 16, 1 / 16)
-    nt.links.new(nudge.outputs[0], snap.inputs[0])
-    wn = nt.nodes.new("ShaderNodeTexWhiteNoise"); wn.noise_dimensions = "3D"
-    nt.links.new(snap.outputs[0], wn.inputs["Vector"])
-    r = nt.nodes.new("ShaderNodeValToRGB")
-    r.color_ramp.interpolation = "CONSTANT"
-    els = r.color_ramp.elements
-    els[0].color = (*pal[0], 1)
-    els[1].position = 1.0 / len(pal)
-    els[1].color = (*pal[1 % len(pal)], 1)
-    for k in range(2, len(pal)):
-        e = els.new(k / len(pal)); e.color = (*pal[k], 1)
-    nt.links.new(wn.outputs["Value"], r.inputs["Fac"])
-    base = r.outputs["Color"]
-    if lines:
-        scale, dark = lines
-        sc = nt.nodes.new("ShaderNodeVectorMath"); sc.operation = "MULTIPLY"; sc.inputs[1].default_value = scale
-        nt.links.new(snap.outputs[0], sc.inputs[0])
-        sep = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(sc.outputs[0], sep.inputs[0])
-        acc = None
-        for ax in ("X", "Y", "Z"):
-            fr = nt.nodes.new("ShaderNodeMath"); fr.operation = "FRACT"; nt.links.new(sep.outputs[ax], fr.inputs[0])
-            lt = nt.nodes.new("ShaderNodeMath"); lt.operation = "LESS_THAN"; lt.inputs[1].default_value = 0.06
-            nt.links.new(fr.outputs[0], lt.inputs[0])
-            if acc is None:
-                acc = lt.outputs[0]
-            else:
-                mxx = nt.nodes.new("ShaderNodeMath"); mxx.operation = "MAXIMUM"
-                nt.links.new(acc, mxx.inputs[0]); nt.links.new(lt.outputs[0], mxx.inputs[1]); acc = mxx.outputs[0]
-        mix = nt.nodes.new("ShaderNodeMix"); mix.data_type = "RGBA"
-        mix.inputs[7].default_value = (*dark, 1)
-        nt.links.new(acc, mix.inputs[0]); nt.links.new(base, mix.inputs[6])
-        base = mix.outputs[2]
-    nt.links.new(base, p.inputs["Base Color"])
-    return m
-
-def solid(name, color, rough=0.6, emit=0.0, emit_color=None):
-    m = B.material(name, color, 0.0, rough)
-    p = B.bsdf(m)
-    p.inputs["Emission Color"].default_value = (*(emit_color or color), 1)
-    p.inputs["Emission Strength"].default_value = emit
-    return m
-
-MATS = {
-    "wood": pixel_mat("wood", [(0.36, 0.22, 0.12), (0.40, 0.25, 0.14), (0.33, 0.20, 0.11)], rough=0.6,
-                      lines=((1, 0.25, 1), (0.22, 0.13, 0.07))),
-    "wall": pixel_mat("wall", [(0.38, 0.42, 0.55), (0.40, 0.44, 0.58), (0.36, 0.40, 0.52)]),
-    "ceil": pixel_mat("ceil", [(0.50, 0.50, 0.52), (0.53, 0.53, 0.55)]),
-    "moon": solid("moonglass", (0.55, 0.65, 1.0), rough=0.1, emit=2.2),
-}
-
-# ------------------------------------------------------------------ voxel room (inside: x -3..3, y -4..3, z 0..3)
-
-GRID = {}
-
-def fill(i0, i1, j0, j1, k0, k1, mat):
-    for i in range(i0, i1 + 1):
-        for j in range(j0, j1 + 1):
-            for k in range(k0, k1 + 1):
-                GRID[(i, j, k)] = mat
-
-fill(-4, 3, -5, 3, -1, -1, "wood")
-fill(-4, -4, -5, 3, 0, 2, "wall")
-fill(3, 3, -5, 3, 0, 2, "wall")
-fill(-4, 3, 3, 3, 0, 2, "wall")
-fill(-4, 3, -5, 3, 3, 3, "ceil")
-fill(-4, -4, 0, 1, 1, 1, "moon")                     # window in the left wall
-
-DIRS = [((1, 0, 0), [(1, 0, 0), (1, 1, 0), (1, 1, 1), (1, 0, 1)]),
-        ((-1, 0, 0), [(0, 0, 0), (0, 0, 1), (0, 1, 1), (0, 1, 0)]),
-        ((0, 1, 0), [(0, 1, 0), (0, 1, 1), (1, 1, 1), (1, 1, 0)]),
-        ((0, -1, 0), [(0, 0, 0), (1, 0, 0), (1, 0, 1), (0, 0, 1)]),
-        ((0, 0, 1), [(0, 0, 1), (1, 0, 1), (1, 1, 1), (0, 1, 1)]),
-        ((0, 0, -1), [(0, 0, 0), (0, 1, 0), (1, 1, 0), (1, 0, 0)])]
-
-def voxel_mesh(name, grid):
-    keys = sorted(set(grid.values()))
-    idx = {k: n for n, k in enumerate(keys)}
-    verts, faces, mats = [], [], []
-    for (i, j, k), mat in grid.items():
-        for (di, dj, dk), quad in DIRS:
-            if (i + di, j + dj, k + dk) in grid:
-                continue
-            base = len(verts)
-            verts.extend((i + a, j + b, k + c) for a, b, c in quad)
-            faces.append((base, base + 1, base + 2, base + 3))
-            mats.append(idx[mat])
-    me = bpy.data.meshes.new(name)
-    me.from_pydata(verts, [], faces)
-    me.update()
-    for k in keys:
-        me.materials.append(MATS[k])
-    me.polygons.foreach_set("material_index", mats)
-    return B.link(bpy.data.objects.new(name, me))
-
-voxel_mesh("room", GRID)
+WOOD = [C.clay(f"wood{k}", c, 0.62, prints=0.0) for k, c in enumerate([(0.40, 0.24, 0.12), (0.46, 0.28, 0.14), (0.35, 0.20, 0.10)])]
+WALL = C.clay("wall", (0.08, 0.15, 0.32), 0.75, prints=0.0, dents=0.35)
+CEIL = C.clay("ceiling", (0.10, 0.13, 0.24), 0.8, prints=0.0, dents=0.3)
+TRIM = C.clay("trim", (0.93, 0.90, 0.82), 0.55, prints=0.0)
+UNDER = C.clay("under", (0.05, 0.03, 0.02), 0.9)
 
 _mat_cache = {}
 def colmat(color, rough=0.55, emit=0.0):
     key = (color, rough, emit)
     if key not in _mat_cache:
-        _mat_cache[key] = solid(f"c{len(_mat_cache)}", color, rough, emit)
+        n = f"c{len(_mat_cache)}"
+        _mat_cache[key] = C.glow(n, color, emit) if emit else C.clay(n, color, rough, prints=0.3)
     return _mat_cache[key]
 
-def boxes(name, parts, origin, parent=None):
-    mats, builders = [], []
-    for bb, m in parts:
-        if m not in mats:
-            mats.append(m)
-        builders.append(B.with_material(B.box(*bb), mats.index(m)))
-    ob = B.mesh_from(name, B.many(*builders), mats)
-    ob.parent = parent
-    ob.location = origin
-    return ob
+boxes = C.boxes
+
+def slab(name, x0, x1, y0, y1, z0, z1, m=WALL, r=0.07, wobble=0.015):
+    return C.soft(name, (x1 - x0, y1 - y0, z1 - z0), m, ((x0 + x1) / 2, (y0 + y1) / 2, (z0 + z1) / 2), r=r, wobble=wobble)
 
 def text3d(name, body, loc, size, mat, extrude=0.005):
     cu = bpy.data.curves.new(name, "FONT")
@@ -175,80 +68,116 @@ def text3d(name, body, loc, size, mat, extrude=0.005):
     ob.rotation_euler = (math.pi / 2, 0, 0)
     return ob
 
-# bed along y, headboard against the back wall
-FRAME = colmat((0.25, 0.15, 0.09), 0.6)
+# ------------------------------------------------------------------ the room: inner floor x -3..3, y -4..3, ceiling at z 3
+
+rng = random.Random(7)
+for row in range(15):                                        # planks along x, staggered seams
+    y0 = -4.3 + 0.5 * row
+    x = -3.3 + rng.uniform(0, 1.0)
+    slab(f"plank{row}s", -3.3, x, y0 + 0.015, y0 + 0.485, -0.16, 0.0, rng.choice(WOOD), 0.05, 0.006)
+    while x < 3.3:
+        x1 = min(3.3, x + rng.uniform(1.4, 2.8))
+        dz = rng.uniform(-0.008, 0.008)
+        slab(f"plank{row}_{x:.1f}", x + 0.015, x1 - 0.015, y0 + 0.015, y0 + 0.485, -0.16 + dz, dz, rng.choice(WOOD), 0.05, 0.006)
+        x = x1
+slab("underfloor", -3.8, 3.8, -4.6, 3.6, -0.5, -0.12, UNDER, 0.05, 0)
+# left wall pressed together around the window (opening y 0..2, z 1..2)
+slab("wallLa", -3.7, -3.0, -4.5, 0.0, -0.1, 3.3)
+slab("wallLb", -3.7, -3.0, 2.0, 3.7, -0.1, 3.3)
+slab("wallLc", -3.7, -3.0, -0.05, 2.05, -0.1, 1.0)
+slab("wallLd", -3.7, -3.0, -0.05, 2.05, 2.0, 3.3)
+slab("wallR", 3.0, 3.7, -4.5, 3.7, -0.1, 3.3)
+slab("wallB", -3.7, 3.7, 3.0, 3.7, -0.1, 3.3)
+slab("ceiling", -3.8, 3.8, -4.6, 3.8, 3.0, 3.5, CEIL)
+BASEB = colmat((0.30, 0.18, 0.09), 0.6)
+slab("bbB", -2.98, 2.98, 2.84, 3.02, 0.0, 0.22, BASEB, 0.05, 0.004)
+slab("bbL", -3.02, -2.84, -4.0, 2.82, 0.0, 0.22, BASEB, 0.05, 0.004)
+slab("bbR", 2.84, 3.02, -4.0, 2.82, 0.0, 0.22, BASEB, 0.05, 0.004)
+
+# night window: deep blue sky, a moon, a clay skyline with a few lit windows
+C.soft("sky", (0.08, 2.4, 1.4), C.glow("sky", (0.04, 0.07, 0.20), 1.2), (-3.62, 1.0, 1.5), r=0.01, wobble=0)
+C.ball("moon", 0.13, C.glow("moon", (1.0, 0.93, 0.72), 5.0), (-3.52, 1.55, 1.72), squash=(0.3, 1, 1), wobble=0)
+CITY, LIT = C.clay("city", (0.05, 0.06, 0.12), 0.8), C.glow("lit", (1.0, 0.72, 0.35), 4.0)
+for k, (cy, w, h) in enumerate(((0.25, 0.4, 0.55), (0.75, 0.45, 0.35), (1.2, 0.35, 0.7))):
+    C.soft(f"bldg{k}", (0.1, w, h), CITY, (-3.45, cy, 1.0 + h / 2), r=0.04, wobble=0.004)
+    for wy in range(int(h / 0.16)):
+        if rng.random() < 0.5:
+            C.soft(f"win{k}_{wy}", (0.03, 0.06, 0.06), LIT, (-3.39, cy + rng.choice((-1, 1)) * w * 0.2, 1.1 + wy * 0.16), r=0.02, wobble=0)
+for name, bb in (("wtop", (-3.12, -2.9, -0.1, 2.1, 1.98, 2.12)), ("wsill", (-3.18, -2.82, -0.18, 2.18, 0.88, 1.04)),
+                 ("wl", (-3.12, -2.9, -0.1, 0.06, 1.0, 2.0)), ("wr", (-3.12, -2.9, 1.94, 2.1, 1.0, 2.0)),
+                 ("mull", (-3.06, -2.98, 0.96, 1.04, 1.0, 2.0))):
+    slab(name, *bb, TRIM, 0.03, 0.003)
+
+# ------------------------------------------------------------------ furniture: bed along y, headboard against the back wall
+
+FRAME = colmat((0.34, 0.20, 0.10), 0.6)
 boxes("bed", [((-1.0, 1.0, 0.0, 2.2, 0.0, 0.32), FRAME),
-              ((-0.96, 0.96, 0.03, 2.17, 0.32, 0.55), colmat((0.92, 0.92, 0.95), 0.8)),
-              ((-1.0, 1.0, 2.2, 2.32, 0.0, 1.15), FRAME),
-              ((-0.55, 0.55, 1.62, 2.12, 0.551, 0.70), colmat((0.95, 0.95, 0.97), 0.8))], (0, 0.62, 0))
-BLANKET = colmat((0.20, 0.30, 0.55), 0.85)
-blanket = boxes("blanket", [((-1.02, 1.02, -0.02, 1.25, 0.56, 0.85), BLANKET),
-                            ((-1.02, 1.02, -0.02, 0.02, 0.10, 0.56), BLANKET),
-                            ((-1.04, -0.98, 0.02, 1.25, 0.15, 0.85), BLANKET),
-                            ((0.98, 1.04, 0.02, 1.25, 0.15, 0.85), BLANKET)], (0, 0.62, 0))
-# nightstand and clock
+              ((-0.96, 0.96, 0.03, 2.17, 0.30, 0.55), colmat((0.92, 0.90, 0.86), 0.8)),
+              ((-1.0, 1.0, 2.24, 2.36, 0.0, 1.15), FRAME)], (0, 0.62, 0))
+C.soft("pillow", (1.0, 0.5, 0.2), colmat((0.95, 0.94, 0.90), 0.8), (0, 2.5, 0.63), r=0.09)
+BLANKET = C.clay("blanket", (0.55, 0.13, 0.10), 0.85, prints=0.0, dents=0.6)
+blanket = boxes("blanket", [((-1.04, 1.04, -0.04, 1.25, 0.50, 0.80), BLANKET)], (0, 0.62, 0), r=0.12)
+# nightstand with a warm little lamp and the clock
 boxes("stand", [((-0.3, 0.3, -0.25, 0.25, 0.0, 0.55), FRAME),
-                ((-0.26, 0.26, -0.255, -0.25, 0.30, 0.50), colmat((0.18, 0.10, 0.06), 0.6))], (1.45, 2.45, 0.0))
-boxes("clock", [((-0.17, 0.17, -0.06, 0.06, 0.0, 0.14), colmat((0.04, 0.04, 0.05), 0.4))], (1.45, 2.40, 0.55))
-DIGIT = solid("digit", (1.0, 0.05, 0.02), rough=0.4, emit=12.0)
+                ((-0.24, 0.24, -0.28, -0.24, 0.30, 0.48), colmat((0.22, 0.12, 0.06), 0.6))], (1.45, 2.45, 0.0))
+boxes("clock", [((-0.18, 0.18, -0.07, 0.07, 0.0, 0.16), colmat((0.05, 0.05, 0.06), 0.4))], (1.45, 2.40, 0.56), r=0.03)
+DIGIT = C.glow("digit", (1.0, 0.06, 0.03), 14.0)
 TIMES = ["1:59", "1:00", "1:15", "1:30", "1:45", "2:00"]
-CLOCK = {s: text3d(f"t{s}", s, (1.45, 2.325, 0.62), 0.105, DIGIT) for s in TIMES}
-# a lamp, a poster and a rug so the room is lived in
-boxes("rug", [((-1.4, 1.4, -1.2, 0.5, 0.0, 0.015), colmat((0.55, 0.20, 0.18), 0.9))], (0, -0.4, 0))
-boxes("poster", [((-0.45, 0.45, -0.02, 0.0, 0.0, 0.62), colmat((0.95, 0.65, 0.20), 0.7)),
-                 ((-0.30, 0.30, -0.035, -0.02, 0.15, 0.45), colmat((0.15, 0.18, 0.30), 0.7))], (-1.9, 3.0, 1.55))
-boxes("desk", [((-0.5, 0.5, -0.3, 0.3, 0.70, 0.76), FRAME), ((-0.46, -0.40, -0.26, 0.26, 0.0, 0.70), FRAME),
-               ((0.40, 0.46, -0.26, 0.26, 0.0, 0.70), FRAME)], (2.4, -1.2, 0.0))
+CLOCK_AT = Vector((1.45, 2.318, 0.64))
+CLOCK = {s: text3d(f"t{s}", s, CLOCK_AT, 0.105, DIGIT) for s in TIMES}
+boxes("nlamp", [((-0.08, 0.08, -0.08, 0.08, 0.0, 0.04), colmat((0.12, 0.10, 0.09), 0.4)),
+                ((-0.02, 0.02, -0.02, 0.02, 0.03, 0.30), colmat((0.12, 0.10, 0.09), 0.4)),
+                ((-0.14, 0.14, -0.14, 0.14, 0.26, 0.48), colmat((1.0, 0.80, 0.52), 0.6, emit=3.0))], (1.6, 2.62, 0.56))
+# a rug, a poster, a desk with a mug, a plant: lived in
+RUG, RUGB = C.clay("rug", (0.85, 0.70, 0.40), 0.85, prints=0.0, dents=0.5), C.clay("rugb", (0.30, 0.42, 0.65), 0.8, prints=0.0)
+boxes("rug", [((-1.4, 1.4, -1.2, 0.5, 0.0, 0.05), RUG), ((-1.25, 1.25, -1.05, 0.35, 0.03, 0.065), RUGB)], (0, -0.4, 0), r=0.02)
+boxes("poster", [((-0.45, 0.45, -0.04, 0.0, 0.0, 0.62), colmat((0.95, 0.65, 0.20), 0.7)),
+                 ((-0.30, 0.30, -0.07, -0.03, 0.15, 0.45), colmat((0.15, 0.18, 0.30), 0.7))], (-1.6, 2.98, 1.55), r=0.015)
+boxes("desk", [((-0.6, 0.6, -0.35, 0.35, 0.70, 0.78), FRAME), ((-0.55, -0.47, -0.3, 0.3, 0.0, 0.71), FRAME),
+               ((0.47, 0.55, -0.3, 0.3, 0.0, 0.71), FRAME)], (2.3, -1.4, 0.0), r=0.03)
+C.soft("mug", (0.12, 0.12, 0.13), colmat((0.95, 0.85, 0.30), 0.4), (2.1, -1.4, 0.85), r=0.05)
+C.soft("laptop", (0.45, 0.32, 0.03), colmat((0.6, 0.62, 0.66), 0.3), (2.45, -1.35, 0.8), r=0.012)
+plant = boxes("plant", [((-0.2, 0.2, -0.2, 0.2, 0.0, 0.42), colmat((0.62, 0.30, 0.16), 0.7))], (-2.5, 2.4, 0.0))
+for k in range(8):
+    a = k * 2.4
+    C.ball(f"leaf{k}", rng.uniform(0.11, 0.16), colmat((0.15, 0.42, 0.15), 0.7) if k % 2 else colmat((0.20, 0.50, 0.18), 0.7),
+           (0.17 * math.cos(a), 0.17 * math.sin(a), 0.55 + 0.08 * k), plant, squash=(1.0, 0.55, 1.4))
 
-# ------------------------------------------------------------------ the guy (bends at the hip)
+# ------------------------------------------------------------------ the guy: clay figure with a torso pivot so he can sit up
 
-def figure(name, shirt, pants, skin, hair):
-    S, P, Sk, H = colmat(shirt, 0.7), colmat(pants, 0.7), colmat(skin), colmat(hair, 0.8)
-    D = colmat((0.03, 0.02, 0.02), 0.4)
-    root = B.link(bpy.data.objects.new(name, None))
-    f = {"root": root}
-    for side, x in (("L", -0.125), ("R", 0.125)):
-        f["leg" + side] = boxes(f"{name}_leg{side}", [((-0.125, 0.125, -0.125, 0.125, -0.75, 0.0), P),
-                                                      ((-0.11, 0.11, -0.11, 0.11, -0.78, -0.70), Sk)], (x, 0, 0.75), root)
-    torso = B.link(bpy.data.objects.new(f"{name}_torso", None))
-    torso.parent = root
-    torso.location = (0, 0, 0.75)
-    f["torso"] = torso
-    f["body"] = boxes(f"{name}_body", [((-0.25, 0.25, -0.125, 0.125, 0.0, 0.75), S)], (0, 0, 0), torso)
-    for side, x in (("L", -0.375), ("R", 0.375)):
-        f["arm" + side] = boxes(f"{name}_arm{side}", [((-0.12, 0.12, -0.12, 0.12, -0.35, 0.0), S),
-                                                      ((-0.11, 0.11, -0.11, 0.11, -0.78, -0.34), Sk)], (x, 0, 0.75), torso)
-    f["head"] = boxes(f"{name}_head", [((-0.25, 0.25, -0.25, 0.25, 0, 0.5), Sk), ((-0.27, 0.27, -0.27, 0.27, 0.43, 0.58), H),
-                                       ((-0.268, 0.268, 0.05, 0.28, 0.12, 0.47), H),
-                                       ((-0.16, -0.06, -0.265, -0.25, 0.22, 0.29), D), ((0.06, 0.16, -0.265, -0.25, 0.22, 0.29), D),
-                                       ((-0.08, 0.08, -0.262, -0.25, 0.07, 0.1), colmat((0.55, 0.30, 0.22)))], (0, 0, 0.75), torso)
-    return f
-
-GUY = figure("guy", (0.55, 0.55, 0.58), (0.12, 0.14, 0.25), (0.78, 0.55, 0.40), (0.10, 0.07, 0.05))
+GUY = C.figure("guy", skin=(0.78, 0.55, 0.40), shirt=(0.55, 0.55, 0.58), pants=(0.12, 0.14, 0.25),
+               shoes=(0.78, 0.55, 0.40), hair=(0.10, 0.07, 0.05))
+torso = C.empty("guy.torso", (0, 0, 0.75), GUY["root"])
+for k in ("body", "armL", "armR", "head"):                    # hang the upper body on the hip pivot
+    ob = GUY[k]
+    ob.parent = torso
+    ob.location = ob.location - Vector((0, 0, 0.75))
+GUY["torso"] = torso
 GUY["root"].scale = (0.85,) * 3
-# a flat slab past the fist, screen toward his face (the arm's +z once the arm points up)
-SCREEN = solid("screen", (0.75, 0.85, 1.0), rough=0.3, emit=4.0)
-PHONE = boxes("phone", [((-0.05, 0.05, -0.10, 0.10, -0.012, 0.0), colmat((0.05, 0.05, 0.06), 0.3)),
-                        ((-0.044, 0.044, -0.09, 0.09, 0.0, 0.006), SCREEN)],
-              (0.0, 0.0, -0.86), GUY["armR"])
-# lying on his back, feet toward the foot of the bed, head on the pillow
-GUY_ROOT = Vector((0.0, 0.70, 0.70))
+SCREEN = C.glow("screen", (0.75, 0.85, 1.0), 4.0)
+PHONE = boxes("phone", [((-0.06, 0.06, -0.11, 0.11, -0.016, 0.0), colmat((0.05, 0.05, 0.06), 0.3)),
+                        ((-0.052, 0.052, -0.1, 0.1, 0.002, 0.01), SCREEN)],
+              (0.0, 0.0, -0.9), GUY["armR"], r=0.006)
+GUY_ROOT = Vector((0.0, 0.70, 0.72))
 
-# ------------------------------------------------------------------ lights, world, camera
+# ------------------------------------------------------------------ lights, world, camera: moonlight blue, warm practicals
 
 world = bpy.data.worlds.new("bg")
 scene.world = world
 world.use_nodes = True
-world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.01, 0.012, 0.025, 1)
-moon = B.area("moon", Vector((-3.6, 1.0, 1.5)), Vector((0.0, 1.5, 0.6)), 1.2, 260.0, (0.55, 0.65, 1.0))
-fill = B.area("fill", Vector((1.5, -3.5, 2.8)), Vector((0.0, 1.0, 0.6)), 3.0, 70.0, (0.45, 0.5, 0.9))
+world.node_tree.nodes["Background"].inputs["Color"].default_value = (0.006, 0.012, 0.045, 1)
+moon = B.area("moonl", Vector((-3.4, 1.0, 1.6)), Vector((0.0, 1.5, 0.6)), 1.2, 200.0, (0.45, 0.6, 1.0))
+fill = B.area("fill", Vector((1.5, -3.5, 2.6)), Vector((0.0, 1.0, 0.6)), 3.0, 60.0, (0.22, 0.38, 1.0))
+warm = B.area("warm", Vector((1.6, 2.2, 1.6)), Vector((0.0, 1.6, 0.6)), 0.6, 45.0, (1.0, 0.72, 0.42))
+rim = B.area("rim", Vector((-1.5, 2.8, 2.6)), Vector((0.0, 1.8, 0.9)), 1.0, 70.0, (1.0, 0.7, 0.4))
 glow = B.area("glow", Vector((0.0, 2.0, 1.2)), Vector((0.0, 2.0, 0.7)), 0.25, 0.0, (0.75, 0.85, 1.0))
 glow.parent = PHONE
 glow.location = (0.0, 0.0, 0.08)
 glow.rotation_euler = (math.pi, 0, 0)            # shines along the phone's +z, onto his face
 clock_l = B.area("clockl", Vector((1.45, 2.15, 0.75)), Vector((1.45, 1.5, 0.6)), 0.3, 6.0, (1.0, 0.1, 0.05))
-cam = B.camera(lens=30, fstop=2.8)
-B.render_settings(FPS, samples=32, motion_blur=0.3)
+cam = B.camera(lens=30, fstop=1.6)
+B.render_settings(FPS, samples=32, motion_blur=0.3, look="AgX - Punchy")
+C.cpu_preview_quality(samples=56)
 
 # ------------------------------------------------------------------ motion
 
@@ -281,9 +210,9 @@ def apply_state(t):
     guy_state(t)
     cur = clock_text(t)
     for s, ob in CLOCK.items():
-        ob.location = Vector((1.45, 2.325, 0.62)) if s == cur else AWAY
+        ob.location = CLOCK_AT if s == cur else AWAY
     flick = 0.0 if E["march"] + 0.2 < t else 1.0
-    B.bsdf(SCREEN).inputs["Emission Strength"].default_value = 4.0 * flick
+    SCREEN.node_tree.nodes["Principled BSDF"].inputs["Emission Strength"].default_value = 4.0 * flick
     glow.data.energy = 6.0 * flick
     loc, target, fstop, lens = camera_at(t)
     B.aim(cam, loc, target)
@@ -317,15 +246,28 @@ def shot_window(t):
 def shot_face(t):          # phone glow on his face while the clock races
     u = t - E["I"]
     h = head()
-    return h + Vector((0.75, -0.55, 0.65 - 0.02 * u)), h + Vector((0.2, 0.0, 0.0))
+    return h + Vector((0.35, -1.0, 1.05 - 0.03 * u)), h + Vector((0.1, 0.0, 0.2))
+def shot_low(t):           # low beside the bed: him holding the phone up
+    u = t - E["D"]
+    return Vector((1.7 - 0.03 * u, 0.9 + 0.04 * u, 1.75)), Vector((0.0, 1.9, 0.85))
+def shot_top2(t):          # overhead from the other side
+    u = t - E["E"]
+    a = 0.5 + 0.05 * u
+    return Vector((1.5 * math.sin(a), 1.5 - 1.5 * math.cos(a), 2.8)), Vector((0.0, 1.6, 0.7))
+def shot_clock2(t):        # the clock with him blurred behind it
+    u = t - E["H"]
+    return Vector((1.05 + 0.02 * u, 1.35 + 0.03 * u, 1.05)), Vector((1.45, 2.36, 0.42))
 def shot_end(t):
     u = t - E["J"]
     return Vector((0.3, -2.4 - 0.12 * u, 1.9 + 0.05 * u)), Vector((0.5, 1.6, 0.7))
 
 SHOTS = [(shot_hook, None), (shot_clock, (E["B"] - 0.25, E["B"] + 0.15)), (shot_top, (E["C"] - 0.25, E["C"] + 0.15)),
+         (shot_low, (E["D"] - 0.25, E["D"] + 0.15)), (shot_top2, (E["E"] - 0.25, E["E"] + 0.15)),
          (shot_side, (E["F"] - 0.25, E["F"] + 0.15)), (shot_window, (E["G"] - 0.25, E["G"] + 0.15)),
+         (shot_clock2, (E["H"] - 0.25, E["H"] + 0.15)),
          (shot_face, (E["I"] - 0.25, E["I"] + 0.15)), (shot_end, (E["J"] - 0.25, E["J"] + 0.15))]
-LENS = {shot_hook: 26.0, shot_clock: 40.0, shot_top: 24.0, shot_face: 32.0, shot_end: 24.0}
+LENS = {shot_hook: 26.0, shot_clock: 40.0, shot_top: 24.0, shot_top2: 24.0, shot_face: 32.0, shot_end: 24.0,
+        shot_low: 28.0, shot_clock2: 45.0}
 
 def camera_at(t):
     k = 0
@@ -342,7 +284,7 @@ def camera_at(t):
         loc, tg = loc0.lerp(loc, u), tg0.lerp(tg, u)
         lens = LENS.get(fn0, 30.0) * (1 - u) + lens * u
     d = (tg - loc).length * 30.0 / lens
-    fstop = 2.0 if d < 2 else (2.8 if d < 4 else 4.0)
+    fstop = 1.2 if d < 2 else (1.6 if d < 4 else 2.2)          # the miniature look
     return loc, tg, fstop, lens
 
 # ------------------------------------------------------------------ anchors for 2D labels
@@ -355,7 +297,7 @@ def anchors():
         t = f / FPS
         apply_state(t)
         vl.update()
-        pts = {"clock": Vector((1.45, 2.34, 0.72)), "guy": head() + Vector((0, 0, 0.3)), "window": Vector((-3.0, 1.0, 2.0))}
+        pts = {"clock": CLOCK_AT + Vector((0, 0, 0.1)), "guy": head() + Vector((0, 0, 0.3)), "window": Vector((-3.0, 1.0, 2.0))}
         for k, p in pts.items():
             v = world_to_camera_view(scene, cam, p)
             out[k].append([round(v.x * 1080, 1), round((1 - v.y) * 1920, 1)] if v.z > 0 and 0 <= v.x <= 1 and 0 <= v.y <= 1 else None)
