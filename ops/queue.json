@@ -226,5 +226,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-10-29-entropy-talking-stage",
+    "title": "The Entropy of the Talking Stage",
+    "format": "clay deadpan short",
+    "video": "videos/2026-10-29_Entropy_Of_The_Talking_Stage.mp4",
+    "caption": "In 1865 Clausius named it entropy: leave a system alone and the disorder only goes up. Every talking stage since has confirmed it. Tag the friend who replies hbu. #physics #talkingstage #3danimation",
+    "trial": null,
+    "slot": "2026-10-29T12:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
