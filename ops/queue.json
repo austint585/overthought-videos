@@ -243,5 +243,20 @@
     "permalink": "https://www.instagram.com/reel/DfFkNE8AFzB/",
     "error": null,
     "media_id": "18193071571361268"
+  },
+  {
+    "id": "2026-10-29-newton-first-law-ex",
+    "title": "Newton's First Law of the Ex",
+    "format": "clay deadpan short",
+    "video": "videos/2026-10-29_Newtons_First_Law_Of_The_Ex.mp4",
+    "caption": "Newton, 1687: a body at rest stays at rest until an outside force acts on it. Post someone new and watch it work. Tag the friend who just got a hey stranger text. #physics #newton #3danimation",
+    "trial": null,
+    "slot": "2026-10-29T14:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
