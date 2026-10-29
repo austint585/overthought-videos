@@ -72,3 +72,7 @@ Our one hit (Schrodinger) won on the premise: relatable and shareable (18.9K sha
    - **Character story with one absurd rule**: setup, secret, reveal, twist. Our satire voice.
    - **20 to 25 s nature or body macro short**: an everyday thing reframed as life or death.
 4. **Process.** Never reuse an opening shot or a set two episodes in a row. Frame one is action, not a title card. Foley on every visible action.
+
+## Decision (Oct 29, evening)
+
+Austin: "whatever can look the best if blender can be efficient and look good then go for it". A 5 s test of a new Blender product-studio kit (real Poly Haven CC0 bulb, walnut desk, cutaway, magnified LED section) reached speedy-level product renders at 1.8 s a frame (30 fps), about an hour of rendering for a 60 s episode. So everyday-object explainers stay in Blender on that kit. Code-built people are still the weak spot, so character stories need a different answer (props and objects as the cast, or AI video later).

@@ -14,7 +14,7 @@ mkdir -p vendor/tts
 mkdir -p vendor/fonts
 cd vendor
 [ -f package.json ] || npm init -y >/dev/null
-npm install --silent @fontsource/bricolage-grotesque @fontsource/jetbrains-mono @fontsource/fredoka flag-icons
+npm install --silent @fontsource/bricolage-grotesque @fontsource/jetbrains-mono @fontsource/fredoka @fontsource/inter flag-icons
 $PY - <<'PY'
 from fontTools.ttLib import TTFont
 src = "node_modules/@fontsource"
@@ -27,6 +27,8 @@ for out, p in {
     "JetBrainsMono-500": "jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2",
     "Fredoka-700": "fredoka/files/fredoka-latin-700-normal.woff2",
     "Fredoka-600": "fredoka/files/fredoka-latin-600-normal.woff2",
+    "Inter-500": "inter/files/inter-latin-500-normal.woff2",
+    "Inter-700": "inter/files/inter-latin-700-normal.woff2",
 }.items():
     f = TTFont(f"{src}/{p}"); f.flavor = None; f.save(f"fonts/{out}.ttf")
 print("fonts ready")
