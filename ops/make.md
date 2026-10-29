@@ -16,7 +16,7 @@ To know what a reel says, watch it for free: open the reel in that Chrome tab, s
 
 ## One run at a time
 
-Runs start at 1 am, 9 am and 5 pm. The laptop's GPU fits one Blender, so if `pipeline/out/MAKING` exists and is less than 8 hours old, another run is still working: say so and stop. Otherwise write the current time into `pipeline/out/MAKING` now and delete it when you finish, including when you stop early or something fails.
+Runs start every two hours (since Oct 29), so most runs find the lock held and stop at once. The laptop's GPU fits one Blender, so if `pipeline/out/MAKING` exists and is less than 8 hours old, another run is still working: say so and stop. Otherwise write the current time into `pipeline/out/MAKING` now and delete it when you finish, including when you stop early or something fails.
 
 ## How many
 
