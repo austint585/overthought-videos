@@ -509,6 +509,41 @@ def draw_captions(c, t, sents, chunk_map):
                 c.drawString(w["display"], x, y, f, paint(INK))
         x += wd + 2 * pad + space
 
+CREAM = skia.Color(246, 238, 220)
+CAP_INK = skia.Color(28, 26, 30)
+CAP_BLUE = skia.Color(38, 108, 235)
+
+def draw_captions_clay(c, t, sents, chunk_map):
+    """Captions for the clay look (Oct 28, after the @petersindex reel Austin sent): the current phrase on a cream
+    rounded label, slightly tilted, in a rounded bold font, key words in blue."""
+    active = next(((si, ch, t0, t1) for (si, ch, t0, t1) in chunk_map if t0 <= t < t1), None)
+    if not active:
+        return
+    si, ch, t0, t1 = active
+    s = sents[si]
+    words = [s["words"][i] for i in ch]
+    starts = [s["abs_starts"][i] for i in ch]
+    size = 76
+    while True:
+        f = font("Fredoka-700", size)
+        space = f.measureText(" ")
+        widths = [f.measureText(w["display"]) for w in words]
+        total = sum(widths) + space * (len(words) - 1)
+        if total <= 880 or size <= 44:
+            break
+        size -= 4
+    x = W / 2 - total / 2
+    y = 330
+    pop = 1.0 + 0.08 * max(0.0, 1 - (t - t0) / 0.15)
+    cy = y - size * 0.3
+    c.save()
+    c.translate(W / 2, cy); c.scale(pop, pop); c.rotate(-1.5 if si % 2 else 1.2); c.translate(-W / 2, -cy)
+    c.drawRRect(rrect(x - 34, y - size * 0.86 - 22, x + total + 34, y + size * 0.26 + 22, 28), paint(CREAM))
+    for w, wd in zip(words, widths):                    # the whole phrase at once, like the reference
+        c.drawString(w["display"], x, y, f, paint(CAP_BLUE if w["key"] else CAP_INK))
+        x += wd + space
+    c.restore()
+
 def build_chunk_map(sents):
     cm = []
     for si, s in enumerate(sents):
