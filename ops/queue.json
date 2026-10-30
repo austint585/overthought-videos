@@ -290,5 +290,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-10-28-fork-sparks",
+    "title": "Why Your Fork Sparks",
+    "format": "product-studio explainer (yelled)",
+    "video": "https://raw.githubusercontent.com/austint585/overthought-videos/main/videos/2026-10-30_Why_Your_Fork_Sparks.mp4",
+    "caption": "Your fork sparks in the microwave because it's pointy, not just because it's metal. Send this to the friend who still tries it. #howitworks #science #physics",
+    "trial": null,
+    "slot": "2026-10-30T11:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
