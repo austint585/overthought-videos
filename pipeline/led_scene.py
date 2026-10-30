@@ -350,6 +350,7 @@ for i in range(34):
 # ------------------------------------------------------------------ shots
 
 cam = B.camera(lens=50, fstop=2.0)
+cam.data.clip_start = 0.002                               # the default 10 cm slices into close-ups of a 6 cm bulb
 HANG_LIGHTS = [bl, key1, rim1]
 MACRO_LIGHTS = [dl, ol, key3, rim3]
 ALL_LIGHTS = HANG_LIGHTS + MACRO_LIGHTS + [ola]

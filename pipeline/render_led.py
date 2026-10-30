@@ -134,7 +134,7 @@ def mix_card(c, t, t0, t1):
     a = min(1.0, (t - t0) / 0.2) * min(1.0, (t1 - t) / 0.15)
     u = min(1.0, max(0.0, (t - t0 - 0.3) / 1.2))
     u = u * u * (3 - 2 * u)
-    cy, r = 1300, 120
+    cy, r = 1180, 120
     panel(c, 140, cy - 210, W - 140, cy + 210, a)
     sep = 150 * (1 - u)
     for col, cx in ((skia.ColorSetARGB(255, 40, 95, 255), W / 2 - 60 - sep), (skia.ColorSetARGB(255, 255, 205, 30), W / 2 + 60 + sep)):
@@ -150,7 +150,7 @@ def mix_card(c, t, t0, t1):
 
 def spectrum_card(c, t, t0, t1, t_red):
     a = min(1.0, (t - t0) / 0.2) * min(1.0, (t1 - t) / 0.15)
-    x0, x1, y0, y1 = 120, W - 120, 1000, 1500
+    x0, x1, y0, y1 = 120, W - 120, 880, 1340
     panel(c, x0 - 30, y0 - 90, x1 + 30, y1 + 110, a)
     f, fs = font("Inter-700", 28), font("Inter-500", 24)
     c.drawString("LIGHT FROM A WHITE LED", x0, y0 - 40, f, paint(skia.ColorWHITE, a))
@@ -187,7 +187,7 @@ def acdc_card(c, t, t_ac, t_dc, t1):
     a = min(1.0, (t - t_ac + 0.1) / 0.2) * min(1.0, (t1 - t) / 0.15)
     if a <= 0:
         return
-    y, h = 1400, 150
+    y, h = 1180, 130
     panel(c, 120, y - h - 60, W - 120, y + h + 90, a)
     f = font("Inter-700", 30)
     path = skia.Path()
@@ -239,7 +239,7 @@ def make_overlay(lines, shots, duration, ev, A):
                 x, y = A[key][F]
                 leader(c, x, y, x + dx, y + dy, text, a)
         if name in NOTES:
-            c.drawString(NOTES[name], 60, H - 330, font("Inter-500", 26), paint(skia.ColorSetARGB(255, 200, 200, 200), 0.75))
+            c.drawString(NOTES[name], 60, 1500, font("Inter-500", 26), paint(skia.ColorSetARGB(255, 200, 200, 200), 0.75))   # above the area Instagram covers
         if name == "macro_top":
             mix_card(c, t, s0 + 0.1, s1)
         if name == "spectrum":
