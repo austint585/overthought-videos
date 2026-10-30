@@ -206,22 +206,29 @@ B.mesh_from("inside_floor", B.box(-0.17, 0.20, -0.15, 0.11, 0.035, 0.04), [plain
 in_light = bpy.data.lights.new("in_light", "POINT")
 in_light.energy, in_light.color, in_light.shadow_soft_size = 4.0, WARM, 0.05
 inl = B.link(bpy.data.objects.new("in_light", in_light)); inl.location = (0.0, -0.02, 0.18)
-key1 = B.area("key1", (-0.9, -0.9, 0.9), (0, 0, 0.13), 0.7, 45.0, color=(1.0, 0.86, 0.70))
-rim1 = B.area("rim1", (0.8, 0.7, 0.7), (0, 0, 0.13), 0.5, 40.0, color=(0.65, 0.75, 1.0))
+key1 = B.area("key1", (-0.9, -0.9, 0.9), (0, 0, 0.13), 0.7, 13.0, color=(1.0, 0.86, 0.70))
+rim1 = B.area("rim1", (0.8, 0.7, 0.7), (0, 0, 0.13), 0.5, 22.0, color=(0.65, 0.75, 1.0))
+WIN_Y = -0.1925
+win_m = plain("win", (0.1, 0.08, 0.05), rough=0.6)
+emit(win_m, (1.0, 0.5, 0.18), 0.16)
+B.mesh_from("win_panel", B.box(-0.19, 0.13, WIN_Y, WIN_Y + 0.001, 0.056, 0.188), [win_m])
+sil_m = plain("sil", (0.01, 0.01, 0.01), rough=0.6)
+B.mesh_from("win_plate", B.box(-0.13, 0.07, WIN_Y - 0.0006, WIN_Y, 0.072, 0.079), [sil_m])
+B.mesh_from("win_fork", B.box(-0.09, 0.03, WIN_Y - 0.0007, WIN_Y, 0.082, 0.086), [sil_m])
 OUT_SET = mw_obs + [inl]
 OUT_HOME = {o: o.location.copy() for o in OUT_SET}
-front_arc_m = glowing("front_arc", ARC, 60.0)
-front_arc = arc_curve("front_arc", 12, front_arc_m, 0.0012)
+front_arc_m = glowing("front_arc", ARC, 30.0)
+front_arc = arc_curve("front_arc", 12, front_arc_m, 0.0009)
 front_spark = bpy.data.lights.new("front_spark", "POINT")
 front_spark.color, front_spark.shadow_soft_size = ARC, 0.01
-fsl = B.link(bpy.data.objects.new("front_spark", front_spark)); fsl.location = (0.02, -0.05, 0.08)
+fsl = B.link(bpy.data.objects.new("front_spark", front_spark)); fsl.location = (0.04, WIN_Y - 0.03, 0.10)
 
 # ------------------------------------------------------------------ inside: the cutaway cavity at C
 
 C = Vector((4.0, 0.0, 0.0))
 CX, CY, CZ = 0.36, 0.32, 0.22                 # cavity inner width, depth, height
-enamel_m = plain("enamel", (0.50, 0.49, 0.46), rough=0.45)
-scorch_m = plain("enamel_scorch", (0.50, 0.49, 0.46), rough=0.45)
+enamel_m = plain("enamel", (0.11, 0.11, 0.115), rough=0.38)
+scorch_m = plain("enamel_scorch", (0.11, 0.11, 0.115), rough=0.38)
 snt = scorch_m.node_tree
 sb = principled(scorch_m)
 tc = snt.nodes.new("ShaderNodeTexCoord")
@@ -230,14 +237,18 @@ dist.inputs[1].default_value = (0.05, 0.0, 0.06)
 snt.links.new(tc.outputs["Object"], dist.inputs[0])
 nz = snt.nodes.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 40.0
 snt.links.new(tc.outputs["Object"], nz.inputs["Vector"])
-mul = snt.nodes.new("ShaderNodeMath"); mul.operation = "MULTIPLY"; mul.inputs[1].default_value = 0.02
+mul = snt.nodes.new("ShaderNodeMath"); mul.operation = "MULTIPLY"; mul.inputs[1].default_value = 0.035
 snt.links.new(nz.outputs["Fac"], mul.inputs[0])
 add = snt.nodes.new("ShaderNodeMath"); add.operation = "ADD"
 snt.links.new(dist.outputs["Value"], add.inputs[0]); snt.links.new(mul.outputs[0], add.inputs[1])
-lt = snt.nodes.new("ShaderNodeMath"); lt.operation = "LESS_THAN"
-snt.links.new(add.outputs[0], lt.inputs[0]); snt.links.new(value(snt, "burn"), lt.inputs[1])
+burn = value(snt, "burn")
+edge = snt.nodes.new("ShaderNodeMath"); edge.operation = "SUBTRACT"; edge.inputs[1].default_value = 0.022
+snt.links.new(burn, edge.inputs[0])
+lt = snt.nodes.new("ShaderNodeMapRange"); lt.interpolation_type = "SMOOTHSTEP"
+lt.inputs["To Min"].default_value = 1.0; lt.inputs["To Max"].default_value = 0.0
+snt.links.new(add.outputs[0], lt.inputs["Value"]); snt.links.new(edge.outputs[0], lt.inputs["From Min"]); snt.links.new(burn, lt.inputs["From Max"])
 mixc = snt.nodes.new("ShaderNodeMix"); mixc.data_type = "RGBA"
-mixc.inputs["A"].default_value = (0.50, 0.49, 0.46, 1); mixc.inputs["B"].default_value = (0.012, 0.010, 0.008, 1)
+mixc.inputs["A"].default_value = (0.11, 0.11, 0.115, 1); mixc.inputs["B"].default_value = (0.012, 0.010, 0.008, 1)
 snt.links.new(lt.outputs[0], mixc.inputs["Factor"]); snt.links.new(mixc.outputs["Result"], sb.inputs["Base Color"])
 
 x0, x1, y0, y1, z0, z1 = C.x - CX / 2, C.x + CX / 2, C.y - CY / 2, C.y + CY / 2, C.z, C.z + CZ
@@ -254,7 +265,7 @@ for attr in ("use_raytrace_refraction", "use_screen_refraction"):
     if hasattr(glass_m, attr):
         setattr(glass_m, attr, True)
 tt = B.mesh_from("turntable", B.cyl_z(0.14, z0 + 0.010, z0 + 0.016, C.x, C.y, seg=96), [glass_m])
-plate_m = plain("plate", (0.95, 0.95, 0.93), rough=0.15, coat=0.6)
+plate_m = plain("plate", (0.09, 0.10, 0.115), rough=0.5, coat=0.0)
 def plate_build(bm):
     prof = [(0.0, 0.0), (0.075, 0.0), (0.085, 0.004), (0.11, 0.016), (0.112, 0.018)]
     rings = []
@@ -269,8 +280,8 @@ B.smooth(plate, 60)
 plate.location = C + Vector((0, 0, 0.016))
 PLATE_Z = C.z + 0.016
 
-steel_m = plain("steel", (0.88, 0.88, 0.90), rough=0.16, metal=1.0)
-emit(steel_m, EBLUE, 0.0)
+steel_m = plain("steel", (0.88, 0.88, 0.90), rough=0.28, metal=1.0)
+emit(steel_m, (0.72, 0.76, 0.82), 0.14)
 tipglow_m = plain("tipglow", (0.88, 0.88, 0.90), rough=0.16, metal=1.0)
 emit(tipglow_m, (0.55, 0.65, 1.0), 0.0)
 
@@ -340,31 +351,40 @@ oven_light = bpy.data.lights.new("oven_light", "POINT")
 oven_light.energy, oven_light.color, oven_light.shadow_soft_size = 1.5, WARM, 0.04
 ovl = B.link(bpy.data.objects.new("oven_light", oven_light)); ovl.location = C + Vector((0.12, 0.10, CZ - 0.02))
 key2 = B.area("key2", C + Vector((-0.4, -0.7, 0.35)), C + Vector((0, 0, 0.05)), 0.5, 3.5, color=(1.0, 0.88, 0.75))
+top2 = B.area("top2", C + Vector((0.08, -0.12, 0.36)), C + Vector((0.03, 0, 0.02)), 0.28, 4.5, color=(1.0, 0.96, 0.90))
 rim2 = B.area("rim2", C + Vector((0.4, -0.5, 0.30)), C + Vector((0, 0, 0.05)), 0.3, 2.0, color=(0.6, 0.72, 1.0))
-arc_m = glowing("arc", ARC, 60.0)
-ARCS = [arc_curve(f"arc{i}", 14, arc_m, 0.0006 if i else 0.0009) for i in range(4)]
+arc_m = glowing("arc", ARC, 16.0)
+ARCS = [arc_curve(f"arc{i}", 14, arc_m, 0.00022 if i else 0.00035) for i in range(4)]
 spark_l = bpy.data.lights.new("spark_l", "POINT")
 spark_l.color, spark_l.shadow_soft_size = ARC, 0.005
 spl = B.link(bpy.data.objects.new("spark_l", spark_l))
-flame_m = glowing("flame", (1.0, 0.28, 0.02), 5.0)
+flame_m = glowing("flame", (1.0, 0.16, 0.01), 1.1)
+flame_core_m = glowing("flame_core", (1.0, 0.42, 0.05), 2.0)
 FLAMES = []
-for i in range(5):
-    def b(bm):
-        bmesh.ops.create_cone(bm, cap_ends=True, segments=16, radius1=0.006, radius2=0.0, depth=0.03)
-    ob = B.mesh_from(f"flame{i}", b, [flame_m])
-    FLAMES.append((ob, Vector((rng.uniform(-0.012, 0.012), rng.uniform(-0.005, 0.005), 0.0)), rng.uniform(0, 6.28)))
+for i in range(7):
+    core = i >= 4
+    def b(bm, seed=i * 3.7, r=0.0035 if core else 0.0062, h=0.016 if core else 0.028):
+        bmesh.ops.create_icosphere(bm, subdivisions=3, radius=1.0)
+        for v in bm.verts:
+            k = (v.co.z + 1) / 2
+            w = (1 - k) ** 0.75 * (0.35 + 0.65 * min(1.0, k * 5))
+            n = noise.noise(v.co * 2.2 + Vector((seed, 0, 0)))
+            v.co = Vector((v.co.x * r * w * (1 + 0.5 * n), v.co.y * r * w, k * h * (1 + 0.35 * n)))
+    ob = B.mesh_from(f"flame{i}", b, [flame_core_m if core else flame_m])
+    B.smooth(ob, 80)
+    FLAMES.append((ob, Vector((rng.uniform(-0.012, 0.012), rng.uniform(-0.005, 0.005) - (0.002 if core else 0.0), 0.0)), rng.uniform(0, 6.28)))
 
-dot_m = object_color_glow("dot", 6.0)
+dot_m = object_color_glow("dot", 3.0)
 ELECTRONS = []                                    # (object, tine, position 0..1 along it, side offset)
 for k in range(4):
     for i in range(9):
-        ELECTRONS.append((sphere(f"e{k}_{i}", 0.00075, dot_m, 1), k, rng.uniform(0.0, 1.0), rng.uniform(-0.0009, 0.0009)))
+        ELECTRONS.append((sphere(f"e{k}_{i}", 0.00042, dot_m, 2), k, rng.uniform(0.0, 1.0), rng.uniform(-0.0009, 0.0009)))
 AIR = []
 for i in range(40):
     d = Vector((rng.uniform(-1, 1), rng.uniform(-1, 1), rng.uniform(-0.3, 1))).normalized() * rng.uniform(0.002, 0.012)
-    AIR.append((sphere(f"air{i}", 0.0006, dot_m, 1), d, rng.uniform(0, 6.28)))
+    AIR.append((sphere(f"air{i}", 0.00035, dot_m, 2), d, rng.uniform(0, 6.28)))
 
-IN_SET = [ovl, key2, rim2]
+IN_SET = [ovl, key2, top2, rim2]
 
 # ------------------------------------------------------------------ shots
 
@@ -381,37 +401,55 @@ FORK_HEAD = lambda: FORK_MAT @ Vector((0.045, 0, 0.002))
 CAMS = {
     "front": front,
     "front_out": lambda u: front(1.0 - u),
-    "spark_tip": lambda u: lerp_cam(C + Vector((0.12, -0.13, 0.07)), C + Vector((0.10, -0.11, 0.06)), FORK_HEAD() + Vector((0.02, 0, 0)), 60, 3.2, u),
+    "spark_tip": lambda u: lerp_cam(C + Vector((0.14, -0.14, 0.16)), C + Vector((0.12, -0.12, 0.14)), tip_world(1), 60, 45.0, u),
     "waves": lambda u: lerp_cam(C + Vector((0.0, -0.62, 0.17)), C + Vector((0.0, -0.52, 0.15)), C + Vector((0, 0.02, 0.07)), 35, 4.0, u),
     "food": lambda u: lerp_cam(C + Vector((0.04, -0.22, 0.24)), C + Vector((0.03, -0.19, 0.21)), MUG_HOME + Vector((0, 0, 0.06)), 50, 3.5, u),
     "reflect": lambda u: lerp_cam(C + Vector((-0.12, -0.21, 0.15)), C + Vector((-0.10, -0.18, 0.13)), C + Vector((0.01, -0.01, 0.02)), 50, 4.0, u),
-    "electrons": lambda u: lerp_cam(C + Vector((0.06, -0.12, 0.09)), C + Vector((0.055, -0.10, 0.08)), FORK_HEAD() + Vector((0.01, 0, 0)), 70, 5.0, u),
-    "tips": lambda u: lerp_cam(C + Vector((0.14, -0.07, 0.06)), C + Vector((0.12, -0.06, 0.055)), FORK_HEAD() + Vector((0.035, 0, 0)), 80, 5.0, u),
-    "breakdown": lambda u: lerp_cam(tip_world(1) + Vector((0.035, -0.06, 0.03)), tip_world(1) + Vector((0.03, -0.05, 0.025)), tip_world(1), 85, 6.0, u),
-    "spark": lambda u: lerp_cam(C + Vector((0.16, -0.17, 0.06)), C + Vector((0.14, -0.15, 0.055)), FORK_HEAD() + Vector((0.04, 0, 0)), 55, 4.0, u),
-    "spoon": lambda u: lerp_cam(C + Vector((0.08, -0.22, 0.10)), C + Vector((0.07, -0.19, 0.09)), SPOON_HOME + Vector((0.0, 0, 0.005)), 55, 4.0, u),
-    "foil": lambda u: lerp_cam(C + Vector((0.06, -0.20, 0.09)), C + Vector((0.05, -0.17, 0.08)), FOIL_HOME, 55, 4.0, u),
-    "scorch": lambda u: lerp_cam(C + Vector((0.02, -0.10, 0.08)), C + Vector((0.03, -0.02, 0.075)), C + Vector((0.05, CY / 2, 0.065)), 40, 4.0, u),
+    "electrons": lambda u: lerp_cam(C + Vector((0.06, -0.12, 0.09)), C + Vector((0.055, -0.10, 0.08)), TINE_MAT @ Vector((0.022, 0, 0.002)), 70, 60.0, u),
+    "tips": lambda u: lerp_cam(C + Vector((0.14, -0.07, 0.06)), C + Vector((0.12, -0.06, 0.055)), tip_world(1), 80, 60.0, u),
+    "breakdown": lambda u: lerp_cam(tip_world(1) + Vector((0.035, -0.06, 0.03)), tip_world(1) + Vector((0.03, -0.05, 0.025)), tip_world(1), 85, 70.0, u),
+    "spark": lambda u: lerp_cam(C + Vector((0.16, -0.17, 0.17)), C + Vector((0.14, -0.15, 0.15)), tip_world(1), 55, 40.0, u),
+    "spoon": lambda u: lerp_cam(C + Vector((0.08, -0.22, 0.20)), C + Vector((0.07, -0.19, 0.18)), SPOON_HOME + Vector((0.0, 0, 0.005)), 55, 14.0, u),
+    "foil": lambda u: lerp_cam(C + Vector((0.06, -0.20, 0.09)), C + Vector((0.05, -0.17, 0.08)), FOIL_HOME, 55, 16.0, u),
+    "scorch": lambda u: lerp_cam(C + Vector((0.02, -0.10, 0.08)), C + Vector((0.03, -0.02, 0.075)), C + Vector((0.05, CY / 2, 0.065)), 40, 13.0, u),
 }
 OUTSIDE = {"front", "front_out"}
 FORK_SHOTS = {"spark_tip", "waves", "reflect", "electrons", "tips", "breakdown", "spark", "scorch"}
 
+def alt_cam(base, u):
+    """The same action from a second angle: swung around the subject and closer."""
+    loc, tg, lens, fstop = base(u)
+    return tg + (Matrix.Rotation(-0.55, 3, "Z") @ (loc - tg)) * 0.72, tg, lens, fstop
+
+def base_of(i):
+    return SHOTS[i][1].split("~")[0]
+
 def shot_at(t):
+    """(base name, 0..1 across all angles of the action, age in the action, 0..1 in this cut, second angle?)"""
     k = max([0] + [i for i, (s, _) in enumerate(SHOTS) if t >= s - 1e-6])
-    t0 = SHOTS[k][0]
     t1 = SHOTS[k + 1][0] if k + 1 < len(SHOTS) else DUR
-    return SHOTS[k][1], max(0.0, min(1.0, (t - t0) / max(1e-6, t1 - t0))), t - t0
+    cut = max(0.0, min(1.0, (t - SHOTS[k][0]) / max(1e-6, t1 - SHOTS[k][0])))
+    a = k
+    while a > 0 and base_of(a - 1) == base_of(k):
+        a -= 1
+    b = k
+    while b + 1 < len(SHOTS) and base_of(b + 1) == base_of(k):
+        b += 1
+    t0 = SHOTS[a][0]
+    t2 = SHOTS[b + 1][0] if b + 1 < len(SHOTS) else DUR
+    return base_of(k), max(0.0, min(1.0, (t - t0) / max(1e-6, t2 - t0))), t - t0, cut, "~" in SHOTS[k][1]
 
 def flicker(t, seed):
     """1 or 0 in a ragged on/off pattern, new every frame."""
     return 1.0 if random.Random(int(t * FPS) * 7 + seed).random() < 0.6 else 0.0
 
 def apply_state(t):
-    name, u, age = shot_at(t)
-    loc, tg, lens, fstop = CAMS[name](u)
+    name, u, age, cut, second = shot_at(t)
+    loc, tg, lens, fstop = alt_cam(CAMS[name], cut) if second else CAMS[name](cut)
     B.aim(cam, loc, tg)
     cam.data.lens = lens
     cam.data.dof.aperture_fstop = fstop
+    cam.data.dof.use_dof = name not in ("spark_tip", "electrons", "tips", "breakdown", "spark")
     cam.data.dof.focus_distance = (tg - loc).length
     outside = name in OUTSIDE
     for ob in OUT_SET:
@@ -424,11 +462,11 @@ def apply_state(t):
     # outside: a spark flashes behind the window now and then
     on = outside and flicker(t, 1) and (fr % 9 < 5)
     if on:
-        set_arc(front_arc, Vector((0.03, -0.06, 0.06)), Vector((0.07, -0.04, 0.045)), fr, 0.35)
+        set_arc(front_arc, Vector((0.03, WIN_Y - 0.0012, 0.084)), Vector((0.085, WIN_Y - 0.0012, 0.115 + 0.02 * math.sin(fr))), fr, 0.3)
         front_arc.location = (0, 0, 0)
     else:
         front_arc.location = AWAY
-    front_spark.energy = 3.0 if on else 0.0
+    front_spark.energy = 0.8 if on else 0.0
     # the props on the plate
     fork.location = FORK_HOME if name in FORK_SHOTS else AWAY
     spoon.location = SPOON_HOME if name == "spoon" else AWAY
@@ -453,7 +491,7 @@ def apply_state(t):
         local = Vector((0.045 * p, -0.0090 + k * 0.0060 + side * (1 - p), 0.0029))
         ob.location = TINE_MAT @ local
         ob.color = (*EBLUE, 1)
-    emit(tipglow_m, (0.55, 0.65, 1.0), 2.5 * crowd if name in ("tips", "breakdown") else 0.0)
+    emit(tipglow_m, (0.65, 0.72, 0.9), max(0.14, 0.8 * crowd) if name in ("tips", "breakdown") else 0.14)
     # air beside one tip turns violet as it breaks down
     for ob, d, ph in AIR:
         if name != "breakdown":
@@ -479,7 +517,7 @@ def apply_state(t):
                 d = Vector((r.uniform(-1, 1), r.uniform(-1, 1), r.uniform(0, 1))).normalized()
                 a = FOIL_HOME + Vector((0, 0, hop)) + d * 0.031
                 arcs_on.append((a, a + d * 0.008, 0.5))
-    if name == "scorch" and flicker(t, 3):
+    if name == "scorch" and u <= 0.45 and flicker(t, 3):
         a = C + Vector((0.05, CY / 2 - 0.01, 0.065))
         arcs_on.append((a, a + Vector((0.01, -0.02, -0.01)), 0.4))
     for i, ob in enumerate(ARCS):
@@ -491,19 +529,20 @@ def apply_state(t):
             ob.location = AWAY
     if arcs_on:
         spl.location = arcs_on[0][0]
-        spark_l.energy = 1.2
+        spark_l.energy = 0.05 if name == "scorch" else 0.35
     else:
         spl.location = AWAY
         spark_l.energy = 0.0
-    setv(scorch_m, "burn", 0.05 * smooth01(u / 0.8) if name == "scorch" else 0.0)
+    setv(scorch_m, "burn", 0.015 + 0.05 * smooth01(u / 0.8) if name == "scorch" else 0.0)
     for ob, off, ph in FLAMES:
         if name == "scorch" and u > 0.45:
             ob.location = C + Vector((0.05, CY / 2 - 0.012, 0.03)) + off
             s = 0.6 + 0.4 * abs(math.sin(t * 11 + ph))
             ob.scale = (s, s, s * 1.4 * smooth01((u - 0.45) / 0.2))
+            ob.rotation_euler = (0, 0.25 * math.sin(t * 7 + ph), t * 5 + ph)
         else:
             ob.location = AWAY
-    oven_light.energy = 1.5 + (2.5 if name == "scorch" and u > 0.45 else 0.0)
+    oven_light.energy = 1.5 + (0.8 if name == "scorch" and u > 0.45 else 0.0)
 
 # ------------------------------------------------------------------ anchors for 2D labels
 

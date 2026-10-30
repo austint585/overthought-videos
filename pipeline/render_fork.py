@@ -24,16 +24,16 @@ TAIL = 0.45
 # (line, [(shot, word index the shot starts on), ...])
 SCRIPT = [
     ("Your fork doesn't spark because it's metal. It sparks because it's *pointy.*", [("front", 0), ("spark_tip", 7)]),
-    ("Your microwave fills with waves that flip back and forth *2.45*{two point four five} *billion* times a second.", [("waves", 0)]),
-    ("Your food soaks them up. That's how your leftovers get *hot.*", [("food", 0)]),
-    ("But metal can't soak them up, so it *reflects* them off its surface.", [("reflect", 0)]),
-    ("Every flip shoves the *electrons* in your fork one way, then the other.", [("electrons", 0)]),
-    ("And they pile up wherever the metal comes to a *point,* like the *tips* of your tines.", [("tips", 0)]),
-    ("Right at a sharp tip, the electric field gets strong enough to rip electrons off the *air.*", [("breakdown", 0)]),
-    ("That air turns into *plasma.* That's the *spark* you see.", [("spark", 0)]),
-    ("Your smooth *spoon* spreads the charge out, so it usually stays *calm.*", [("spoon", 0)]),
-    ("Crumpled *foil* is nothing but points. That's why it *crackles* like crazy.", [("foil", 0)]),
-    ("Leave it running and those sparks can *scorch* your oven, or even start a *fire.*", [("scorch", 0)]),
+    ("Your microwave fills with waves that flip back and forth *2.45*{two point four five} *billion* times a second.", [("waves", 0), ("waves~2", 6)]),
+    ("Your food soaks them up. That's how your leftovers get *hot.*", [("food", 0), ("food~2", 5)]),
+    ("But metal can't soak them up, so it *reflects* them off its surface.", [("reflect", 0), ("reflect~2", 6)]),
+    ("Every flip shoves the *electrons* in your fork one way, then the other.", [("electrons", 0), ("electrons~2", 7)]),
+    ("They pile up at the sharpest parts of your fork, the *tips* of your tines.", [("tips", 0), ("tips~2", 8)]),
+    ("Right at a sharp tip, the electric field gets strong enough to rip electrons off the *air.*", [("breakdown", 0), ("breakdown~2", 9)]),
+    ("That air turns into *plasma.* That's the *spark* you see.", [("spark", 0), ("spark~2", 5)]),
+    ("Your smooth *spoon* spreads the charge out, so it usually stays *calm.*", [("spoon", 0), ("spoon~2", 6)]),
+    ("Crumpled *foil* is nothing but points. That's why it *crackles* like crazy.", [("foil", 0), ("foil~2", 6)]),
+    ("Leave it running and those sparks can *scorch* your oven, or even start a *fire.*", [("scorch", 0), ("scorch~2", 8)]),
     ("So your fork doesn't spark because it's metal. It sparks because it's *pointy.*", [("front_out", 0)]),
 ]
 LABELS = {   # shot: [(anchor, text, delay after the shot starts, (dx, dy))]
@@ -93,9 +93,10 @@ def make_overlay(lines, shots, duration, A):
                 a = min(1.0, (t - s0 - delay) / 0.2) * min(1.0, (s1 - t) / 0.1)
                 x, y = A[key][F]
                 leader(c, x, y, x + dx, y + dy, text, a)
-        if name in NOTES:
-            c.drawString(NOTES[name], 60, 1500, font("Inter-500", 26), paint(skia.ColorSetARGB(255, 200, 200, 200), 0.75))
-        if name == "waves":
+        base = name.split("~")[0]
+        if base in NOTES:
+            c.drawString(NOTES[base], 60, 1500, font("Inter-500", 26), paint(skia.ColorSetARGB(255, 200, 200, 200), 0.75))
+        if name == "waves~2":
             wave_card(c, t, s0, s1)
         captions(c, t, ch)
     return overlay
@@ -116,7 +117,9 @@ def build_audio(lines, shots, duration, out_wav):
         track[a:a + len(x)] += x * gain
     add(0.0, common_load(os.path.join(OUT, "narration.wav")), 1.0)
     start = dict((n, t) for t, n in shots)
-    ends = {n: (shots[i + 1][0] if i + 1 < len(shots) else duration) for i, (t, n) in enumerate(shots)}
+    ends = {}
+    for i, (t, n) in enumerate(shots):                       # an action ends when its last angle does
+        ends[n.split("~")[0]] = shots[i + 1][0] if i + 1 < len(shots) else duration
     add(0.0, sfx.clip(BEEP, 0.0, 0.35), 0.20)
     for t, name in shots[1:]:
         add(t - 0.12, sfx.clip(WOOSH, 0.0, 0.6, lp=6000), 0.09)
@@ -126,7 +129,7 @@ def build_audio(lines, shots, duration, out_wav):
     for name, g in (("front", 0.06), ("spark_tip", 0.12), ("spark", 0.14), ("foil", 0.12), ("front_out", 0.06)):
         t, k = start[name], 0
         while t < ends[name] - 0.2:
-            add(t, sfx.clip(ARCS, 0.1 + 0.37 * (k % 5), 0.25, lp=7000), g)
+            add(t, sfx.clip(ARCS, (0.37 * k) % max(0.01, len(sfx._load(ARCS)) / SR - 0.3), 0.25, lp=7000), g)
             t += 0.45 + 0.2 * ((k * 7) % 3)
             k += 1
     add(start["scorch"] + 0.4 * (ends["scorch"] - start["scorch"]), sfx.clip(FIRE, 0.0, 2.0, lp=6000), 0.10)

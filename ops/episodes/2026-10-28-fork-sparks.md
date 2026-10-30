@@ -11,7 +11,7 @@
 3. Your food soaks them up. That's how your leftovers get *hot.*
 4. But metal can't soak them up, so it *reflects* them off its surface.
 5. Every flip shoves the *electrons* in your fork one way, then the other.
-6. And they pile up wherever the metal comes to a *point,* like the *tips* of your tines.
+6. They pile up at the sharpest parts of your fork, the *tips* of your tines. (Reworded Oct 30: Chatterbox kept saying "mental" for "metal".)
 7. Right at a sharp tip, the electric field gets strong enough to rip electrons off the *air.*
 8. That air turns into *plasma.* That's the *spark* you see.
 9. Your smooth *spoon* spreads the charge out, so it usually stays *calm.*
@@ -42,12 +42,6 @@
 
 "Your fork sparks in the microwave because it's pointy, not just because it's metal. Send this to the friend who still tries it. #howitworks #science #physics"
 
-## Production status (Oct 30, 2:45 am ET run)
+## QA
 
-Rebuilt on the product-studio kit (`pipeline/render_fork.py`, `pipeline/fork_scene.py`). Narration is voiced and cached in `pipeline/out/fork/voice` (56.4 s; three lines reworded after Chatterbox repeated "It reflects them" and "back and forth"). Not rendered yet: the run ran out of time (the stomach episode took 2.8 h at 8.6 s a frame, so this one needs about 3.5 h).
-
-Before the full render, fix and re-preview:
-- Listen to line 6: Whisper heard "mental" for "metal". Re-voice it (delete `out/fork/voice/l05_*`) if it really says that.
-- `spark_tip`, `tips`, `spark`, `breakdown`: the macro shots are out of focus (the camera focuses on the target point, but the fork sits off it) and the arc reads as a white blob. Focus on `tip_world(k)`, use a thinner arc, cut the arc's emission.
-- `scorch`: the burn is a flat black disc and the flames are plain cones. Soften the burn edge (a ramp, not LESS_THAN) and use a noise-displaced flame or a few small arcs.
-- `front`: the window shows nothing of the lit inside (the model's door is opaque behind the glass). Either clip the door material behind the glass or accept a dark window.
+Passed Oct 30 (laptop). 55.7 s, 1080x1920, 30 fps, about 20 MB, about -13 LUFS after a 2 dB trim, "no steady tones". Frames checked at 19 points from 0.1 to 55.5 s. Blender took 2.1 hours (4.5 s a frame). Known weak spots: the window on the microwave is a lit panel with a silhouette (the model's door is opaque), and the flames are simple shapes.
