@@ -336,5 +336,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-10-30-pen-cap-hole",
+    "title": "The Hole In Your Pen Cap",
+    "format": "product-studio explainer (yelled)",
+    "video": "videos/2026-10-30_The_Hole_In_Your_Pen_Cap.mp4",
+    "caption": "The hole in your pen cap has nothing to do with the ink. Send this to the friend who chews theirs. #howitworks #engineering #pens",
+    "trial": null,
+    "slot": "2026-10-30T15:30:00-04:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
