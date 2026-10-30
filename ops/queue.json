@@ -284,12 +284,12 @@
     "caption": "Your stomach is full of acid strong enough to break down meat, and your stomach wall is meat. A layer of slime is the only thing in the way. Send this to the friend who lives on ibuprofen. #science #biology #humanbody",
     "trial": null,
     "slot": "2026-10-30T10:30:00-04:00",
-    "status": "ready",
+    "status": "failed",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
     "posted_at": null,
     "permalink": null,
-    "error": null
+    "error": "video not on GitHub"
   },
   {
     "id": "2026-10-28-fork-sparks",
