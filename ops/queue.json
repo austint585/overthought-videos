@@ -65,10 +65,10 @@
   },
   {
     "id": "2026-10-27-schrodinger-situationship",
-    "title": "Schr\u00f6dinger's Situationship",
+    "title": "Schrödinger's Situationship",
     "format": "3D voxel brainrot explainer",
     "video": "videos/2026-10-27_Schrodingers_Situationship.mp4",
-    "caption": "In 1935 Schr\u00f6dinger imagined a cat in a box that was alive and dead at once. Situationships run on the same physics. Tag the friend who keeps asking what you two are. #physics #situationship #3danimation",
+    "caption": "In 1935 Schrödinger imagined a cat in a box that was alive and dead at once. Situationships run on the same physics. Tag the friend who keeps asking what you two are. #physics #situationship #3danimation",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-10-27T17:11:00-04:00",
     "status": "posted",
@@ -268,11 +268,12 @@
     "caption": "The white light in your room is blue light wearing a yellow coat. Send this to someone who still thinks LEDs just make white. #howitworks #led #science",
     "trial": null,
     "slot": "2026-10-29T21:30:00-04:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
-    "error": null
+    "posted_at": "2026-10-30T01:40:54Z",
+    "permalink": "https://www.instagram.com/reel/DfGbIaOkpGu/",
+    "error": null,
+    "media_id": "18638452546024790"
   }
 ]
