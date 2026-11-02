@@ -24,6 +24,8 @@ Austin wants a post every hour or two (Oct 27: "posting every hour if you can or
 
 ## Pick the idea
 
+**Next up (Nov 2): `ops/episodes/2026-11-02-crime-legal-cart.md`. Make it first, in the order it lists, and read `reports/AI video account tools.md` for tools.** Keep runs lean: Austin's plan has a weekly limit, so one episode at a time and no extra research passes.
+
 0. Read `ops/research/2026-10-29_Benchmark_200K_Accounts.md` first: the accounts that steadily get about 200K a reel (@speedy_devv, Fruits Universe, AnatoVerse), what they do, and what we changed. Rotate formats and never run the same one twice in a row: everyday-object explainer on the product-studio kit (speedy-style), character satire, short nature or body macro.
    Our own numbers are at the end of that file and outrank the benchmarks: every reel over 30K is a relatable looks, dating or identity joke that people send to a friend (5 to 10% of plays are shares), and explainers have stayed under 2K in every look. Until Austin decides otherwise, at least two of every three episodes should be that kind of joke, deadpan, written so a viewer thinks of one specific friend.
 1. Austin's DM ideas in `ops/ideas.md` that haven't been made yet (check `ops/episodes/`).
