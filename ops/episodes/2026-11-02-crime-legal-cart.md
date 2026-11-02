@@ -1,7 +1,7 @@
 # Crime is legal for 24 hours (your friend still returns the cart)
 
 - **id:** 2026-11-02-crime-legal-cart
-- **Status:** next up, not made. Picked by the Nov 2 session from Austin's DMs and the deep research (`reports/AI video account tools.md`).
+- **Status:** dropped by Austin, Nov 2, never made. I pitched this without watching the reference: he says the reel was funny because it subtly referenced an interview where a rapper (he thinks Lil Yachty) said what he would do if crime were legal for a day. Lesson: watch a reference and find what the joke is before writing from it.
 - **Source idea:** Austin's DM, Oct 29: an @what.if.da1ly "what if crime was legal for a day" reel, with his note to bait with a big what-if and turn it into something funny. Our own script; nothing lifted from that reel.
 - **Why this one:** our own numbers say sends decide it (every reel over 30K has 5 to 10% of plays as shares). This premise makes viewers think of one specific friend. The big what-if is the hook; the rule follower is the joke.
 - **Format:** deadpan joke, about 30 to 40 s, flat Kokoro voice (the voice on all four hits). No yelling: it is satire, and nothing here is presented as real fact.
