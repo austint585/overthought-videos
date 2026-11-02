@@ -76,3 +76,31 @@ Our one hit (Schrodinger) won on the premise: relatable and shareable (18.9K sha
 ## Decision (Oct 29, evening)
 
 Austin: "whatever can look the best if blender can be efficient and look good then go for it". A 5 s test of a new Blender product-studio kit (real Poly Haven CC0 bulb, walnut desk, cutaway, magnified LED section) reached speedy-level product renders at 1.8 s a frame (30 fps), about an hour of rendering for a 60 s episode. So everyday-object explainers stay in Blender on that kit. Code-built people are still the weak spot, so character stories need a different answer (props and objects as the cast, or AI video later).
+
+## Our own numbers, Nov 2 (read this before picking ideas)
+
+Plays and shares from owner insights, with share of plays in brackets. Reels keep growing for days: Halloween Loadout went 63K to 117K and November First Hero 2.3K to 44K after Oct 29, so don't judge a reel on its first day.
+
+| Reel | Look, voice | Plays | Shares |
+|---|---|---|---|
+| Schrodinger's Situationship | voxel, deadpan | 566K | 28,034 (5.0%) |
+| Halloween Loadout | voxel, deadpan | 117K | 7,104 (6.1%) |
+| November First Hero | voxel, deadpan | 44K | 4,219 (9.6%) |
+| Curious George | voxel, deadpan | 31K | 2,427 (7.8%) |
+| Steak Guy | voxel, deadpan | 10.6K | 43 (0.4%) |
+| Newton's First Law of the Ex | clay, deadpan | 4.2K | 16 (0.4%) |
+| Gym Bro | voxel, deadpan | 3.8K | 3 |
+| Napoleon | voxel, deadpan | 2.4K | 2 |
+| Stacy Spawners | voxel, deadpan | 1.9K | 3 |
+| Crumbl | voxel, deadpan | 1.7K | 2 |
+| Heisenberg, Same Hour Twice | clay, deadpan | 1.6K each | 6, 0 |
+| Microwave Door | voxel, explainer | 1.5K | 1 |
+| Face Mites | macro, yelled | 267 (skip 42%) | 0 |
+| Entropy | clay, deadpan | 252 (skip 52%) | 1 |
+| LED Bulb | studio, yelled | 189 (skip 63%, 11% watched) | 0 |
+
+What this suggests, with small samples and real confounds (the hits all went out Oct 27 and 28, two of them on a Halloween peg, and hourly posting started right after):
+- Sends decide it. Every reel over 30K has 5% or more of plays as shares; everything else is under 1%. All four are relatable looks, dating or identity jokes people tag a friend into.
+- Explainers have not worked here in any look, including at speedy-level visuals. Benchmarks' formats don't transfer to an account whose audience came for the jokes.
+- The yelled delivery has the worst skip rates we have. Only two posts so far; Pen Cap, Stomach and Fork Sparks will add three more.
+- Better visuals alone did not move anything. Voxel satire beat clay and studio, though the topic may matter more than the look.
