@@ -104,3 +104,7 @@ What this suggests, with small samples and real confounds (the hits all went out
 - Explainers have not worked here in any look, including at speedy-level visuals. Benchmarks' formats don't transfer to an account whose audience came for the jokes.
 - The yelled delivery has the worst skip rates we have. Only two posts so far; Pen Cap, Stomach and Fork Sparks will add three more.
 - Better visuals alone did not move anything. Voxel satire beat clay and studio, though the topic may matter more than the look.
+
+## What Austin's reference reels actually look like (checked Nov 2)
+
+Voxel is not the common thread. @larpforlarp, whose format our four biggest hits came from, has no 3D at all in the reels we have frames or notes for: one guy deadpan to camera over a single still image (the Stacy reel is a static spawner picture, the George reel a static chart), one continuous take. He still gets 361K to 4M on his best reels. Others Austin sent: @whatif.bros voxel, @lowpolyvid low-poly, @petersindex clay, @tinyplanetlab soft 3D, @how_it_secretly_works, @seethroughworks and @speedy_devv clean product 3D. So the look varies and the jokes carry it: for joke reels spend effort on the script and slang density, not the render.
