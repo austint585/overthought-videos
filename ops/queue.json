@@ -404,5 +404,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-02-bowerbird-friend",
+    "title": "Your Friend Is A Bowerbird",
+    "format": "clay nature satire (deadpan)",
+    "video": "videos/2026-11-2_Your_Friend_Is_A_Bowerbird.mp4",
+    "caption": "Tag the friend who bought candles for one date. #bowerbird #dating #nature",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-03T11:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
