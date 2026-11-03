@@ -44,7 +44,7 @@ Every video follows these. They exist so each new format starts from what alread
 
 ## Captions and posting
 - Caption: one or two plain sentences that restate the hook or ask for a comment, then 3 hashtags. No emoji walls, no "you won't believe".
-- Regular Reels by default since Oct 27 (Austin lifted Trial-only). An item can still ask for a Trial Reel with `"trial": "SS_PERFORMANCE"`.
+- Trial Reels by default since Nov 2 (Austin, in chat: "Instagram decides"): every new item gets `"trial": "SS_PERFORMANCE"`, so Instagram shows it to non-followers first and moves it out of trial on its own. The API cannot move a reel out of trial on a schedule; `"MANUAL"` means Austin taps it in the app. `"trial": null` is a regular Reel. Our own Meta app posted its first trial on Nov 2 (`is_shared_to_feed` false on the media).
 - **Standing approval (Austin, in chat, Oct 26 2026):** "Go fully hands-off: post through our own Meta app, Trial Reels only, up to 3 a day, under the guardrails you listed." Videos Claude makes and QA's go into `ops/queue.json` as `"status": "ready"` with `"qa": "passed"`, and `ops/publish.py` posts them through the Overthought Meta app. vidIQ still needs Austin's OK on each exact video, so vidIQ is not used for these.
 - **Oct 27 2026, Austin in chat:** "please trust me and lift these restrictions": no daily cap, no Trial-only.
 - Guardrails (enforced in `ops/publish.py`): one post per run, at least an hour after the last one (his "one every hour"); nothing while `ops/PAUSE` exists; never re-post a failed item; the video must be on GitHub and QA must have passed.
