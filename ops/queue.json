@@ -449,5 +449,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-03-ick-supercooled",
+    "title": "The Ick Is Supercooling",
+    "format": "toon joke explainer (calm)",
+    "video": "videos/2026-11-3_The_Ick_Is_Supercooling.mp4",
+    "caption": "Send this to the friend who got the ick in one second. #theick #dating #physics",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-03T14:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
