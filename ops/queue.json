@@ -434,5 +434,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-03-five-minutes-away",
+    "title": "Five Minutes Away",
+    "format": "pastel toy joke explainer (calm)",
+    "video": "videos/2026-11-3_Five_Minutes_Away.mp4",
+    "caption": "Send this to the friend who is always five minutes away. #relatable #friends #psychology",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-03T13:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
