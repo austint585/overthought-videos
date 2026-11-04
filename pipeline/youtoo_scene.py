@@ -237,11 +237,11 @@ rbox("broof", -0.34, 0.34, -0.16, 0.17, 0.5, 0.56, "F6C945", bev=0.015, off=O1)
 rbox("bslot", -0.08, 0.08, -0.127, -0.12, 0.17, 0.2, INKC, bev=0, off=O1)
 TICK, TICK_ARMS = peg("tick", "D2483A", O1 + Vector((0.0, 0.02, 0.08)), hair="F6C945")
 YOU1, YOU1_ARMS = peg("you1", YOU_C, O1 + Vector((-0.4, -0.35, 0)), hair="6B4A3A")
-sign("s_movie", O1 + Vector((0.0, 0.3, 0.85)), "NOW SHOWING", "THE MOVIE", "7:30 PM", w=0.46, h=0.24)
+sign("s_movie", O1 + Vector((0.0, 0.3, 0.73)), "NOW SHOWING", "THE MOVIE", "7:30 PM", w=0.46, h=0.24)
 for k, x in enumerate((-0.75, 0.75)):
     rbox(f"poster{k}", x - 0.15, x + 0.15, 0.29, 0.31, 0.35, 0.8, ("F6C945", "E7D5F0")[k], bev=0.01, off=O1)
-B_SHOW = bubble("b_show", O1 + Vector((0.1, -0.05, 0.66)), "ENJOY THE SHOW", w=0.34)
-B_YT2 = bubble("b_yt2", O1 + Vector((-0.34, -0.36, 0.44)), "YOU TOO", w=0.22)
+B_SHOW = bubble("b_show", O1 + Vector((0.0, -0.08, 0.6)), "ENJOY THE SHOW", w=0.34)
+B_YT2 = bubble("b_yt2", O1 + Vector((-0.3, -0.36, 0.46)), "YOU TOO", w=0.22)
 S_WORKS, _ = sign("s_works", O1 + Vector((0.55, 0.28, 0.45)), "TICKET GUY", "WORKS HERE", "NOT COMING IN", w=0.36, h=0.22)
 
 # ------------------------------------------------------------------ 2 street
@@ -334,7 +334,7 @@ CAMS = {
     "waiter~2": lambda u: lc((0.12, -0.7, 0.42), (0.1, -0.62, 0.42), (0.1, 0.2, 0.38), u, O0),
     "napkin": lambda u: lc((0.42, -0.62, 0.42), (0.4, -0.55, 0.4), (0.38, -0.04, 0.22), u, O0),
     "booth": lambda u: lc((0.0, -1.45, 0.55), (-0.05, -1.3, 0.52), (-0.05, -0.1, 0.36), u, O1),
-    "booth~2": lambda u: lc((-0.2, -1.0, 0.45), (-0.18, -0.92, 0.44), (-0.12, -0.1, 0.38), u, O1),
+    "booth~2": lambda u: lc((-0.34, -1.3, 0.5), (-0.32, -1.2, 0.49), (-0.24, -0.1, 0.33), u, O1),
     "street": lambda u: lc((-0.05, -2.0, 0.62), (0.0, -1.85, 0.58), (0.05, -0.2, 0.27), u, O2),
     "wedding": lambda u: lc((0.0, -1.75, 0.62), (0.0, -1.55, 0.58), (0.0, 0.0, 0.4), u, O3),
     "officiant": lambda u: lc((0.03, -0.78, 0.44), (0.02, -0.68, 0.43), (0.0, 0.15, 0.37), u, O3),
