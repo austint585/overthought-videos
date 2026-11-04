@@ -4,3 +4,6 @@ pipeline/out/
 __pycache__/
 *.wav
 Inputs/
+
+# Obsidian vault settings (Austin opened this folder in Obsidian on Nov 4); the repo is public
+.obsidian/
