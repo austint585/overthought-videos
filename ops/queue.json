@@ -542,11 +542,12 @@
     "caption": "It gets worse at the wedding. Tag the friend who says you too to the waiter. #relatable #funny #dating",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-04T13:30:00-05:00",
-    "status": "failed",
+    "status": "ready",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
     "posted_at": null,
     "permalink": null,
-    "error": "container 18194623912400657: ERROR ERROR"
+    "error": null,
+    "note": "Requeued Nov 4 by the chat session: the 1:40 pm container came back ERROR, but a test container at 1:50 pm (never published) came back FINISHED, so it was a one-off on Instagram's side. Nothing was posted."
   }
 ]
