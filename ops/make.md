@@ -16,7 +16,7 @@ To know what a reel says, watch it for free: open the reel in that Chrome tab, s
 
 ## One run at a time
 
-Runs start every four hours (since Nov 2), so a run that finds the lock held stops at once. The laptop's GPU fits one Blender, so if `pipeline/out/MAKING` exists and is less than 8 hours old, another run is still working: say so and stop. Otherwise write the current time into `pipeline/out/MAKING` now and delete it when you finish, including when you stop early or something fails.
+Runs start every four hours (since Nov 2), so a run that finds the lock held stops at once. The laptop's GPU fits one Blender, so if `pipeline/out/MAKING` exists and is less than 8 hours old, another run is still working: say so and stop. Except: a run that dies (an API error killed the 10 am run on Nov 3) leaves its lock behind, and the 2 pm run then skipped. So if the lock's first line says `make run`, call the scheduled-tasks tool `list_task_runs` for `overthought-make`; when no run other than yours shows `running`, the lock is stale: delete it and go on. A lock that says `chat` is from a session Austin is working in, so the 8-hour rule stands. Otherwise write `make run <current time>` into `pipeline/out/MAKING` now and delete it when you finish, including when you stop early or something fails.
 
 ## How many
 

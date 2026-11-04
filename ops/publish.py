@@ -33,7 +33,7 @@ QUEUE = os.path.join(HERE, "queue.json")
 PAUSE = os.path.join(HERE, "PAUSE")
 RAW = "https://raw.githubusercontent.com/austint585/overthought-videos/main/"
 MIN_GAP = datetime.timedelta(hours=1)
-PROCESSING = datetime.timedelta(seconds=45)
+PROCESSING = datetime.timedelta(minutes=3)
 SLOTS = tuple(f"{h}:30" for h in range(10, 23))     # ET, 10:30 to 22:30; the production run fills every other hour first
 
 
@@ -170,8 +170,9 @@ def main():
     except ig.ApiError as e:
         ig.die(3, error=str(e))
     last = last_post(q, now)
-    # a post goes live about 50 s after this check, so a run that starts a few seconds short of the hour still lands past it;
-    # without the allowance the hourly task missed by seconds and posted every other hour (Nov 2)
+    # posted_at is when the last post went live, 20 to 80 s after its run started, while this check runs about 20 s in,
+    # so the next hourly run can land a few seconds short of the hour. Without room for that the task skipped slots
+    # (Nov 2, and Nov 3 at 7:40 pm with 45 s of room). Posts still land about an hour apart because the task runs hourly.
     if last and now - last < MIN_GAP - PROCESSING:
         ig.die(4, result="too soon after the last post", last=last.isoformat(timespec="minutes"))
     it = due(q, now)
