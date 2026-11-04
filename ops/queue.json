@@ -510,12 +510,13 @@
     "caption": "Send this to the friend who keeps saying we should hang out sometime. #friendship #psychology #friends",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-03T18:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
-    "error": null
+    "posted_at": "2026-11-04T02:41:32Z",
+    "permalink": "https://www.instagram.com/reel/DfTaCeWDHyU/",
+    "error": null,
+    "media_id": "18210240856374462"
   },
   {
     "id": "2026-11-03-restaurant-units",
