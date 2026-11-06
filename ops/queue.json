@@ -607,12 +607,13 @@
     "caption": "Tag the friend who put the tree up on November 1st. #christmasmusic #relatable #funny",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-06T11:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
-    "error": null
+    "posted_at": "2026-11-06T16:41:33Z",
+    "permalink": "https://www.instagram.com/reel/DfaDw8ujSn-/",
+    "error": null,
+    "media_id": "17956447107272808"
   },
   {
     "id": "2026-11-06-no-shave-day-six",
