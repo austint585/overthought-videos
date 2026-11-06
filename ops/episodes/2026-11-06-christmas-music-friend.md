@@ -45,3 +45,10 @@
 ## Scroll patrol
 
 See `2026-11-06-christmas-music-friend-patrol.md` (6 of 10, re-test 8 of 10). Taken: frame one shows the friend dancing in a Santa hat right next to the jack-o'-lantern, so the joke reads with the sound off before line 2; the hook card reads "SINCE NOV 1ST: / CHRISTMAS MUSIC"; line 4 cut from "By the end of that day, according to the charts" to the short version. Skipped: leading with the 19,000 (it is the payoff) and a question opener (nobody asks this as a question).
+
+## Status (Nov 6, 2 am make run): rendered, QA passed, queued for Nov 6 11:30 am ET
+
+- Narration: Chatterbox, calm (0.5), 37.7 s; Whisper matched every line.
+- Eevee, 1,131 frames in 813 s.
+- Preview fixes: dropped the source notes on the two counter shots (they covered the friend's face; the sign names Spotify and Nov 1), lowered the Thanksgiving sign out of the captions, centred the turkey, pressed the pillow down onto your head.
+- QA: 37.7 s, no steady tones, 9.1 MB. The mix came out at -15.4 LUFS, so the audio got +2.4 dB through a limiter (video copied): -13.4 LUFS, peak -0.5 dBFS.
