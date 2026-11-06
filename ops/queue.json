@@ -738,5 +738,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-06-nasa-nap",
+    "title": "The NASA Nap",
+    "format": "toon joke explainer (calm)",
+    "video": "videos/2026-11-6_The_NASA_Nap.mp4",
+    "caption": "Tag the friend whose twenty minute nap just hit hour three. NASA's pilot nap was 26 minutes and made them 34% better at their tests. #nap #nasa #relatable",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-06T20:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
