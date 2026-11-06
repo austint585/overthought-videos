@@ -639,12 +639,13 @@
     "caption": "Tag your single friend before somebody takes their holiday too. #singlesday #single #relatable",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-06T13:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
-    "error": null
+    "posted_at": "2026-11-06T18:42:19Z",
+    "permalink": "https://www.instagram.com/reel/DfaRkZfmZAJ/",
+    "error": null,
+    "media_id": "18132406021796002"
   },
   {
     "id": "2026-11-06-hibernation-mode",
