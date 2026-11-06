@@ -658,5 +658,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-06-turkey-drop",
+    "title": "The Turkey Drop",
+    "format": "pastel toy joke (calm)",
+    "video": "videos/2026-11-6_The_Turkey_Drop.mp4",
+    "caption": "Tag your friend still FaceTiming their high school sweetheart. Thanksgiving is in three weeks. #turkeydrop #longdistance #relatable",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-06T15:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
