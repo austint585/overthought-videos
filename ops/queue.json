@@ -767,12 +767,13 @@
     "caption": "Tag the friend who can't pick a restaurant. In the famous jam study, 30% bought a jar when there were 6 jams and 3% when there were 24. #relatable #psychology #food",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-06T21:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
-    "error": null
+    "posted_at": "2026-11-07T02:40:33Z",
+    "permalink": "https://www.instagram.com/reel/DfbIUQbkbBs/",
+    "error": null,
+    "media_id": "17946251430087664"
   },
   {
     "id": "2026-11-06-yawn-test",
