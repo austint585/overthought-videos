@@ -821,5 +821,20 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-07-secondhand-cringe",
+    "title": "Secondhand Cringe",
+    "format": "pastel toy joke (calm)",
+    "video": "videos/2026-11-7_Secondhand_Cringe.mp4",
+    "caption": "What's the most secondhand cringe you've ever felt? Tag the friend who makes you watch through your fingers. A 2011 brain scan study found it lights up the same areas as watching someone get hurt. #cringe #friends #relatable",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-07T12:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
