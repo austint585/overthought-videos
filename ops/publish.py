@@ -9,6 +9,8 @@ trust me and lift these restrictions"). The guardrails below are enforced here, 
 - Regular Reels, unless the item's "trial" says SS_PERFORMANCE or MANUAL (then a Trial Reel).
 - One post per run, at least an hour after the last one (Austin's "one every hour"), once the item's slot has passed.
 - The video must already be on GitHub (raw URL answers 200) and the item must say "qa": "passed".
+- A "ready" item also needs "watched": "passed" (Austin, Nov 10: "please watch your videos before posting"): someone
+  looked at its frame sheet and its narration passed pipeline/qa_voice.py. Until then it waits; it never fails for this.
 - A Reel with the same caption already on the account means it was posted: the item is marked posted, not re-posted.
 - A token, permission or network problem before media_publish posts nothing, so the item stays "ready" for the next run
   (the error goes in "last_error"). Anything else, or any error once media_publish was called, marks it "failed".
@@ -61,8 +63,13 @@ def last_post(q, now):
 
 
 def due(q, now):
-    items = [it for it in q if it.get("status") in ("ready", "approved") and it.get("slot") and et(it["slot"]) <= now]
+    items = [it for it in q if it.get("status") in ("ready", "approved") and it.get("slot") and et(it["slot"]) <= now
+             and (it.get("status") == "approved" or it.get("watched") == "passed")]
     return sorted(items, key=lambda it: it["slot"])[0] if items else None
+
+
+def unwatched(q):
+    return [it["id"] for it in q if it.get("status") == "ready" and it.get("watched") != "passed"]
 
 
 def on_github(path):
@@ -177,7 +184,8 @@ def main():
         ig.die(4, result="too soon after the last post", last=last.isoformat(timespec="minutes"))
     it = due(q, now)
     if not it:
-        ig.die(0, result="nothing due", now=now.isoformat(timespec="minutes"))
+        w = unwatched(q)
+        ig.die(0, result="nothing due", now=now.isoformat(timespec="minutes"), **({"waiting_to_be_watched": w} if w else {}))
     problems = []
     if it.get("qa") != "passed" and it.get("status") == "ready":
         problems.append("qa not passed")
