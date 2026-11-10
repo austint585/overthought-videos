@@ -167,7 +167,7 @@ def draw_hook(c, a):
         y += 100
 
 def overlay(c, t, Fr, sents, cm, E, A, speech_end):
-    K.top_shade(c)
+    K.top_shade(c, height=760, alpha=205)         # darker than the kit's: the close-ups put the pale pink machine behind the captions
     c.saveLayer(None, K.shadow_paint())
     draw_hook(c, K.fade(t, -1, E["B"] - 0.2, 0.2))
     if t >= E["B"] - 0.2:

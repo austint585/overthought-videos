@@ -51,6 +51,11 @@ def syllables(word):
         n -= 1
     return max(1, n)
 
+def spoken_syllables(text):
+    """Syllables as said, not as shown: "*0.14%*{zero point one four percent}" is 9, not 3 (Nov 10)."""
+    said = re.sub(r"\S+\{([^}]*)\}", r"\1", text).replace("*", "")
+    return sum(syllables(w) for w in said.split())
+
 def frame_db(a, sr):
     h = max(1, int(HOP * sr))
     n = len(a) // h
@@ -141,9 +146,9 @@ def stretch(a, sr, tempo):
         b, _ = read_wav(o)
     return b
 
-def speech_rate(words, t_of):
+def speech_rate(words, t_of, text=None):
     """Syllables per second of speaking time (pauses longer than 0.1 s don't count)."""
-    syl = sum(syllables(w["w"]) for w in words)
+    syl = spoken_syllables(text) if text else sum(syllables(w["w"]) for w in words)
     talk = 0.0
     for k, w in enumerate(words):
         talk += max(0.0, t_of(w["end"]) - t_of(w["start"]))
@@ -152,7 +157,7 @@ def speech_rate(words, t_of):
     return syl / max(talk, 1e-3)
 
 def metrics(lines):
-    rates = [speech_rate(L["words"], lambda t: t) for L in lines]
+    rates = [speech_rate(L["words"], lambda t: t, L["text"]) for L in lines]
     bad = []
     for L in lines:
         ws = L["words"]
@@ -174,7 +179,7 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
         seg, tm = shape_line(a[s0:s1].copy(), sr, L["words"], L["start"])
         shaped.append((seg, tm))
     # 2. speaking rate toward the median
-    rates = [speech_rate(L["words"], lambda t, tm=tm, t0=L["start"]: tm(t - t0)) for L, (_, tm) in zip(lines, shaped)]
+    rates = [speech_rate(L["words"], lambda t, tm=tm, t0=L["start"]: tm(t - t0), L["text"]) for L, (_, tm) in zip(lines, shaped)]
     target = float(np.median(rates))
     # 4. loudness: speech frames only
     def level(x):

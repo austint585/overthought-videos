@@ -86,10 +86,48 @@ def release_whisper():
         import gc
         gc.collect()
 
+def digit_tokens(line):
+    """The script as Whisper tends to write it: a marked-up number keeps its shown digits ("11:11{eleven eleven}" ->
+    "1111", "0.14%{...}" -> "014"); everything else is spoken words."""
+    out = []
+    for tok in re.findall(r"\S+\{[^}]*\}|\S+", line):
+        m = re.match(r"(\S+)\{([^}]*)\}", tok)
+        if m and re.search(r"[0-9]", m.group(1)):
+            out.append(re.sub(r"[^0-9]", "", m.group(1)))
+        else:
+            out += words_of((m.group(2) if m else tok).replace("*", ""))
+    return out
+
+def heard_digit_tokens(heard):
+    """Whisper's words with numbers as bare digits, split numbers joined ("11", ".11" -> "1111"; "0", ".14", "%" ->
+    "014"), and short lone numbers spoken out ("8 ones" -> "eight ones")."""
+    out, prev_num = [], False
+    for w, _, _ in heard:
+        d = re.sub(r"[^0-9]", "", w)
+        if d:
+            if prev_num:
+                out[-1] += d
+            else:
+                out.append(d)
+            prev_num = not re.search(r"[,.!?;:]$", w)                    # "-2," then "8": two numbers
+        else:
+            n = norm(w)
+            if n:
+                out.append(n)
+                prev_num = False
+    res = []
+    for t in out:
+        res += say_number(int(t)).split() if t.isdigit() and len(t) <= 2 else [t]
+    return res
+
 def score(script_line, heard):
+    """How closely Whisper's transcript matches the script, 0 to 1. Numbers are compared both ways (spoken words and
+    digits) because Whisper writes "eleven eleven" as "11 .11" or "1111" (the Wish Window never matched, Nov 10)."""
     a = words_of(spoken(script_line))
     b = words_of(" ".join(w for w, _, _ in heard))
-    return difflib.SequenceMatcher(None, a, b).ratio()
+    words = difflib.SequenceMatcher(None, a, b).ratio()
+    digits = difflib.SequenceMatcher(None, digit_tokens(script_line), heard_digit_tokens(heard)).ratio()
+    return max(words, digits)
 
 MIN_TAKES = 3          # Nov 10: always try at least 3 seeds per line and keep the one that matches the others' pace
 PACE_TOL = 0.10        # after that, a line keeps getting new seeds while its best take is more than 10% off the median pace
@@ -149,15 +187,17 @@ def voice(lines, vdir, exaggeration, cfg):
         if n_seed + 1 < MIN_TAKES:
             still = list(todo)
         else:
-            ok = {i: [t for t in ts if t[0] >= 0.97] for i, ts in takes.items()}
+            ok = {i: [t for t in ts if t[0] >= min(0.97, max(x[0] for x in ts) - 0.02)] for i, ts in takes.items()}
             tgt = float(np.median([np.median([t[3] for t in (ok[i] or takes[i])]) for i in takes]))
             for i in todo:
-                if not ok[i] or min(abs(t[3] - tgt) / tgt + 0.4 * t[4] for t in ok[i]) > PACE_TOL:
+                if best[i][0] < 0.97 or min(abs(t[3] - tgt) / tgt + 0.4 * t[4] for t in ok[i]) > PACE_TOL:
                     still.append(i)
         todo = still
     for i in [i for i in todo if best[i][0] < 0.97]:
         print(f"narration: line {i + 1} best match {best[i][0]:.2f}: heard '{' '.join(w for w, _, _ in best[i][2])}'")
-    good = {i: [t for t in ts if t[0] >= 0.97] or [max(ts, key=lambda t: t[0])] for i, ts in takes.items()}
+    # takes as close to the script as the line's best (within 0.02) all qualify, so a line Whisper never hears
+    # perfectly (a number it spells oddly) still gets its pace chosen from several takes, not just one
+    good = {i: [t for t in ts if t[0] >= min(0.97, max(x[0] for x in ts) - 0.02)] for i, ts in takes.items()}
     target = float(np.median([np.median([t[3] for t in good[i]]) for i in good]))
     chosen = []
     for i in range(len(lines)):

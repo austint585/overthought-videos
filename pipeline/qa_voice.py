@@ -7,7 +7,7 @@ python qa_voice.py out/<slug> [narration.json name]      -> report, exit 1 if it
 """
 import json, os, re, sys
 import numpy as np
-from voice_fix import read_wav, frame_db, syllables, end_punct, HOP
+from voice_fix import read_wav, frame_db, spoken_syllables, end_punct, HOP
 
 QUIET = -38.0
 MIN_PAUSE = 0.12
@@ -24,7 +24,13 @@ def silences(a, sr, t0, t1):
             cur = None
     if cur and (cur[1] - cur[0]) * HOP >= MIN_PAUSE:
         out.append((t0 + cur[0] * HOP, t0 + cur[1] * HOP))
-    return out
+    merged = []                                   # a breath inside a pause splits it in two; it is still one pause
+    for s, e in out:
+        if merged and s - merged[-1][1] < 0.06:
+            merged[-1] = (merged[-1][0], e)
+        else:
+            merged.append((s, e))
+    return merged
 
 def check(d, name="narration"):
     lines = json.load(open(os.path.join(d, name + ".json")))
@@ -33,7 +39,7 @@ def check(d, name="narration"):
     for i, L in enumerate(lines):
         sil = [s for s in silences(a, sr, L["start"], L["end"]) if s[0] > L["start"] + 0.03 and s[1] < L["end"] - 0.03]
         dur = L["end"] - L["start"] - sum(e - s for s, e in sil)
-        syl = sum(syllables(w["w"]) for w in L["words"])
+        syl = spoken_syllables(L["text"])          # as said: "0.14%" is "zero point one four percent"
         pace = syl / max(dur, 1e-3)
         db = frame_db(a[int(L["start"] * sr):int(L["end"] * sr)], sr)
         loud = float(np.median(db[db > QUIET + 10])) if (db > QUIET + 10).any() else -60
@@ -49,6 +55,9 @@ def check(d, name="narration"):
             ok = [j for j in free if s - 0.3 <= L["words"][j]["end"] <= e + 0.1]
             if ok:
                 free.remove(min(ok, key=lambda j: abs(L["words"][j]["end"] - s)))
+                continue
+            if free:                              # word times of a number Whisper spelled as digits are guessed,
+                free.pop(0)                       # so a spare punctuation break still excuses one pause
                 continue
             k = min(range(len(L["words"])), key=lambda j: abs(L["words"][j]["end"] - s))
             odd.append(f"{e - s:.2f}s near '{L['words'][k]['w']}'")

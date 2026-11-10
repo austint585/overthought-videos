@@ -38,3 +38,7 @@ Pause it and comment what you got. No rerolls. #relationships #dating #pausechal
 See `2026-11-10-relationship-roll-patrol.md`.
 
 Patrol changes: "PAUSE NOW" as the big frame-one text (taken), cards always complete on any frame (taken). Skipped the suggestion to slow the picks to make them readable while playing: the whole point is that you can't, so you pause.
+
+## Re-voiced (Nov 10, desktop session)
+
+Held at 11 am after Austin said the cadence was off: line paces swung 66% and pauses fell mid-phrase. Re-voiced with the new take selection (at least 3 takes a line, retakes up to 8 while a line is more than 10% off the median pace) and evened with `voice_fix.py`: `qa_voice.py out/roll narration_fixed` passes (spread 20%, all lines within 12%). Whisper on the final video reads the script word for word. Watched at 2 frames a second: the close-ups put the pale pink and cream machine behind the captions, so the top caption band is darker in this episode (`K.top_shade(c, height=760, alpha=205)`). -14.3 LUFS after loudnorm, no steady tones.
