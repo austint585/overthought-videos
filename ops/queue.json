@@ -886,7 +886,7 @@
     "posted_at": null,
     "permalink": null,
     "error": null,
-    "watched": "passed"
+    "watched": "pending: gaps between sentences measure 0.6 to 0.96 s from the audio; re-timing (Nov 10, 3:45 pm)"
   },
   {
     "id": "2026-11-10-touch-tunnel",
@@ -899,7 +899,7 @@
     "status": "ready",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "watched": "passed",
+    "watched": "pending: gaps between sentences measure 0.6 to 0.96 s from the audio; re-timing (Nov 10, 3:45 pm)",
     "posted_at": null,
     "permalink": null,
     "error": null
