@@ -63,6 +63,8 @@ def wn(sents, si, sub, nth=0):
 
 def setup():
     lines = narrate(SCRIPT, OUT, exaggeration=0.5, cfg=0.4, gap=0.26)
+    from voice_fix import fixed                   # evened cadence (Nov 10); qa_voice.py must PASS on narration_fixed
+    lines = fixed(OUT)
     sents = to_sents(lines)
     speech_end = lines[-1]["end"]
     w = lambda si, sub, n=0: wn(sents, si, sub, n)
@@ -91,7 +93,7 @@ def build_audio(E, duration, path):
     import sfx
     n = int(duration * SR)
     tr = new_track(duration)
-    voice = common_load(os.path.join(OUT, "narration.wav"))[:n]
+    voice = common_load(os.path.join(OUT, "narration_fixed.wav"))[:n]
     tr[:len(voice)] += voice                  # no ambience bed: no hum, buzz or drone (Austin, Oct 27)
     hit = lambda t0, key, gain, **kw: add(tr, t0, sfx.clip(F[key], **kw), gain)
     tick = sfx.clip(F["click"])

@@ -115,9 +115,11 @@ def shape_line(a, sr, words, t0):
             tm.add(c0 / sr, newlen / sr)
             tm.add(c1 / sr, newlen / sr)
             pos = c1
-        elif lo > 0 and cur < lo:                     # a sentence that runs straight into the next: give it air
+        elif lo > 0 and cur < lo and run:             # a sentence that runs straight into the next: give it air
+            # only where the audio itself dips: Whisper's word times drift about 0.2 s, so a gap placed from them
+            # alone can land inside a word (the Wish Window's "11/11" pause went from 0.47 to 0.72 s that way)
             add = int((lo - cur) * sr)
-            mid = (run[0] + run[1]) // 2 if run else (g0 + g1) // 2
+            mid = (run[0] + run[1]) // 2
             mid = max(pos, min(mid, len(a)))
             out.append(a[pos:mid]); newlen += mid - pos
             tm.add(mid / sr, newlen / sr)
@@ -209,6 +211,14 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
     write_wav(os.path.join(out_dir, dst + ".wav"), pcm, sr)
     json.dump(out, open(os.path.join(out_dir, dst + ".json"), "w"), indent=1)
     return out
+
+def fixed(out_dir):
+    """The evened narration for a render: narration_fixed.json, rebuilt whenever narration.json is newer (a re-voice).
+    The render then mixes narration_fixed.wav, and qa_voice.py out/<slug> narration_fixed must PASS."""
+    src, dst = os.path.join(out_dir, "narration.json"), os.path.join(out_dir, "narration_fixed.json")
+    if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(src):
+        return json.load(open(dst))
+    return fix(out_dir)
 
 def report(name, lines):
     rates, bad = metrics(lines)

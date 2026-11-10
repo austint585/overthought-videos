@@ -38,15 +38,20 @@ def check(d, name="narration"):
         db = frame_db(a[int(L["start"] * sr):int(L["end"] * sr)], sr)
         loud = float(np.median(db[db > QUIET + 10])) if (db > QUIET + 10).any() else -60
         paces.append(pace); louds.append(loud)
-        # a pause belongs to the word whose (drifting) end time is nearest; punctuated words may pause, plain ones not
+        # punctuated words may pause, plain ones not. Whisper's word ends drift by up to 0.2 s, so a pause is allowed
+        # when an unused punctuated word ends within [start - 0.3, end + 0.1] of it; each one excuses one pause
+        # (nearest-word matching blamed "you" for the pause after "got." in the Relationship Roll, Nov 10)
         odd = []
+        free = [j for j, w in enumerate(L["words"][:-1]) if w["w"].rstrip("\"')*")[-1:] in ",:;.?!-"]
         for s, e in sil:
-            mid = (s + e) / 2
+            if e - s <= 0.18:
+                continue
+            ok = [j for j in free if s - 0.3 <= L["words"][j]["end"] <= e + 0.1]
+            if ok:
+                free.remove(min(ok, key=lambda j: abs(L["words"][j]["end"] - s)))
+                continue
             k = min(range(len(L["words"])), key=lambda j: abs(L["words"][j]["end"] - s))
-            w = L["words"][k]["w"]
-            p = w.rstrip("\"')*")[-1:]
-            if p not in ",:;.?!-" and e - s > 0.18:
-                odd.append(f"{e - s:.2f}s near '{w}'")
+            odd.append(f"{e - s:.2f}s near '{L['words'][k]['w']}'")
         rows.append((i + 1, pace, loud, odd))
     med = float(np.median(paces))
     print(f"{'line':>4} {'pace':>6} {'vs med':>7} {'loud':>6}  pauses inside a phrase")

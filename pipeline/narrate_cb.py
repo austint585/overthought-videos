@@ -16,7 +16,7 @@ from common import ROOT, SR
 
 PY = os.path.join(ROOT, "vendor", "venv_chatterbox_cpu", "Scripts", "python.exe")
 REF = os.path.join(ROOT, "out", "voice_tests", "ref_am_michael.wav")     # Kokoro's synthetic am_michael
-SEEDS = (7, 11, 23, 41, 59)
+SEEDS = (7, 11, 23, 41, 59, 73, 89, 97)
 _whisper = None
 
 ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
@@ -68,7 +68,15 @@ def transcribe(path):
         _whisper = WhisperModel("small.en", device="cpu", compute_type="int8", download_root=os.path.join(ROOT, "vendor", "whisper"))
     a = load_pcm(path)[::3]                                                # 48 kHz -> 16 kHz for Whisper
     segs, _ = _whisper.transcribe(a, word_timestamps=True, vad_filter=False)
-    return [(w.word.strip(), w.start, w.end) for s in segs for w in s.words]
+    out = []
+    for s in segs:
+        for w in s.words:
+            t = w.word.strip()
+            if out and t.startswith("-") and len(t) > 1 and out[-1][0].isalpha() and len(out[-1][0]) <= 3:
+                out[-1] = (out[-1][0] + t, out[-1][1], w.end)          # "re" + "-rolls" is one word: "rerolls"
+            else:
+                out.append((t, w.start, w.end))
+    return out
 
 def release_whisper():
     """Free Whisper before the voice worker starts: the two together run this laptop out of commit memory."""
@@ -84,6 +92,7 @@ def score(script_line, heard):
     return difflib.SequenceMatcher(None, a, b).ratio()
 
 MIN_TAKES = 3          # Nov 10: always try at least 3 seeds per line and keep the one that matches the others' pace
+PACE_TOL = 0.10        # after that, a line keeps getting new seeds while its best take is more than 10% off the median pace
 
 def take_shape(path, line):
     """(pace in syllables per second of sound, pauses inside the line beyond what its punctuation allows)."""
@@ -129,7 +138,6 @@ def voice(lines, vdir, exaggeration, cfg):
         # OpenBLAS reserves a buffer per thread; on this laptop's tight commit limit that alone can sink the worker
         subprocess.run([PY, os.path.join(ROOT, "cb_worker.py"), job], check=True,
                        env={**os.environ, "PYTHONIOENCODING": "utf-8", "OPENBLAS_NUM_THREADS": "1"})
-        still = []
         for i, it in zip(todo, items):
             heard = transcribe(it["out"])
             s = score(lines[i], heard)
@@ -137,10 +145,17 @@ def voice(lines, vdir, exaggeration, cfg):
             takes[i].append((s, it["out"], heard, pace, stray))
             if i not in best or s > best[i][0]:
                 best[i] = (s, it["out"], heard)
-            if n_seed + 1 < MIN_TAKES or not any(t[0] >= 0.97 for t in takes[i]):
-                still.append(i)
+        still = []
+        if n_seed + 1 < MIN_TAKES:
+            still = list(todo)
+        else:
+            ok = {i: [t for t in ts if t[0] >= 0.97] for i, ts in takes.items()}
+            tgt = float(np.median([np.median([t[3] for t in (ok[i] or takes[i])]) for i in takes]))
+            for i in todo:
+                if not ok[i] or min(abs(t[3] - tgt) / tgt + 0.4 * t[4] for t in ok[i]) > PACE_TOL:
+                    still.append(i)
         todo = still
-    for i in todo:
+    for i in [i for i in todo if best[i][0] < 0.97]:
         print(f"narration: line {i + 1} best match {best[i][0]:.2f}: heard '{' '.join(w for w, _, _ in best[i][2])}'")
     good = {i: [t for t in ts if t[0] >= 0.97] or [max(ts, key=lambda t: t[0])] for i, ts in takes.items()}
     target = float(np.median([np.median([t[3] for t in good[i]]) for i in good]))
