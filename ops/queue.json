@@ -880,14 +880,15 @@
     "caption": "Pause it and comment what you got. No rerolls. #relationships #dating #pausechallenge",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-10T17:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "note": "re-voiced and re-timed Nov 10 after Austin flagged the cadence: qa_voice PASS (pace spread 15%, 0.42 to 0.45 s between sentences as heard, no mid-phrase pauses), Whisper reads the script word for word, frame sheet checked at 2 fps, darker caption band over the pink machine close-ups",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
+    "posted_at": "2026-11-10T22:40:36Z",
+    "permalink": "https://www.instagram.com/reel/DflACHAIDsB/",
     "error": null,
-    "watched": "passed"
+    "watched": "passed",
+    "media_id": "17933434368421180"
   },
   {
     "id": "2026-11-10-touch-tunnel",
