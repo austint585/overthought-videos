@@ -83,11 +83,42 @@ def score(script_line, heard):
     b = words_of(" ".join(w for w, _, _ in heard))
     return difflib.SequenceMatcher(None, a, b).ratio()
 
+MIN_TAKES = 3          # Nov 10: always try at least 3 seeds per line and keep the one that matches the others' pace
+
+def take_shape(path, line):
+    """(pace in syllables per second of sound, pauses inside the line beyond what its punctuation allows)."""
+    from voice_fix import frame_db, syllables, HOP
+    a = load_pcm(path)
+    a = a / (np.abs(a).max() + 1e-9) * 0.89
+    db = frame_db(a, SR)
+    on = np.where(db > -38.0)[0]
+    if not len(on):
+        return 0.0, 9
+    db = db[on[0]:on[-1] + 1]
+    quiet = db < -38.0
+    runs, n = [], 0
+    for q in quiet:
+        if q:
+            n += 1
+        else:
+            if n:
+                runs.append(n * HOP)
+            n = 0
+    pauses = [r for r in runs if r >= 0.18]
+    sound = (len(db) - quiet.sum()) * HOP + sum(r for r in runs if r < 0.12)
+    text = spoken(line)
+    syl = sum(syllables(w) for w in text.split())
+    allowed = len(re.findall(r"[,;:.?!](?=\s)", text.strip()))
+    return syl / max(sound, 1e-3), max(0, len(pauses) - allowed)
+
 def voice(lines, vdir, exaggeration, cfg):
+    """Every line gets at least MIN_TAKES takes; among the ones Whisper hears right, the take closest to the median
+    pace with no stray pauses wins (one line at 100 wpm next to one at 210 is what Austin heard as a broken cadence)."""
     os.makedirs(vdir, exist_ok=True)
     best = {}
+    takes = {i: [] for i in range(len(lines))}
     todo = list(range(len(lines)))
-    for seed in SEEDS:
+    for n_seed, seed in enumerate(SEEDS):
         if not todo:
             break
         items = [{"text": spoken(lines[i]), "out": os.path.join(vdir, f"l{i:02d}_s{seed}_e{exaggeration}.wav"),
@@ -102,14 +133,23 @@ def voice(lines, vdir, exaggeration, cfg):
         for i, it in zip(todo, items):
             heard = transcribe(it["out"])
             s = score(lines[i], heard)
+            pace, stray = take_shape(it["out"], lines[i])
+            takes[i].append((s, it["out"], heard, pace, stray))
             if i not in best or s > best[i][0]:
                 best[i] = (s, it["out"], heard)
-            if s < 0.97:
+            if n_seed + 1 < MIN_TAKES or not any(t[0] >= 0.97 for t in takes[i]):
                 still.append(i)
         todo = still
     for i in todo:
         print(f"narration: line {i + 1} best match {best[i][0]:.2f}: heard '{' '.join(w for w, _, _ in best[i][2])}'")
-    return [best[i] for i in range(len(lines))]
+    good = {i: [t for t in ts if t[0] >= 0.97] or [max(ts, key=lambda t: t[0])] for i, ts in takes.items()}
+    target = float(np.median([np.median([t[3] for t in good[i]]) for i in good]))
+    chosen = []
+    for i in range(len(lines)):
+        t = min(good[i], key=lambda t: abs(t[3] - target) / target + 0.4 * t[4])
+        print(f"narration: line {i + 1} pace {t[3]:.2f} (target {target:.2f}), stray pauses {t[4]}, {os.path.basename(t[1])}")
+        chosen.append((t[0], t[1], t[2]))
+    return chosen
 
 def align(line, heard, offset, trim0):
     """Script words with times: each spoken token is matched to a Whisper word in order; misses are interpolated."""
@@ -158,8 +198,10 @@ def narrate(lines, out_dir, exaggeration=1.6, cfg=0.25, gap=0.16, lead_in=0.25):
         seg[:fade] *= np.linspace(0, 1, fade); seg[-fade:] *= np.linspace(1, 0, fade)
         out.append({"text": line, "start": t, "end": t + len(seg) / SR, "match": round(s, 3),
                     "words": align(line, heard, t, t0)})
-        track += [seg, np.zeros(int(gap * SR), np.float32)]
-        t += len(seg) / SR + gap
+        from voice_fix import LINE_GAP, end_punct
+        g = max(gap, LINE_GAP.get(end_punct(line), 0.34))        # a full stop gets a full stop's pause (Nov 10)
+        track += [seg, np.zeros(int(g * SR), np.float32)]
+        t += len(seg) / SR + g
     voice_pcm = np.concatenate(track)
     peak = np.abs(voice_pcm).max() + 1e-9
     voice_pcm *= 0.89 / peak                                               # -1 dBFS peak; the mix sets the level
