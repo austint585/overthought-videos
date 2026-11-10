@@ -20,8 +20,6 @@ Runs start every four hours (since Nov 2), so a run that finds the lock held sto
 
 ## How many
 
-**Low-usage mode until Sunday Nov 8, 11 pm ET (Austin's OK, Nov 6).** On Nov 6 the plan's weekly usage was at 87% with two days to the reset, and running out would stop everything. Until then there is one run a day, at 10 am. Make **at most 2 episodes**, skip optional research passes, and if the DM check in Chrome has nothing new, move on quickly. A one-time task (`overthought-restore`) deletes this paragraph after the reset. If you find it here after Nov 8, 11 pm ET, ignore it and make the normal number.
-
 **2 to 3 strong posts a day (Austin, Nov 7).** Hourly posting of our own jokes added Claude usage and no reach: every Reel gets the same test audience of about 1,100 people, and only shares carry it further. Count queue items with `"status"` `"ready"` or `"approved"` that are not posted yet. Make episodes until there are 3, at most 3 this run (2 in low-usage mode), and stop after about 6 hours. If there are already 3, say so and stop. Never reuse the set or the opening shot of the episode just before (Austin, Oct 29: we were "making the same sort of ideas over and over using the exact same start of the animation so you don't have to re animate"; four physics-plus-dating clay posts on one bedroom set got 167 to 1.6K plays). Reusing kit code (studio lights, desk, camera helpers) is fine; the subject, the shots and the hook must be new.
 
 ## Pick the idea
