@@ -42,3 +42,5 @@ Patrol changes: "PAUSE NOW" as the big frame-one text (taken), cards always comp
 ## Re-voiced (Nov 10, desktop session)
 
 Held at 11 am after Austin said the cadence was off: line paces swung 66% and pauses fell mid-phrase. Re-voiced with the new take selection (at least 3 takes a line, retakes up to 8 while a line is more than 10% off the median pace) and evened with `voice_fix.py`: `qa_voice.py out/roll narration_fixed` passes (spread 20%, all lines within 12%). Whisper on the final video reads the script word for word. Watched at 2 frames a second: the close-ups put the pale pink and cream machine behind the captions, so the top caption band is darker in this episode (`K.top_shade(c, height=760, alpha=205)`). -14.3 LUFS after loudnorm, no steady tones.
+
+Then re-timed (3:45 pm): measured from the audio, the sentence gaps were 0.62 to 0.73 s because every take kept its own quiet head and tail. `voice_fix.py` now trims those first; final gaps 0.42 to 0.45 s, 21.8 s long (was 23.2), -14.2 LUFS. Re-rendered, transcript and frames checked again.
