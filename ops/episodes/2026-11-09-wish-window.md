@@ -47,3 +47,7 @@ Today is 11/11. Send this to the friend who never misses an 11:11. #1111 #makeaw
 See `2026-11-09-wish-window-patrol.md`.
 
 Patrol changes: took the pull-back with a shooting star on "Double XP" (already in the shot list) and a send prompt in the caption. Skipped trimming the gaming slang for the Stranger: the slang density is what the voxel hits ran on.
+
+## Re-voiced (Nov 10, desktop session)
+
+Held after Austin said the cadence was off (pace swung 59% between lines, pauses mid-phrase). Re-voiced with up to 8 takes a line; Whisper writes the numbers as digits ("11 .11"), so the matcher now reads them both ways. Evened and re-timed by `voice_fix.py`: pace spread 3% at about 200 wpm (capped; it ran 219), gaps 0.40 to 0.51 s between sentences as heard. 40.9 s, -13.5 LUFS, no steady tones. Re-rendered; frames checked once a second (two captions brush the clock digits at 21 and 26 s, still readable).

@@ -847,13 +847,14 @@
     "caption": "Today is 11/11. Send this to the friend who never misses an 11:11. #1111 #makeawish #11november",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-11T10:30:00-05:00",
-    "status": "held",
-    "note": "held Nov 10 for a re-voice: Austin says the narration cadence is off; line rates swing about 100 to 210 wpm and pauses land mid-phrase (qa_voice)",
+    "status": "ready",
+    "note": "re-voiced and re-timed Nov 10 after Austin flagged the cadence: qa_voice PASS (pace spread 3%, about 200 wpm, 0.40 to 0.51 s between sentences as heard), Whisper reads the script (numbers as digits), frames checked once a second",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
     "posted_at": null,
     "permalink": null,
-    "error": null
+    "error": null,
+    "watched": "passed"
   },
   {
     "id": "2026-11-10-gta-boyfriends",
