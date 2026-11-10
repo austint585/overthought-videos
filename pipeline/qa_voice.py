@@ -72,10 +72,27 @@ def check(d, name="narration"):
             fails.append(f"line {n} pace {dev:+.0f}% off the median")
         if odd:
             fails.append(f"line {n} pauses mid-phrase ({'; '.join(odd)})")
-    gaps = [(lines[i + 1]["start"] - lines[i]["end"], end_punct(lines[i]["text"])) for i in range(len(lines) - 1)]
+    # gaps between lines as heard: last sound of one line to the first sound of the next (the JSON's start and end
+    # include whatever quiet each take kept, which hid 0.6 to 0.96 s gaps behind a 0.42 s setting, Nov 10)
+    db = frame_db(a, sr)
+    loud = db > QUIET
+    def last_sound(t):
+        k = min(int(t / HOP), len(loud) - 1)
+        while k > 0 and not loud[k]:
+            k -= 1
+        return k * HOP
+    def first_sound(t):
+        k = int(t / HOP)
+        while k < len(loud) - 1 and not loud[k]:
+            k += 1
+        return k * HOP
+    gaps = [(first_sound(lines[i + 1]["start"]) - last_sound(lines[i]["end"]), end_punct(lines[i]["text"]))
+            for i in range(len(lines) - 1)]
     for g, p in gaps:
         if p in ".?!" and not (0.28 <= g <= 0.6):
             fails.append(f"gap {g:.2f}s after a sentence (want 0.3 to 0.6)")
+        if p not in ".?!" and g > 0.5:
+            fails.append(f"gap {g:.2f}s after a line that doesn't end a sentence")
     if max(louds) - min(louds) > 4:
         fails.append(f"loudness swings {max(louds) - min(louds):.1f} dB between lines")
     if (np.abs(a) > 0.995).mean() > 1e-4:

@@ -4,8 +4,11 @@ Chatterbox voices each line on its own, so one line comes out at 100 words a min
 leaves 0.3 to 0.6 s pauses after small words ("to", "for", "Row"). This evens that out without new takes:
   1. pauses inside a line follow the punctuation: none after a plain word (cut to <= 0.07 s), a short one after a
      comma or colon (0.16 to 0.24 s), a full one after a sentence (0.32 to 0.42 s). Only quiet audio is ever cut.
-  2. every line is time-stretched (rubberband, pitch kept) toward the median speaking rate, at most 12% either way.
-  3. gaps between lines follow how the line ends (a full stop gets a full stop's pause, not a fixed 0.16 s).
+  0. each line's quiet head and tail are trimmed from the audio first: a take keeps up to 0.4 s of its own silence,
+     which turned a 0.42 s gap into 0.6 to 0.96 s of dead air between sentences.
+  2. every line is time-stretched (rubberband, pitch kept) toward the median speaking rate measured from the audio,
+     at most 12% either way, and never faster than HOUSE_PACE (about 200 wpm).
+  3. gaps between lines follow how the line ends (0.36 s after a full stop, as heard, not a fixed 0.16 s).
   4. lines are levelled to the same loudness (within 3 dB).
 Word times are carried through every cut and stretch, so captions stay in sync.
 
@@ -22,8 +25,11 @@ HOP = 0.005
 PLAIN_MAX = 0.07
 COMMA = (0.16, 0.24)
 STOP = (0.32, 0.42)
-LINE_GAP = {".": 0.42, "?": 0.46, "!": 0.40, ",": 0.24, ":": 0.30, ";": 0.28}
+LINE_GAP = {".": 0.36, "?": 0.40, "!": 0.34, ",": 0.22, ":": 0.28, ";": 0.26}   # silence between lines, after trimming
+TRIM_DB = -38.0                     # a line's head and tail quieter than this are cut (qa_voice's silence level)
+HEAD_KEEP, TAIL_KEEP = 0.03, 0.07   # what stays of the quiet: the onset of the first sound, the decay of the last
 MAX_STRETCH = 0.12
+HOUSE_PACE = 4.8                    # syllables per second of sound, about 200 wpm: the fastest a reel should talk (Nov 10)
 
 def read_wav(path):
     w = wave.open(path)
@@ -146,6 +152,20 @@ def stretch(a, sr, tempo):
         b, _ = read_wav(o)
     return b
 
+def sound_time(seg, sr, quiet=-38.0, min_pause=0.12):
+    """Seconds of a line that are sound: its length minus inner pauses of min_pause or more (as qa_voice measures)."""
+    db = frame_db(seg, sr)
+    q = db < quiet
+    pauses, n = 0.0, 0
+    for k, v in enumerate(q):
+        if v:
+            n += 1
+        else:
+            if n * HOP >= min_pause and k - n > 0:
+                pauses += n * HOP
+            n = 0
+    return max(1e-3, len(seg) / sr - pauses)
+
 def speech_rate(words, t_of, text=None):
     """Syllables per second of speaking time (pauses longer than 0.1 s don't count)."""
     syl = spoken_syllables(text) if text else sum(syllables(w["w"]) for w in words)
@@ -173,14 +193,27 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
     a, sr = read_wav(os.path.join(out_dir, src + ".wav"))
     lead = lines[0]["start"] if lead_in is None else lead_in
     # 1. pauses inside each line
-    shaped = []
+    # 0. each take keeps up to 0.4 s of its own quiet at the head and tail (it is cut from Whisper's word times, which
+    #    drift), so the 0.42 s gap measured 0.6 to 0.96 s of real silence between lines (Nov 10). Trim from the audio.
+    shaped, starts = [], []
+    h = max(1, int(HOP * sr))
     for L in lines:
         s0, s1 = int(L["start"] * sr), int(L["end"] * sr)
-        seg, tm = shape_line(a[s0:s1].copy(), sr, L["words"], L["start"])
+        seg = a[s0:s1].copy()
+        on = np.where(frame_db(seg, sr) > TRIM_DB)[0]
+        c0 = max(0, on[0] * h - int(HEAD_KEEP * sr)) if len(on) else 0
+        c1 = min(len(seg), (on[-1] + 1) * h + int(TAIL_KEEP * sr)) if len(on) else len(seg)
+        seg = seg[c0:c1]
+        f = min(len(seg) // 2, int(0.005 * sr))
+        if f:
+            seg[:f] *= np.linspace(0, 1, f); seg[-f:] *= np.linspace(1, 0, f)
+        t0 = L["start"] + c0 / sr
+        seg, tm = shape_line(seg, sr, L["words"], t0)
         shaped.append((seg, tm))
-    # 2. speaking rate toward the median
-    rates = [speech_rate(L["words"], lambda t, tm=tm, t0=L["start"]: tm(t - t0), L["text"]) for L, (_, tm) in zip(lines, shaped)]
-    target = float(np.median(rates))
+        starts.append(t0)
+    # 2. speaking rate toward the median, measured from the audio the way qa_voice.py checks it
+    rates = [spoken_syllables(L["text"]) / sound_time(seg, sr) for L, (seg, _) in zip(lines, shaped)]
+    target = min(float(np.median(rates)), HOUSE_PACE)
     # 4. loudness: speech frames only
     def level(x):
         db = frame_db(x, sr)
@@ -191,17 +224,18 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
     track = [np.zeros(int(lead * sr), np.float32)]
     t = lead
     out = []
-    for i, (L, (seg, tm), r, lv) in enumerate(zip(lines, shaped, rates, levels)):
+    for i, (L, (seg, tm), r, lv, t0) in enumerate(zip(lines, shaped, rates, levels, starts)):
         tempo = float(np.clip(target / r, 1 - MAX_STRETCH, 1 + MAX_STRETCH))
         seg2 = stretch(seg, sr, tempo)
         gain = 10 ** (np.clip(ref_level - lv, -3, 3) / 20)
         seg2 = seg2 * gain
         scale = (len(seg2) / sr) / max(len(seg) / sr, 1e-6)
         words = []
+        span = len(seg2) / sr
         for w in L["words"]:
             w2 = dict(w)
-            w2["start"] = t + tm(w["start"] - L["start"]) * scale
-            w2["end"] = t + tm(w["end"] - L["start"]) * scale
+            w2["start"] = t + min(span, tm(max(0.0, w["start"] - t0)) * scale)
+            w2["end"] = t + min(span, tm(max(0.0, w["end"] - t0)) * scale)
             words.append(w2)
         L2 = dict(L, start=t, end=t + len(seg2) / sr, words=words, tempo=round(tempo, 3))
         out.append(L2)
