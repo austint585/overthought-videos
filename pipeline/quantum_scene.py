@@ -468,6 +468,10 @@ def anchors():
 def on_frame(scn, depsgraph=None):
     apply_state((scn.frame_current - 1 + scn.frame_subframe) / FPS)
 
+if os.environ.get("OVERTHOUGHT_DIRECT") == "1":     # the directed version (quantum_direct.py, ops/direction.md)
+    import quantum_direct
+    apply_state = quantum_direct.install(globals())
+
 anchors()
 apply_state(0.0)
 bpy.app.handlers.frame_change_pre.append(on_frame)
