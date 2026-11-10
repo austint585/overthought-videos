@@ -6,7 +6,7 @@ Work in `C:\Users\austi\Desktop\Overthought` with Git Bash. Sync first: `git pul
 
 ## Check Austin's DMs first
 
-Austin DMs reels to @overthought.daily from austinthompsonn_ so you learn his taste. The DM API returns nothing, so read them in Chrome with the Claude in Chrome tools (the Chrome profile there is signed in as @overthought.daily): open https://www.instagram.com/direct/inbox/, open the "austin thompson" chat, and read everything newer than what `ops/ideas.md` and `ops/style.md` already list (match by reel link). If Chrome isn't connected, skip this and say so at the end.
+Austin DMs reels to @overthought.daily from austinthompsonn_ so you learn his taste. The DM API returns nothing, so read them in Chrome with the Claude in Chrome tools (as of Nov 9 the Chrome profile is signed in as Austin's own account, austinthompsonn_, so open the chat named "Overthought"; if it is signed in as @overthought.daily, open the "austin thompson" chat): open https://www.instagram.com/direct/inbox/, and read everything newer than what `ops/ideas.md` and `ops/style.md` already list (match by reel link). If Chrome isn't connected, skip this and say so at the end.
 
 For each new shared reel, open it to get its link, then:
 1. **Another creator's AI or 3D reel** (often with a note on what he likes): add a line to `ops/style.md` with the date, the link and the aspect he likes in your own words, and apply it to tonight's episodes.
