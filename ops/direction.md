@@ -123,6 +123,22 @@ def apply_state(t):
 - Moves: `still`, `push`, `pull`, `orbit`, `crane`, `punch` (a cut-in on the hit), `push_on_hit` (waits, winds back, lands on the hit).
 - Timing helpers for anything that moves: `ars`, `hold`, `flash`, `kick` and `on_twos`.
 
+## Lessons from the first test (Nov 10, the Schrodinger collapse re-directed)
+
+`pipeline/quantum_direct.py`, rendered next to what we posted (`pipeline/out/direct_demo/directed_vs_described.mp4`):
+
+| | Light focus by shot | Muddy | Biggest change |
+|---|---|---|---|
+| Posted | 0.98, 1.06, 1.16, 1.40 | 0.27 to 0.34 | 1 s after the moment, on an ordinary cut |
+| Directed | 3.75, 1.06 (a silhouette, on purpose), 1.87, 8.99 | 0.01 to 0.09 | on the moment |
+
+What the test stills caught:
+- **Frame the joke, not the center.** The first version punched in on the middle of the couch at the hit, but after the collapse the middle is empty, so the big moment showed a blown-out cushion. The joke is the gap, so the hit cuts wide: the two at the ends lit blue by their phones, and a hard white circle on the empty cushion between them.
+- **A point light in a small room lights everything.** The ceiling lamp lit every wall evenly. A spot pointed down at the couch makes a pool, and the walls fall off.
+- **Keep rim lights out of the fog.** With world haze on, the moon and the rim light filled the whole frame with blue fog. Set `light.data.volume_factor = 0` on rims and fills. Only the light whose beam should show (the pool, the flashlight) lights the haze.
+- **Cheat a rim when the set blocks the real source.** The crate shadowed the friend from the moon, so a small area light behind him does the moon's job. Crews do this on every set.
+- **Render 4 or 5 stills before the full render.** A still takes a couple of seconds on this scene, and three rounds of stills fixed all of the above.
+
 ## The check
 
 `python pipeline/qa_direction.py <video.mp4> <out_dir>/shots.json <sheet.png>` measures, per shot:

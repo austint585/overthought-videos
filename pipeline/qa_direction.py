@@ -116,6 +116,8 @@ def main(video, shots_path, out_png=None):
     g = stream_gray(video, fps)
     diff = np.abs(np.diff(g, axis=0)).mean((1, 2))
     for s in shots[1:]:
+        if big is not None and abs(s["t0"] - big) < 0.15:
+            continue                                  # a big moment that is itself a cut counts
         k = int(round(s["t0"] * fps))
         diff[max(0, k - 2): k + 2] = 0
     smoothd = np.convolve(diff, np.ones(5) / 5, mode="same")
