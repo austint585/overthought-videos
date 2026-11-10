@@ -186,6 +186,12 @@ def align(line, heard, offset, trim0):
     return words
 
 def narrate(lines, out_dir, exaggeration=1.6, cfg=0.25, gap=0.16, lead_in=0.25):
+    cached = os.path.join(out_dir, "narration.json")
+    if os.path.exists(cached) and os.path.exists(os.path.join(out_dir, "narration.wav")):
+        old = json.load(open(cached))
+        if [o["text"] for o in old] == list(lines):
+            print("narration: reusing", cached, "(delete it to re-voice)")    # frames were rendered to this timing
+            return old
     takes = voice(lines, os.path.join(out_dir, "voice"), exaggeration, cfg)
     t = lead_in
     track, out = [np.zeros(int(lead_in * SR), np.float32)], []
