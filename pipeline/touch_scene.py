@@ -381,6 +381,9 @@ def apply_state(t):
     people_state(t)
     barrier_state(t)
     SHOTS.apply(rig, t)
+    # the lit ceiling panel sits right behind the captions in the low "through" shot (white words on a pale panel,
+    # caught watching the Nov 10 render), so it is out of that one shot; its pool of light stays
+    bpy.data.objects["panel2"].visible_camera = SHOTS.at(t).name != "through"
     if t >= T_HIT and t < E["G"]:
         glow.data.energy = 0.0                     # the barrier's light dies with it; pink takes over
 
