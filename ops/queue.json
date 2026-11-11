@@ -898,13 +898,14 @@
     "caption": "Send this to whoever breaks the touch barrier first. It's literally quantum tunneling. #physics #relationships #science",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-10T20:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
     "watched": "passed",
-    "posted_at": null,
-    "permalink": null,
+    "posted_at": "2026-11-11T01:40:36Z",
+    "permalink": "https://www.instagram.com/reel/DflUom0mhAi/",
     "error": null,
-    "note": "re-timed Nov 10: sentence gaps 0.39 to 0.47 s as heard (were 0.6 to 0.87), pace spread 9%; ceiling panel kept out from behind the captions; Whisper reads the script word for word; frames checked"
+    "note": "re-timed Nov 10: sentence gaps 0.39 to 0.47 s as heard (were 0.6 to 0.87), pace spread 9%; ceiling panel kept out from behind the captions; Whisper reads the script word for word; frames checked",
+    "media_id": "18126161794937768"
   }
 ]
