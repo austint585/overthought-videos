@@ -847,14 +847,15 @@
     "caption": "Today is 11/11. Send this to the friend who never misses an 11:11. #1111 #makeawish #11november",
     "trial": "SS_PERFORMANCE",
     "slot": "2026-11-11T10:30:00-05:00",
-    "status": "ready",
+    "status": "posted",
     "note": "re-voiced and re-timed Nov 10 after Austin flagged the cadence: qa_voice PASS (pace spread 3%, about 200 wpm, 0.40 to 0.51 s between sentences as heard), Whisper reads the script (numbers as digits), frames checked once a second",
     "approved": "standing approval (Oct 26 2026)",
     "qa": "passed",
-    "posted_at": null,
-    "permalink": null,
+    "posted_at": "2026-11-12T00:40:34Z",
+    "permalink": "https://www.instagram.com/reel/Dfnyj0yjPV7/",
     "error": null,
-    "watched": "passed"
+    "watched": "passed",
+    "media_id": "18015425528986491"
   },
   {
     "id": "2026-11-10-gta-boyfriends",
