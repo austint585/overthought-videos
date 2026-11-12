@@ -107,6 +107,8 @@ def publish(it):
         me = ig.get("me", fields="user_id")["user_id"]
         trial = it.get("trial") if it.get("trial") in ("SS_PERFORMANCE", "MANUAL") else None
         extra = {"trial_params": json.dumps({"graduation_strategy": trial})} if trial else {}
+        if it.get("thumb_offset_ms") is not None:      # the cover frame (ms into the video), when frame 0 isn't the best one
+            extra["thumb_offset"] = int(it["thumb_offset_ms"])
         c = ig.post(f"{me}/media", media_type="REELS", video_url=RAW + it["video"], caption=it["caption"], **extra)["id"]
     except ig.ApiError as e:
         if harmless(e):

@@ -1,0 +1,56 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s6-choc, #s6-flash, #s6-liv, #s6-raw { opacity: 0; }
+#s6-liv path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+</style>
+  <div id="root" data-composition-id="s6" data-width="1080" data-height="1920">
+   <div id="s6-all" style="position:absolute;inset:0;">
+
+    <div class="t glow" id="s6-a" style="top:660px;font-size:44px;"><span class="w" id="s6-a-0">YOU</span> <span class="w" id="s6-a-1">NEVER</span> <span class="w" id="s6-a-2">WANTED</span></div>
+    <div class="t glow" id="s6-choc" style="top:740px;font-size:118px;">CHOCOLATE</div>
+    <div class="t dim" id="s6-b" style="top:600px;font-size:32px;"><span class="w" id="s6-b-0">WHAT</span> <span class="w" id="s6-b-1">YOU</span> <span class="w" id="s6-b-2">ACTUALLY</span> <span class="w" id="s6-b-3">WANTED</span></div>
+    <div id="s6-flash" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%, rgba(194,26,51,0.38) 0%, rgba(194,26,51,0) 60%);"></div>
+    <svg width="1080" height="1920" id="s6-liv" style="filter: drop-shadow(0 0 14px rgba(194,26,51,0.95)) drop-shadow(0 0 40px rgba(194,26,51,0.55));">
+      <g  transform="translate(540,520) scale(0.95)"><path d="M -178 -34 C -164 -102 -40 -116 70 -96 C 150 -82 214 -64 204 -34 C 194 -6 128 14 66 34 C 4 56 -62 98 -126 88 C -184 78 -196 22 -178 -34 Z M 8 -100 C 0 -60 -6 -16 -30 34" fill="none" stroke="#C21A33" stroke-width="7.37" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></g>
+    </svg>
+    <div class="t" id="s6-raw" style="top:780px;font-size:124px;color:#C21A33;text-shadow:0 0 18px rgba(194,26,51,0.85),0 0 60px rgba(194,26,51,0.45);">RAW LIVER</div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s6-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s6-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.302);
+    tl.fromTo("#s6-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.620);
+    tl.fromTo("#s6-choc", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 1.097);
+    tl.set("#s6-a, #s6-choc", {opacity:0}, 1.985);
+    tl.fromTo("#s6-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.025);
+    tl.fromTo("#s6-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.170);
+    tl.fromTo("#s6-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.356);
+    tl.fromTo("#s6-b-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.810);
+    tl.set("#s6-b", {opacity:0}, 3.513);
+    tl.fromTo("#s6-raw", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 3.553);
+    tl.to("#s6-raw", {x:7, duration:0.033, ease:'none'}, 3.753);
+    tl.to("#s6-raw", {x:-6, duration:0.033, ease:'none'}, 3.786);
+    tl.to("#s6-raw", {x:4, duration:0.033, ease:'none'}, 3.819);
+    tl.to("#s6-raw", {x:-2, duration:0.033, ease:'none'}, 3.852);
+    tl.to("#s6-raw", {x:0, duration:0.033, ease:'none'}, 3.885);
+    tl.fromTo("#s6-flash", {opacity:0}, {opacity:1, duration:0.06}, 3.553);
+    tl.to("#s6-flash", {opacity:0.35, duration:0.9, ease:'power2.out'}, 3.653);
+    tl.to("#s6-liv", {opacity:1, duration:0.01}, 3.553);
+    tl.fromTo("#s6-liv path", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.45, ease:'power3.out'}, 3.553);
+    tl.fromTo("#s6-liv", {scale:1, transformOrigin:'50% 27%'}, {scale:1.07, duration:0.12, ease:'power2.out', yoyo:true, repeat:1}, 4.053);
+    tl.to("#s6-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 4.397);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

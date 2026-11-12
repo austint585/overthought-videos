@@ -1,0 +1,31 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+</style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+   <div id="s4-all" style="position:absolute;inset:0;">
+    <div class="t " id="s4-a" style="top:690px;font-size:30px;"><span class="w" id="s4-a-0">SO</span> <span class="w" id="s4-a-1">YOU</span> <span class="w" id="s4-a-2">MIGHT</span> <span class="w" id="s4-a-3">AS</span> <span class="w" id="s4-a-4">WELL</span></div>
+    <div class="t" id="s4-pill" style="top:760px;opacity:0;"><span class="pillin" style="font-size:58px;padding:24px 61px;">START NOW</span></div>
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s4-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s4-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.263);
+    tl.fromTo("#s4-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.406);
+    tl.fromTo("#s4-a-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.531);
+    tl.fromTo("#s4-a-4", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.674);
+    tl.fromTo("#s4-pill", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 0.852);
+    tl.to("#s4-a, #s4-pill", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 1.664);
+    window.__timelines["s4"] = tl;
+  </script>
+</template>
