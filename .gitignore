@@ -7,3 +7,10 @@ Inputs/
 
 # Obsidian vault settings (Austin opened this folder in Obsidian on Nov 4); the repo is public
 .obsidian/
+
+# HyperFrames projects: keep the source, not the media, caches or renders
+pipeline/hf/*/assets/
+pipeline/hf/*/.hyperframes/
+pipeline/hf/*/renders/
+pipeline/hf/*/snapshots/
+pipeline/hf/*/node_modules/
