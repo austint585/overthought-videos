@@ -17,6 +17,15 @@ from common import ROOT, SR
 PY = os.path.join(ROOT, "vendor", "venv_chatterbox_cpu", "Scripts", "python.exe")
 REF = os.path.join(ROOT, "out", "voice_tests", "ref_am_michael.wav")     # Kokoro's synthetic am_michael
 SEEDS = (7, 11, 23, 41, 59, 73, 89, 97)
+# Voice engines (Nov 11 shootout): every one takes the same job file and goes through the same take choice, voice_fix
+# and qa_voice. "cb" is the regular Chatterbox read in use since Oct 29.
+PYQ = os.path.join(ROOT, "vendor", "venv_qwen3tts", "Scripts", "python.exe")
+ENGINES = {
+    "cb": {"py": PY, "worker": "cb_worker.py", "ref": REF},
+    "turbo": {"py": PY, "worker": "cbt_worker.py", "ref": REF},
+    "qwen": {"py": PYQ, "worker": "qwen_worker.py", "ref": os.path.join(ROOT, "out", "voice_tests", "qwen_narrator_ref.wav"),
+             "ref_text": os.path.join(ROOT, "out", "voice_tests", "qwen_narrator_ref.txt")},
+}
 _whisper = None
 
 ONES = "zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split()
@@ -158,7 +167,7 @@ def take_shape(path, line):
     allowed = len(re.findall(r"[,;:.?!](?=\s)", text.strip()))
     return syl / max(sound, 1e-3), max(0, len(pauses) - allowed)
 
-def voice(lines, vdir, exaggeration, cfg):
+def voice(lines, vdir, exaggeration, cfg, engine="cb"):
     """Every line gets at least MIN_TAKES takes; among the ones Whisper hears right, the take closest to the median
     pace with no stray pauses wins (one line at 100 wpm next to one at 210 is what Austin heard as a broken cadence)."""
     os.makedirs(vdir, exist_ok=True)
@@ -168,13 +177,18 @@ def voice(lines, vdir, exaggeration, cfg):
     for n_seed, seed in enumerate(SEEDS):
         if not todo:
             break
-        items = [{"text": spoken(lines[i]), "out": os.path.join(vdir, f"l{i:02d}_s{seed}_e{exaggeration}.wav"),
+        tag = f"e{exaggeration}" if engine == "cb" else engine
+        items = [{"text": spoken(lines[i]), "out": os.path.join(vdir, f"l{i:02d}_s{seed}_{tag}.wav"),
                   "exaggeration": exaggeration, "cfg": cfg, "seed": seed} for i in todo]
         job = os.path.join(vdir, "job.json")
-        json.dump({"ref": REF, "items": items}, open(job, "w"))
+        eng = ENGINES[engine]
+        jd = {"ref": eng["ref"], "items": items}
+        if eng.get("ref_text"):
+            jd["ref_text"] = open(eng["ref_text"], encoding="utf-8").read().strip()
+        json.dump(jd, open(job, "w"))
         release_whisper()
         # OpenBLAS reserves a buffer per thread; on this laptop's tight commit limit that alone can sink the worker
-        subprocess.run([PY, os.path.join(ROOT, "cb_worker.py"), job], check=True,
+        subprocess.run([eng["py"], os.path.join(ROOT, eng["worker"]), job], check=True,
                        env={**os.environ, "PYTHONIOENCODING": "utf-8", "OPENBLAS_NUM_THREADS": "1"})
         for i, it in zip(todo, items):
             heard = transcribe(it["out"])
@@ -240,14 +254,14 @@ def align(line, heard, offset, trim0):
         w.pop("say")
     return words
 
-def narrate(lines, out_dir, exaggeration=1.6, cfg=0.25, gap=0.16, lead_in=0.25):
+def narrate(lines, out_dir, exaggeration=1.6, cfg=0.25, gap=0.16, lead_in=0.25, engine="cb"):
     cached = os.path.join(out_dir, "narration.json")
     if os.path.exists(cached) and os.path.exists(os.path.join(out_dir, "narration.wav")):
         old = json.load(open(cached))
         if [o["text"] for o in old] == list(lines):
             print("narration: reusing", cached, "(delete it to re-voice)")    # frames were rendered to this timing
             return old
-    takes = voice(lines, os.path.join(out_dir, "voice"), exaggeration, cfg)
+    takes = voice(lines, os.path.join(out_dir, "voice"), exaggeration, cfg, engine)
     t = lead_in
     track, out = [np.zeros(int(lead_in * SR), np.float32)], []
     for line, (s, path, heard) in zip(lines, takes):
