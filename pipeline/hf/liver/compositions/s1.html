@@ -10,37 +10,33 @@
 .h { opacity: 0; }
 .w { display: inline-block; }
 svg { position: absolute; left: 0; top: 0; overflow: visible; }
-#s1-arrowhead, #s1-up, #s1-glow { opacity: 0; }
-#s1-stairs { stroke-dasharray: 1; stroke-dashoffset: 1; }
-#s1-arrow-l { stroke-dasharray: 1; stroke-dashoffset: 1; }
+#s1-choc { opacity: 0; }
+#s1-xa { stroke-dasharray: 1; stroke-dashoffset: 1; }
+#s1-xb { stroke-dasharray: 1; stroke-dashoffset: 1; }
 </style>
   <div id="root" data-composition-id="s1" data-width="1080" data-height="1920">
    <div id="s1-all" style="position:absolute;inset:0;">
 
-    <svg width="1080" height="1920">
-      <line id="s1-ground" x1="90" y1="1120" x2="430" y2="1120" stroke="#fff" stroke-width="5" />
-      <g transform="translate(190,1120) scale(1.7)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g>
-      <g id="s1-choc" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"><rect x="268" y="1016" width="74" height="104" rx="6" /><line x1="305.0" y1="1016" x2="305.0" y2="1120" /><line x1="268" y1="1050.6666666666667" x2="342" y2="1050.6666666666667" /><line x1="268" y1="1085.3333333333333" x2="342" y2="1085.3333333333333" /><polyline points="268,1016 282.8,1006 297.6,1016 312.4,1005 327.2,1015 342,1007" /></g>
-      <polyline id="s1-stairs" points="430,1120 430,1120 526,1120 526,1024 622,1024 622,928 718,928 718,832 814,832 814,736 910,736 910,640 1006,640" fill="none" stroke="#fff" stroke-width="5" pathLength="1" />
-      <g id="s1-arrow"><line id="s1-arrow-l" x1="560" y1="1000" x2="560" y2="760" stroke="#fff" stroke-width="5" pathLength="1"/>
-        <polyline id="s1-arrowhead" points="540,784 560,760 580,784" fill="none" stroke="#fff" stroke-width="5" /></g>
-      <g id="s1-glow" style="filter: drop-shadow(0 0 18px rgba(255,255,255,0.9)) drop-shadow(0 0 50px rgba(255,255,255,0.5));">
-        <g  transform="translate(936,424) scale(0.5)"><path d="M -178 -34 C -164 -102 -40 -116 70 -96 C 150 -82 214 -64 204 -34 C 194 -6 128 14 66 34 C 4 56 -62 98 -126 88 C -184 78 -196 22 -178 -34 Z M 8 -100 C 0 -60 -6 -16 -30 34" fill="none" stroke="#fff" stroke-width="12.00" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></g>
-      </g>
+    <svg width="1080" height="1920" id="s1-bar" style="filter: drop-shadow(0 0 16px rgba(255,255,255,0.7)) drop-shadow(0 0 46px rgba(255,255,255,0.3));">
+      <g  fill="none" stroke="#fff" stroke-width="9" stroke-linejoin="round"><rect x="420" y="314" width="240" height="386" rx="6" /><line x1="540.0" y1="314" x2="540.0" y2="700" /><line x1="420" y1="442.66666666666663" x2="660" y2="442.66666666666663" /><line x1="420" y1="571.3333333333333" x2="660" y2="571.3333333333333" /><polyline points="420,314 468.0,304 516.0,314 564.0,303 612.0,313 660,305" /></g>
+      <line id="s1-xa" x1="380" y1="330" x2="700" y2="720" stroke="#fff" stroke-width="12" stroke-linecap="round" pathLength="1"/>
+      <line id="s1-xb" x1="700" y1="330" x2="380" y2="720" stroke="#fff" stroke-width="12" stroke-linecap="round" pathLength="1"/>
     </svg>
-    <div class="t dim" id="s1-stay" style="top:1156px;left:-310px;font-size:30px;">STAY HERE</div>
-    <div class="t" id="s1-up" style="top:700px;left:20px;font-size:32px;">OR GO UP</div>
+    <div class="t glow" id="s1-a" style="top:770px;font-size:44px;"><span class="w" id="s1-a-0">YOU</span> <span class="w" id="s1-a-1">NEVER</span> <span class="w" id="s1-a-2">WANTED</span></div>
+    <div class="t glow" id="s1-choc" style="top:840px;font-size:118px;">CHOCOLATE</div>
 
    </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-        tl.fromTo("#s1-stairs", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.75, ease:'power2.inOut'}, 1.569);
-    tl.fromTo("#s1-arrow-l", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.32, ease:'power3.out'}, 2.039);
-    tl.to("#s1-arrowhead", {opacity:1, duration:0.1}, 2.319);
-    tl.fromTo("#s1-up", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.16, ease:'power4.out'}, 1.569);
-    tl.fromTo("#s1-glow", {opacity:0, scale:0.6, transformOrigin:'50% 50%'}, {opacity:1, scale:1, duration:0.6, ease:'expo.out'}, 2.202);
-    tl.to("#s1-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 2.535);
+        tl.fromTo("#s1-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.250);
+    tl.fromTo("#s1-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.432);
+    tl.fromTo("#s1-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.796);
+    tl.fromTo("#s1-choc", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 1.332);
+    tl.fromTo("#s1-xa", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.14, ease:'power3.out'}, 1.472);
+    tl.fromTo("#s1-xb", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.14, ease:'power3.out'}, 1.592);
+    tl.to("#s1-bar", {opacity:0.4, duration:0.3}, 1.822);
+    tl.to("#s1-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 2.026);
     window.__timelines["s1"] = tl;
   </script>
 </template>

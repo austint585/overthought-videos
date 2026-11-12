@@ -14,25 +14,20 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="59.990" data-fps="30" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="19.791" data-fps="30" data-width="1080" data-height="1920">
       <div id="bg"></div>
-      <div id="s1" data-composition-id="s1" data-composition-src="compositions/s1.html" data-start="0.000" data-duration="2.695" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s2" data-composition-id="s2" data-composition-src="compositions/s2.html" data-start="2.695" data-duration="1.858" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s3" data-composition-id="s3" data-composition-src="compositions/s3.html" data-start="4.553" data-duration="7.383" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s4" data-composition-id="s4" data-composition-src="compositions/s4.html" data-start="11.936" data-duration="1.824" data-track-index="4" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s5" data-composition-id="s5" data-composition-src="compositions/s5.html" data-start="13.760" data-duration="8.927" data-track-index="5" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s6" data-composition-id="s6" data-composition-src="compositions/s6.html" data-start="22.687" data-duration="4.557" data-track-index="6" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s7" data-composition-id="s7" data-composition-src="compositions/s7.html" data-start="27.244" data-duration="12.488" data-track-index="7" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s8" data-composition-id="s8" data-composition-src="compositions/s8.html" data-start="39.733" data-duration="9.544" data-track-index="8" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <div id="s9" data-composition-id="s9" data-composition-src="compositions/s9.html" data-start="49.277" data-duration="4.313" data-track-index="9" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
-      <video id="broll" class="clip" src="assets/broll.mp4" muted playsinline data-start="53.590" data-duration="6.400" data-track-index="20" style="position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;z-index:20;"></video>
-      <div id="note" class="clip" data-start="55.390" data-duration="4.600" data-track-index="21">
+      <div id="s1" data-composition-id="s1" data-composition-src="compositions/s1.html" data-start="0.000" data-duration="2.186" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s2" data-composition-id="s2" data-composition-src="compositions/s2.html" data-start="2.186" data-duration="3.232" data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s3" data-composition-id="s3" data-composition-src="compositions/s3.html" data-start="5.418" data-duration="3.727" data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <div id="s4" data-composition-id="s4" data-composition-src="compositions/s4.html" data-start="9.145" data-duration="4.656" data-track-index="4" data-track-kind="graphics" data-width="1080" data-height="1920"></div>
+      <video id="broll" class="clip" src="assets/broll.mp4" muted playsinline data-start="13.801" data-duration="5.990" data-track-index="20" style="position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;z-index:20;"></video>
+      <div id="note" class="clip" data-start="15.191" data-duration="4.600" data-track-index="21">
         <div id="note-in">FOR THE RECORD: DARK CHOCOLATE HAS 228 MG MAGNESIUM PER 100 G. RAW LIVER HAS 18. (USDA)</div>
       </div>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#note-in", { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.2, ease: 'power4.out' }, 55.390);
+      tl.fromTo("#note-in", { opacity: 0, filter: 'blur(6px)' }, { opacity: 1, filter: 'blur(0px)', duration: 0.2, ease: 'power4.out' }, 15.191);
       window.__timelines["main"] = tl;
     </script>
   </body>

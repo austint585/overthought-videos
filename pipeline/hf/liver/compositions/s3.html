@@ -10,44 +10,47 @@
 .h { opacity: 0; }
 .w { display: inline-block; }
 svg { position: absolute; left: 0; top: 0; overflow: visible; }
-#s3-tired, #s3-people, #s3-eating, #s3-afraid, #s3-rest { opacity: 0; }
-#s3-dash { opacity: 0; }
+#s3-games, #s3-hunt { opacity: 0; }
+#s3-ret circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+#s3-ret line { stroke-dasharray: 1; stroke-dashoffset: 1; }
 </style>
   <div id="root" data-composition-id="s3" data-width="1080" data-height="1920">
    <div id="s3-all" style="position:absolute;inset:0;">
 
-    <div id="s3-loop">
-      <svg width="1080" height="1920">
-        <circle cx="540" cy="690" r="205" fill="none" stroke="#fff" stroke-width="4" />
-        <text x="540" y="438" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">MON</text><text x="746" y="537" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">TUE</text><text x="796" y="760" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">WED</text><text x="654" y="938" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">THU</text><text x="426" y="938" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">FRI</text><text x="284" y="760" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">SAT</text><text x="334" y="537" font-size="33" font-weight="700" letter-spacing="2" text-anchor="middle" fill="rgba(255,255,255,0.45)">SUN</text>
-        <g id="s3-orbit">
-          <g style="filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));"><g  fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"><rect x="526" y="477" width="28" height="30" rx="6" /><line x1="540.0" y1="477" x2="540.0" y2="507" /><line x1="526" y1="487.0" x2="554" y2="487.0" /><line x1="526" y1="497.0" x2="554" y2="497.0" /><polyline points="526,477 531.6,467 537.2,477 542.8,466 548.4,476 554,468" /></g></g>
-        </g>
-      </svg>
-      <div class="t" style="top:648px;font-size:34px;">SAME</div>
-      <div class="t" style="top:692px;font-size:34px;">CHOCOLATE LIFE</div>
-    </div>
-    <div class="t" id="s3-tired" style="top:206px;opacity:0;"><span class="pillin" style="font-size:28px;padding:12px 29px;">TIRED OF THE SAME CRAVING?</span></div>
-    <div id="s3-people"><svg width="1080" height="1920"><g transform="translate(330,1090) scale(0.95)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g  fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"><rect x="348" y="1054" width="24" height="24" rx="6" /><line x1="360.0" y1="1054" x2="360.0" y2="1078" /><line x1="348" y1="1062.0" x2="372" y2="1062.0" /><line x1="348" y1="1070.0" x2="372" y2="1070.0" /><polyline points="348,1054 352.8,1044 357.6,1054 362.4,1043 367.2,1053 372,1045" /></g><g transform="translate(470,1090) scale(0.95)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g  fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"><rect x="488" y="1054" width="24" height="24" rx="6" /><line x1="500.0" y1="1054" x2="500.0" y2="1078" /><line x1="488" y1="1062.0" x2="512" y2="1062.0" /><line x1="488" y1="1070.0" x2="512" y2="1070.0" /><polyline points="488,1054 492.8,1044 497.6,1054 502.4,1043 507.2,1053 512,1045" /></g><g transform="translate(610,1090) scale(0.95)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g  fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"><rect x="628" y="1054" width="24" height="24" rx="6" /><line x1="640.0" y1="1054" x2="640.0" y2="1078" /><line x1="628" y1="1062.0" x2="652" y2="1062.0" /><line x1="628" y1="1070.0" x2="652" y2="1070.0" /><polyline points="628,1054 632.8,1044 637.6,1054 642.4,1043 647.2,1053 652,1045" /></g><g transform="translate(750,1090) scale(0.95)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g  fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"><rect x="768" y="1054" width="24" height="24" rx="6" /><line x1="780.0" y1="1054" x2="780.0" y2="1078" /><line x1="768" y1="1062.0" x2="792" y2="1062.0" /><line x1="768" y1="1070.0" x2="792" y2="1070.0" /><polyline points="768,1054 772.8,1044 777.6,1054 782.4,1043 787.2,1053 792,1045" /></g></svg></div>
-    <div class="t dim" id="s3-eating" style="top:1112px;font-size:28px;">THEY'RE EATING IT</div>
-    <div class="t glow" id="s3-afraid" style="top:1160px;font-size:44px;">AFRAID?</div>
-    <svg width="1080" height="1920"><line id="s3-dash" x1="150" y1="1250" x2="930" y2="1250" stroke="#fff" stroke-width="3" stroke-dasharray="14 12" /></svg>
-    <div class="t" id="s3-rest" style="top:1266px;font-size:28px;">FOR THE REST OF YOUR LIFE</div>
+    <svg width="1080" height="1920" id="s3-pad" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));"><g transform="translate(540,560) scale(1.2)" fill="none" stroke="#fff" stroke-width="5.00" stroke-linejoin="round" stroke-linecap="round"><path d="M -170 -60 C -120 -95 120 -95 170 -60 C 215 -28 250 70 225 110 C 200 150 150 130 120 85 C 100 55 -100 55 -120 85 C -150 130 -200 150 -225 110 C -250 70 -215 -28 -170 -60 Z" /><path d="M -142 -12 h 56 M -114 -40 v 56" stroke-width="10.00" /><circle cx="125" cy="-40" r="11" /><circle cx="155" cy="-12" r="11" /><circle cx="125" cy="16" r="11" /><circle cx="95" cy="-12" r="11" /><circle cx="-55" cy="30" r="22" /><circle cx="55" cy="30" r="22" /></g></svg>
+    <svg width="1080" height="1920" id="s3-scope" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.8));"><g id="s3-ret" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"><circle cx="540" cy="560" r="200" pathLength="1" /><line x1="540" y1="394" x2="540" y2="326" pathLength="1" /><line x1="706" y1="560" x2="774" y2="560" pathLength="1" /><line x1="540" y1="726" x2="540" y2="794" pathLength="1" /><line x1="374" y1="560" x2="306" y2="560" pathLength="1" /><circle cx="540" cy="560" r="6" fill="#fff" stroke="none" /></g></svg>
+    <div class="t dim" id="s3-q" style="top:820px;font-size:34px;"><span class="w" id="s3-q-0">WHY</span> <span class="w" id="s3-q-1">DO</span> <span class="w" id="s3-q-2">YOU</span> <span class="w" id="s3-q-3">PLAY</span></div>
+    <div class="t glow" id="s3-games" style="top:870px;font-size:78px;">VIDEO GAMES?</div>
+    <div class="t dim" id="s3-b" style="top:820px;font-size:34px;"><span class="w" id="s3-b-0">BECAUSE</span> <span class="w" id="s3-b-1">YOU</span> <span class="w" id="s3-b-2">WANT</span> <span class="w" id="s3-b-3">TO</span></div>
+    <div class="t glow" id="s3-hunt" style="top:870px;font-size:140px;">HUNT</div>
 
    </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-        tl.fromTo("#s3-orbit", {rotation:0, svgOrigin:'540 690'}, {rotation:830.6, svgOrigin:'540 690', duration:7.383, ease:'none'}, 0.000);
-    tl.fromTo("#s3-loop", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.2, ease:'power4.out'}, 0.000);
-    tl.fromTo("#s3-tired", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 0.742);
-    tl.to("#s3-loop", {y:-60, scale:0.86, transformOrigin:'50% 36%', duration:0.6, ease:'power2.inOut'}, 2.535);
-    tl.fromTo("#s3-people", {opacity:0, y:20}, {opacity:1, y:0, duration:0.4, ease:'expo.out'}, 2.735);
-    tl.fromTo("#s3-eating", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.16, ease:'power4.out'}, 3.550);
-    tl.fromTo("#s3-afraid", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 4.579);
-    tl.fromTo("#s3-dash", {opacity:0, scaleX:0, transformOrigin:'0% 50%'}, {opacity:1, scaleX:1, duration:0.7, ease:'power2.inOut'}, 6.229);
-    tl.fromTo("#s3-rest", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.16, ease:'power4.out'}, 5.908);
-    tl.to("#s3-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 7.223);
+        tl.fromTo("#s3-pad", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.2, ease:'power4.out'}, 0.000);
+    tl.fromTo("#s3-q-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s3-q-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.428);
+    tl.fromTo("#s3-q-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.604);
+    tl.fromTo("#s3-q-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.737);
+    tl.fromTo("#s3-games", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 0.935);
+    tl.set("#s3-q, #s3-games", {opacity:0}, 2.175);
+    tl.to("#s3-pad", {opacity:0.22, duration:0.25}, 2.175);
+    tl.fromTo("#s3-ret circle", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:'power3.out'}, 2.215);
+    tl.fromTo("#s3-ret line", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:'power3.out'}, 2.215);
+    tl.fromTo("#s3-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.215);
+    tl.fromTo("#s3-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.466);
+    tl.fromTo("#s3-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.678);
+    tl.fromTo("#s3-b-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.948);
+    tl.fromTo("#s3-scope", {scale:1, transformOrigin:'50% 29.2%'}, {scale:0.82, duration:0.18, ease:'expo.out'}, 3.140);
+    tl.set("#s3-b", {opacity:0}, 3.130);
+    tl.fromTo("#s3-hunt", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 3.160);
+    tl.to("#s3-hunt", {x:7, duration:0.033, ease:'none'}, 3.360);
+    tl.to("#s3-hunt", {x:-6, duration:0.033, ease:'none'}, 3.393);
+    tl.to("#s3-hunt", {x:4, duration:0.033, ease:'none'}, 3.426);
+    tl.to("#s3-hunt", {x:-2, duration:0.033, ease:'none'}, 3.459);
+    tl.to("#s3-hunt", {x:0, duration:0.033, ease:'none'}, 3.492);
+    tl.to("#s3-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 3.567);
     window.__timelines["s3"] = tl;
   </script>
 </template>

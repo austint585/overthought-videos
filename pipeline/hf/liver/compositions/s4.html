@@ -10,22 +10,63 @@
 .h { opacity: 0; }
 .w { display: inline-block; }
 svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s4-fb, #s4-field, #s4-hunt { opacity: 0; }
+#s4-ret circle { stroke-dasharray: 1; stroke-dashoffset: 1; }
+#s4-ret line { stroke-dasharray: 1; stroke-dashoffset: 1; }
 </style>
   <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
    <div id="s4-all" style="position:absolute;inset:0;">
-    <div class="t " id="s4-a" style="top:690px;font-size:30px;"><span class="w" id="s4-a-0">SO</span> <span class="w" id="s4-a-1">YOU</span> <span class="w" id="s4-a-2">MIGHT</span> <span class="w" id="s4-a-3">AS</span> <span class="w" id="s4-a-4">WELL</span></div>
-    <div class="t" id="s4-pill" style="top:760px;opacity:0;"><span class="pillin" style="font-size:58px;padding:24px 61px;">START NOW</span></div>
+
+    <svg width="1080" height="1920" id="s4-ball" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.6));"><g transform="translate(540,560) rotate(-24) scale(1.3)" fill="none" stroke="#fff" stroke-width="4.62" stroke-linecap="round" stroke-linejoin="round"><path d="M -190 0 C -120 -112 120 -112 190 0 C 120 112 -120 112 -190 0 Z" /><path d="M -150 -38 C -140 -10 -140 10 -150 38 M 150 -38 C 140 -10 140 10 150 38" /><line x1="-60" y1="0" x2="60" y2="0" /><line x1="-36" y1="-14" x2="-36" y2="14" /><line x1="-12" y1="-14" x2="-12" y2="14" /><line x1="12" y1="-14" x2="12" y2="14" /><line x1="36" y1="-14" x2="36" y2="14" /></g></svg>
+    <div class="t dim" id="s4-q" style="top:820px;font-size:34px;"><span class="w" id="s4-q-0">WHY</span> <span class="w" id="s4-q-1">DO</span> <span class="w" id="s4-q-2">YOU</span> <span class="w" id="s4-q-3">PLAY</span></div>
+    <div class="t glow" id="s4-fb" style="top:870px;font-size:96px;">FOOTBALL?</div>
+    <div id="s4-field">
+      <svg width="1080" height="1920">
+        <line x1="90" y1="1170" x2="990" y2="1170" stroke="#fff" stroke-width="4" />
+        <g id="s4-p0"><g transform="translate(150,1170) scale(1.25)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s4-p1"><g transform="translate(242,1170) scale(1.25)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s4-p2"><g transform="translate(334,1170) scale(1.25)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s4-p3"><g transform="translate(426,1170) scale(1.25)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s4-p4"><g transform="translate(518,1170) scale(1.25)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g>
+      </svg>
+      <svg width="1080" height="1920" id="s4-prey" style="filter: drop-shadow(0 0 10px rgba(194,26,51,0.9)) drop-shadow(0 0 30px rgba(194,26,51,0.5));">
+        <g  transform="translate(840,1060) scale(0.42)"><path d="M -178 -34 C -164 -102 -40 -116 70 -96 C 150 -82 214 -64 204 -34 C 194 -6 128 14 66 34 C 4 56 -62 98 -126 88 C -184 78 -196 22 -178 -34 Z M 8 -100 C 0 -60 -6 -16 -30 34" fill="none" stroke="#C21A33" stroke-width="14.29" stroke-linecap="round" stroke-linejoin="round" pathLength="1"/></g>
+        <g id="s4-ret" fill="none" stroke="#C21A33" stroke-width="5" stroke-linecap="round"><circle cx="840" cy="1060" r="118" pathLength="1" /><line x1="840" y1="976" x2="840" y2="908" pathLength="1" /><line x1="924" y1="1060" x2="992" y2="1060" pathLength="1" /><line x1="840" y1="1144" x2="840" y2="1212" pathLength="1" /><line x1="756" y1="1060" x2="688" y2="1060" pathLength="1" /><circle cx="840" cy="1060" r="6" fill="#C21A33" stroke="none" /></g>
+      </svg>
+    </div>
+    <div class="t dim" id="s4-b" style="top:470px;font-size:34px;"><span class="w" id="s4-b-0">BECAUSE</span> <span class="w" id="s4-b-1">YOU</span> <span class="w" id="s4-b-2">WANT</span> <span class="w" id="s4-b-3">TO</span></div>
+    <div class="t glow" id="s4-hunt" style="top:520px;font-size:140px;">HUNT</div>
+    <div class="t" id="s4-team" style="top:730px;opacity:0;"><span class="pillin" style="font-size:44px;padding:18px 46px;">WITH YOUR TEAM</span></div>
+
    </div>
   </div>
   <script>
     const tl = gsap.timeline({ paused: true });
-        tl.fromTo("#s4-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
-    tl.fromTo("#s4-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.263);
-    tl.fromTo("#s4-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.406);
-    tl.fromTo("#s4-a-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.531);
-    tl.fromTo("#s4-a-4", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.674);
-    tl.fromTo("#s4-pill", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 0.852);
-    tl.to("#s4-a, #s4-pill", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 1.664);
+        tl.fromTo("#s4-ball", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.2, ease:'power4.out'}, 0.000);
+    tl.fromTo("#s4-q-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s4-q-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.400);
+    tl.fromTo("#s4-q-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.573);
+    tl.fromTo("#s4-q-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.659);
+    tl.fromTo("#s4-fb", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 0.896);
+    tl.set("#s4-ball, #s4-q, #s4-fb", {opacity:0}, 1.752);
+    tl.to("#s4-field", {opacity:1, duration:0.01}, 1.752);
+    tl.fromTo("#s4-ret circle", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:'power3.out'}, 1.892);
+    tl.fromTo("#s4-ret line", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:'power3.out'}, 1.892);
+    tl.fromTo("#s4-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.792);
+    tl.fromTo("#s4-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.061);
+    tl.fromTo("#s4-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.268);
+    tl.fromTo("#s4-b-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.455);
+    tl.set("#s4-b", {opacity:0}, 2.591);
+    tl.fromTo("#s4-hunt", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 2.621);
+    tl.to("#s4-hunt", {x:7, duration:0.033, ease:'none'}, 2.821);
+    tl.to("#s4-hunt", {x:-6, duration:0.033, ease:'none'}, 2.854);
+    tl.to("#s4-hunt", {x:4, duration:0.033, ease:'none'}, 2.887);
+    tl.to("#s4-hunt", {x:-2, duration:0.033, ease:'none'}, 2.920);
+    tl.to("#s4-hunt", {x:0, duration:0.033, ease:'none'}, 2.953);
+    tl.fromTo("#s4-team", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 2.828);
+    tl.to("#s4-p0", {x:150, duration:0.55, ease:'power3.out'}, 3.401);
+    tl.to("#s4-p1", {x:150, duration:0.55, ease:'power3.out'}, 3.351);
+    tl.to("#s4-p2", {x:150, duration:0.55, ease:'power3.out'}, 3.301);
+    tl.to("#s4-p3", {x:150, duration:0.55, ease:'power3.out'}, 3.251);
+    tl.to("#s4-p4", {x:150, duration:0.55, ease:'power3.out'}, 3.201);
+    tl.fromTo("#s4-prey", {scale:1, transformOrigin:'77.8% 55.2%'}, {scale:0.86, duration:0.2, ease:'expo.out'}, 3.501);
+    tl.to("#s4-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 4.496);
     window.__timelines["s4"] = tl;
   </script>
 </template>
