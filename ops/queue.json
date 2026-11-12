@@ -908,5 +908,21 @@
     "error": null,
     "note": "re-timed Nov 10: sentence gaps 0.39 to 0.47 s as heard (were 0.6 to 0.87), pace spread 9%; ceiling panel kept out from behind the captions; Whisper reads the script word for word; frames checked",
     "media_id": "18126161794937768"
+  },
+  {
+    "id": "2026-11-13-friday-13th",
+    "title": "Friday the 13th, Checked By Science",
+    "format": "voxel deadpan explainer (timely)",
+    "video": "videos/2026-11-13_Friday_The_13th.mp4",
+    "caption": "Dutch insurers checked: fewer crashes on Friday the 13th. Send this to the friend who walks under ladders. #friday13th #science #superstition",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-13T12:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "watched": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
