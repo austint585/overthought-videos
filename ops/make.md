@@ -28,7 +28,8 @@ Runs start every four hours (since Nov 2), so a run that finds the lock held sto
 
 1. **Trending reels Austin DMs** (the DM check above) that haven't been made yet (check `ops/ideas.md` and `ops/episodes/`), newest first, made the same day. Watch the reel and work out what the joke actually is before writing (Austin dropped a pitch on Nov 2 because I missed the reference that made it funny). Keep its beats, their order and its density of slang and meme words, in our own words, as a deadpan fake-science explainer.
 2. **A timely moment** (a holiday, a date, or a meme everyone is posting this week), told the same way. The two best invented reels were timely: Cuffing Season (8.7K) and No Shave November (4K).
-3. **Nothing else.** Don't invent generic relatable jokes, sequels of hits (Heisenberg Situationship got 1.6K) or explainers. If there is no new DM and no timely moment, make nothing and say so in the final lines: the run needs trending reels from Austin.
+3. **A form x line pairing, when there is no new DM (Nov 12 blind test, `ops/research/2026-11-12-blind-trend-test.md`).** Give `ops/research/form-x-line-prompt.md` to one Sonnet agent in the background (today's date filled in) and make its best pairing that fits RULES.md: a fresh earnest form (1M+ in the last two weeks) carrying an old line everyone quotes. One agent a run at most; the plan's weekly limit is the cap.
+4. **Nothing else.** Don't invent generic relatable jokes, sequels of hits (Heisenberg Situationship got 1.6K) or explainers. If there is no new DM and no timely moment, make nothing and say so in the final lines: the run needs trending reels from Austin.
 
 Judge results by shares divided by reach in the daily report, not by views. About 3% is the line for spreading past the test audience; the hits were 7 to 15%. Keep runs lean: Austin's plan has a weekly limit, so no extra research passes.
 
