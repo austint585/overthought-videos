@@ -959,5 +959,21 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-13-bicep-heart",
+    "title": "The Bicep Heart, A Nature Documentary",
+    "format": "clay nature-doc explainer",
+    "video": "videos/2026-11-13_Bicep_Heart_Nature_Documentary.mp4",
+    "caption": "Send this to the guy who does the bicep heart in the gym mirror. #biceptrend #fiddlercrab #naturedocumentary",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-13T20:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "watched": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
