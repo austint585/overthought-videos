@@ -1,0 +1,68 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s4-counter, #s4-glass, #s4-plant, #s4-bub, #s4-a, #s4-a2, #s4-g, #s4-p, #s4-s, #s4-name { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+   <div id="s4-all" style="position:absolute;inset:0;">
+
+    <div class="t glow" id="s4-why" style="top:700px;font-size:180px;">WHY?</div>
+    <svg width="1080" height="1920" id="s4-counter" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><rect x="130" y="560" width="820" height="28" rx="4" fill="none" stroke="#fff" stroke-width="6" /></svg>
+    <svg width="1080" height="1920" id="s4-glass" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(300,560) scale(1.0)" fill="none" stroke="#fff" stroke-width="6.00" stroke-linecap="round" stroke-linejoin="round"><path d="M -40 -128 L 40 -128 L 32 0 L -32 0 Z" /><path d="M -37 -84 Q -18 -90 0 -84 T 37 -84" /><line x1="-22" y1="-112" x2="-18" y2="-24" stroke-opacity="0.5" /></g></svg>
+    <svg width="1080" height="1920" id="s4-plant" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(540,560) scale(1.0)" fill="none" stroke="#fff" stroke-width="6.00" stroke-linecap="round" stroke-linejoin="round"><path d="M -42 -70 L 42 -70 L 32 0 L -32 0 Z" /><line x1="-48" y1="-70" x2="48" y2="-70" /><path d="M 0 -70 C -10 -128 -58 -156 -72 -150 C -62 -116 -30 -88 0 -70" /><path d="M 0 -70 C 10 -128 58 -156 72 -150 C 62 -116 30 -88 0 -70" /><path d="M 0 -70 C -16 -140 0 -190 6 -198 C 18 -160 14 -110 0 -70" /></g></svg>
+    <svg width="1080" height="1920" id="s4-bub" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"><path d="M 640.0 348.0 L 920.0 348.0 Q 940.0 348.0 940.0 368.0 L 940.0 432.0 Q 940.0 452.0 920.0 452.0 L 850 452.0 L 900 498.0 L 810 452.0 L 640.0 452.0 Q 620.0 452.0 620.0 432.0 L 620.0 368.0 Q 620.0 348.0 640.0 348.0 Z" /><text x="780" y="412" text-anchor="middle" font-family="Montserrat" font-weight="800" font-size="34" letter-spacing="3" fill="#fff" stroke="none">MILO JAMES!</text></g></svg>
+    <div class="t dim" id="s4-a" style="top:680px;font-size:46px;"><span class="w" id="s4-a-0">BECAUSE</span> <span class="w" id="s4-a-1">THERE'S</span> <span class="w" id="s4-a-2">ALWAYS</span></div><div class="t dim" id="s4-a2" style="top:738px;font-size:46px;"><span class="w" id="s4-a2-0">GOING</span> <span class="w" id="s4-a2-1">TO</span> <span class="w" id="s4-a2-2">BE</span></div>
+    <div class="t glow" id="s4-g" style="top:810px;font-size:100px;">A GLASS</div>
+    <div class="t glow" id="s4-p" style="top:810px;font-size:100px;">A PLANT</div>
+    <div class="t glow" id="s4-s" style="top:820px;font-size:44px;"><span class="w" id="s4-s-0">SOMEBODY</span> <span class="w" id="s4-s-1">YELLING</span></div>
+    <div class="t glow" id="s4-name" style="top:874px;font-size:84px;">YOUR FULL NAME</div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s4-why", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 0.120);
+    tl.to("#s4-why", {x:7, duration:0.033, ease:'none'}, 0.320);
+    tl.to("#s4-why", {x:-6, duration:0.033, ease:'none'}, 0.353);
+    tl.to("#s4-why", {x:4, duration:0.033, ease:'none'}, 0.386);
+    tl.to("#s4-why", {x:-2, duration:0.033, ease:'none'}, 0.419);
+    tl.to("#s4-why", {x:0, duration:0.033, ease:'none'}, 0.452);
+    tl.set("#s4-why", {opacity:0}, 0.470);
+    tl.fromTo("#s4-counter", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.14, ease:'power4.out'}, 0.470);
+    tl.set("#s4-a, #s4-a2", {opacity:1}, 0.470);
+    tl.fromTo("#s4-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.500);
+    tl.fromTo("#s4-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.120);
+    tl.fromTo("#s4-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.460);
+    tl.fromTo("#s4-a2-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.680);
+    tl.fromTo("#s4-a2-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.980);
+    tl.fromTo("#s4-a2-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.080);
+    tl.fromTo("#s4-g", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 2.220);
+    tl.fromTo("#s4-glass", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 2.340);
+    tl.set("#s4-g", {opacity:0}, 3.250);
+    tl.fromTo("#s4-p", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 3.280);
+    tl.fromTo("#s4-plant", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 3.680);
+    tl.set("#s4-p", {opacity:0}, 4.850);
+    tl.set("#s4-s", {opacity:1}, 4.850);
+    tl.fromTo("#s4-s-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 4.880);
+    tl.fromTo("#s4-s-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 5.480);
+    tl.fromTo("#s4-name", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 6.260);
+    tl.to("#s4-name", {x:7, duration:0.033, ease:'none'}, 6.460);
+    tl.to("#s4-name", {x:-6, duration:0.033, ease:'none'}, 6.493);
+    tl.to("#s4-name", {x:4, duration:0.033, ease:'none'}, 6.526);
+    tl.to("#s4-name", {x:-2, duration:0.033, ease:'none'}, 6.559);
+    tl.to("#s4-name", {x:0, duration:0.033, ease:'none'}, 6.592);
+    tl.fromTo("#s4-bub", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 6.260);
+    tl.fromTo("#s4-bub", {x:0}, {x:6, duration:0.04, ease:'none', yoyo:true, repeat:5}, 6.520);
+    tl.to("#s4-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 7.240);
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

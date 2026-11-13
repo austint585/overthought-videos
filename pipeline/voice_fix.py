@@ -188,7 +188,11 @@ def metrics(lines):
                 bad.append(f"{g:.2f}s after '{ws[k]['w']}'")
     return rates, bad
 
-def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
+def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None, max_stretch=MAX_STRETCH, keep_pauses=False,
+        gaps=None):
+    """keep_pauses, a smaller max_stretch and gaps (seconds after each line but the last) are for a performed speech
+    voiced in breath groups (Nov 12: Austin heard the raw liver cut as choppy; its sentences were separate takes,
+    stretched by up to 19% apart from their neighbours, with metronome gaps)."""
     lines = json.load(open(os.path.join(out_dir, src + ".json")))
     a, sr = read_wav(os.path.join(out_dir, src + ".wav"))
     lead = lines[0]["start"] if lead_in is None else lead_in
@@ -208,7 +212,10 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
         if f:
             seg[:f] *= np.linspace(0, 1, f); seg[-f:] *= np.linspace(1, 0, f)
         t0 = L["start"] + c0 / sr
-        seg, tm = shape_line(seg, sr, L["words"], t0)
+        if keep_pauses:                              # the take's own pauses are the performance
+            tm = lambda x: x
+        else:
+            seg, tm = shape_line(seg, sr, L["words"], t0)
         shaped.append((seg, tm))
         starts.append(t0)
     # 2. speaking rate toward the median, measured from the audio the way qa_voice.py checks it
@@ -225,7 +232,8 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
     t = lead
     out = []
     for i, (L, (seg, tm), r, lv, t0) in enumerate(zip(lines, shaped, rates, levels, starts)):
-        tempo = float(np.clip(target / r, 1 - MAX_STRETCH, 1 + MAX_STRETCH))
+        ms = max_stretch[i] if isinstance(max_stretch, (list, tuple)) else max_stretch   # a list: one limit a line
+        tempo = float(np.clip(target / r, 1 - ms, 1 + ms))
         seg2 = stretch(seg, sr, tempo)
         gain = 10 ** (np.clip(ref_level - lv, -3, 3) / 20)
         seg2 = seg2 * gain
@@ -242,7 +250,7 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
         track.append(seg2.astype(np.float32))
         t += len(seg2) / sr
         if i + 1 < len(lines):                       # 3. the gap follows how the line ends
-            g = LINE_GAP.get(end_punct(L["text"]), 0.34)
+            g = gaps[i] if gaps else LINE_GAP.get(end_punct(L["text"]), 0.34)
             track.append(np.zeros(int(g * sr), np.float32))
             t += g
     pcm = np.concatenate(track)
@@ -251,13 +259,13 @@ def fix(out_dir, src="narration", dst="narration_fixed", lead_in=None):
     json.dump(out, open(os.path.join(out_dir, dst + ".json"), "w"), indent=1)
     return out
 
-def fixed(out_dir):
+def fixed(out_dir, **kw):
     """The evened narration for a render: narration_fixed.json, rebuilt whenever narration.json is newer (a re-voice).
     The render then mixes narration_fixed.wav, and qa_voice.py out/<slug> narration_fixed must PASS."""
     src, dst = os.path.join(out_dir, "narration.json"), os.path.join(out_dir, "narration_fixed.json")
     if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(src):
         return json.load(open(dst))
-    return fix(out_dir)
+    return fix(out_dir, **kw)
 
 def report(name, lines):
     rates, bad = metrics(lines)

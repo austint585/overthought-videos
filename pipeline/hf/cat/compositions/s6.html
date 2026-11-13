@@ -1,0 +1,54 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s6-close, #s6-gl { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s6" data-width="1080" data-height="1920">
+   <div id="s6-all" style="position:absolute;inset:0;">
+
+    <div class="t dim" id="s6-a" style="top:760px;font-size:38px;"><span class="w" id="s6-a-0">BUT</span> <span class="w" id="s6-a-1">YOU</span> <span class="w" id="s6-a-2">KNOW</span></div><div class="t glow" id="s6-b" style="top:812px;font-size:66px;"><span class="w" id="s6-b-0">WHAT'S</span> <span class="w" id="s6-b-1">NOT</span> <span class="w" id="s6-b-2">OKAY?</span></div>
+    <div id="s6-close" style="position:absolute;inset:0;">
+      <svg width="1080" height="1920" id="s6-eyes" style="filter: drop-shadow(0 0 12px rgba(242,179,61,0.95)) drop-shadow(0 0 40px rgba(242,179,61,0.5));"><path d="M 203.0 600 Q 255.0 550 307.0 600 Q 255.0 650 203.0 600 Z" fill="#F2B33D" /><path d="M 255.0 569.0 Q 263.0 600 255.0 631.0 Q 247.0 600 255.0 569.0 Z" fill="#000" /><path d="M 353.0 600 Q 405.0 550 457.0 600 Q 405.0 650 353.0 600 Z" fill="#F2B33D" /><path d="M 405.0 569.0 Q 413.0 600 405.0 631.0 Q 397.0 600 405.0 569.0 Z" fill="#000" /></svg>
+      <svg width="1080" height="1920" id="s6-counter" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));">
+        <rect x="-20" y="1040" width="820" height="44" rx="6" fill="none" stroke="#fff" stroke-width="7" />
+        <line x1="800" y1="1084" x2="800" y2="1920" stroke="#fff" stroke-width="5" stroke-opacity="0.35" /></svg>
+      <svg width="1080" height="1920" id="s6-paw" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(470,988) scale(1.3)" fill="none" stroke="#fff" stroke-width="4.62" stroke-linecap="round" stroke-linejoin="round"><path d="M -14 -36 C 30 -44 62 -20 60 0 C 58 26 28 42 -14 34" /><circle cx="34" cy="-30" r="9" /><circle cx="44" cy="-6" r="9" /><circle cx="36" cy="18" r="9" /><path d="M -10 -34 L -700 -60 M -10 30 L -700 40" /></g></svg>
+      <svg width="1080" height="1920" id="s6-glass" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(690,1040) scale(2.0)" fill="none" stroke="#fff" stroke-width="3.00" stroke-linecap="round" stroke-linejoin="round"><path d="M -40 -128 L 40 -128 L 32 0 L -32 0 Z" /><path d="M -37 -84 Q -18 -90 0 -84 T 37 -84" /><line x1="-22" y1="-112" x2="-18" y2="-24" stroke-opacity="0.5" /></g></svg>
+      <div class="t dim" id="s6-c" style="top:250px;font-size:40px;"><span class="w" id="s6-c-0">LEAVING</span> <span class="w" id="s6-c-1">THAT</span></div>
+      <div class="t glow" id="s6-gl" style="top:300px;font-size:130px;">GLASS</div>
+      <div class="t" id="s6-on" style="top:1190px;opacity:0;"><span class="pillin" style="font-size:48px;padding:20px 50px;">ON THE COUNTER</span></div>
+    </div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s6-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s6-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.240);
+    tl.fromTo("#s6-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.344);
+    tl.fromTo("#s6-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.552);
+    tl.fromTo("#s6-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.886);
+    tl.fromTo("#s6-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.094);
+    tl.set("#s6-a, #s6-b", {opacity:0}, 2.033);
+    tl.set("#s6-close", {opacity:1}, 2.033);
+    tl.fromTo("#s6-eyes", {scaleY:0.05, transformOrigin:'30.56% 31.25%'}, {scaleY:1, duration:0.16, ease:'power3.out'}, 2.073);
+    tl.fromTo("#s6-c-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.073);
+    tl.fromTo("#s6-c-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.328);
+    tl.fromTo("#s6-gl", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 2.628);
+    tl.fromTo("#s6-paw", {x:-260}, {x:0, duration:1.135, ease:'power1.inOut'}, 2.123);
+    tl.fromTo("#s6-on", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 2.928);
+    tl.to("#s6-paw", {x:60, duration:0.12, ease:'power2.out'}, 3.288);
+    tl.to("#s6-glass", {rotation:24, transformOrigin:'69.81% 54.17%', duration:0.22, ease:'power2.out'}, 3.308);
+    tl.to("#s6-glass", {rotation:110, x:170, y:1050, duration:1.351, ease:'power2.in'}, 3.628);
+    window.__timelines["s6"] = tl;
+  </script>
+</template>

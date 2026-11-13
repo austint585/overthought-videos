@@ -1,0 +1,65 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s2-food, #s2-d, #s2-chk { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920">
+   <div id="s2-all" style="position:absolute;inset:0;">
+
+    <svg width="1080" height="1920" id="s2-table" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));">
+      <rect x="90" y="470" width="900" height="40" rx="5" fill="none" stroke="#fff" stroke-width="6" />
+      <rect x="110" y="510" width="26" height="890" fill="none" stroke="#fff" stroke-width="5" />
+      <rect x="944" y="510" width="26" height="890" fill="none" stroke="#fff" stroke-width="5" />
+      <ellipse cx="640" cy="464" rx="96" ry="9" fill="none" stroke="#fff" stroke-width="5" />
+      <line x1="60" y1="1400" x2="1020" y2="1400" stroke="#fff" stroke-width="3" stroke-opacity="0.4" />
+    </svg>
+    <svg width="1080" height="1920" id="s2-cat" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(540,1400) scale(0.55)" fill="none" stroke="#fff" stroke-width="10.91" stroke-linecap="round" stroke-linejoin="round"><path d="M -92 0 C -112 -72 -98 -148 -52 -180 C -70 -192 -72 -222 -62 -240 L -46 -322 L -18 -286 C -6 -290 6 -290 18 -286 L 46 -322 L 62 -240 C 72 -222 70 -192 52 -180 C 98 -148 112 -72 92 0 C 40 8 -40 8 -92 0 Z" fill="#0c0c0c" /><path d="M 86 -8 C 150 -12 182 -64 160 -116 C 150 -140 124 -136 128 -114" /></g></svg>
+    <svg width="1080" height="1920" id="s2-food" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(630,440) scale(0.85)" fill="none" stroke="#fff" stroke-width="7.06" stroke-linecap="round" stroke-linejoin="round"><path d="M -78 10 C -100 -40 -40 -78 10 -52 C 40 -36 40 0 14 22 C -14 46 -64 50 -78 10 Z" /><path d="M 22 -30 L 68 -70" /><circle cx="64" cy="-84" r="13" /><circle cx="82" cy="-66" r="13" /></g></svg>
+    <div class="t dim" id="s2-a" style="top:640px;font-size:34px;"><span class="w" id="s2-a-0">ARE</span> <span class="w" id="s2-a-1">YOU</span> <span class="w" id="s2-a-2">NOT</span> <span class="w" id="s2-a-3">TIRED</span> <span class="w" id="s2-a-4">OF</span></div><div class="t glow" id="s2-b" style="top:690px;font-size:46px;"><span class="w" id="s2-b-0">STARING</span> <span class="w" id="s2-b-1">AT</span> <span class="w" id="s2-b-2">THE</span> <span class="w" id="s2-b-3">BOTTOM</span></div><div class="t glow" id="s2-c" style="top:752px;font-size:46px;"><span class="w" id="s2-c-0">OF</span> <span class="w" id="s2-c-1">THE</span> <span class="w" id="s2-c-2">TABLE</span></div><div class="t dim" id="s2-d" style="top:660px;font-size:36px;"><span class="w" id="s2-d-0">WHILE</span> <span class="w" id="s2-d-1">THEY</span> <span class="w" id="s2-d-2">EAT</span></div>
+    <div class="t glow" id="s2-chk" style="top:712px;font-size:128px;">CHICKEN</div>
+    <div class="t" id="s2-up" style="top:890px;opacity:0;"><span class="pillin" style="font-size:44px;padding:18px 46px;">UP THERE</span></div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s2-table", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.18, ease:'power4.out'}, 0.000);
+    tl.fromTo("#s2-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s2-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.272);
+    tl.fromTo("#s2-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.443);
+    tl.fromTo("#s2-a-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.686);
+    tl.fromTo("#s2-a-4", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.101);
+    tl.fromTo("#s2-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.295);
+    tl.fromTo("#s2-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.710);
+    tl.fromTo("#s2-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 1.977);
+    tl.fromTo("#s2-b-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.148);
+    tl.fromTo("#s2-c-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.392);
+    tl.fromTo("#s2-c-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.660);
+    tl.fromTo("#s2-c-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 2.830);
+    tl.set("#s2-a, #s2-b, #s2-c", {opacity:0}, 3.239);
+    tl.set("#s2-d", {opacity:1}, 3.239);
+    tl.fromTo("#s2-d-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 3.269);
+    tl.fromTo("#s2-d-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 3.805);
+    tl.fromTo("#s2-d-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 4.024);
+    tl.fromTo("#s2-chk", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 4.316);
+    tl.to("#s2-chk", {x:7, duration:0.033, ease:'none'}, 4.516);
+    tl.to("#s2-chk", {x:-6, duration:0.033, ease:'none'}, 4.549);
+    tl.to("#s2-chk", {x:4, duration:0.033, ease:'none'}, 4.582);
+    tl.to("#s2-chk", {x:-2, duration:0.033, ease:'none'}, 4.615);
+    tl.to("#s2-chk", {x:0, duration:0.033, ease:'none'}, 4.648);
+    tl.fromTo("#s2-food", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 4.316);
+    tl.fromTo("#s2-up", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 4.755);
+    tl.fromTo("#s2-food", {y:0}, {y:-14, duration:0.18, ease:'power2.out', yoyo:true, repeat:1}, 4.755);
+    tl.to("#s2-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 5.614);
+    window.__timelines["s2"] = tl;
+  </script>
+</template>

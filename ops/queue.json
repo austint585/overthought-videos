@@ -942,5 +942,22 @@
     "permalink": "https://www.instagram.com/reel/DfpnS-7Ak7b/",
     "error": null,
     "media_id": "18130244620943840"
+  },
+  {
+    "id": "2026-11-13-cat-go-up",
+    "title": "We Could Go Up",
+    "format": "our own version of the @cluberich go up edit (HyperFrames line art)",
+    "video": "videos/2026-11-13_We_Could_Go_Up.mp4",
+    "caption": "Every cat owner knows how this ends. #cats #catsoftiktok #motivation",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-13T17:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "watched": "passed",
+    "thumb_offset_ms": 2600,
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]

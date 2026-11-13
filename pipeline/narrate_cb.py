@@ -25,6 +25,9 @@ ENGINES = {
     "turbo": {"py": PY, "worker": "cbt_worker.py", "ref": REF},
     "qwen": {"py": PYQ, "worker": "qwen_worker.py", "ref": os.path.join(ROOT, "out", "voice_tests", "qwen_narrator_ref.wav"),
              "ref_text": os.path.join(ROOT, "out", "voice_tests", "qwen_narrator_ref.txt")},
+    # the deep hype register (designed with Qwen3-TTS VoiceDesign, candidate 1 of 3, not a clone): raw liver, go up
+    "qwen_hype": {"py": PYQ, "worker": "qwen_worker.py", "ref": os.path.join(ROOT, "out", "voice_tests", "qwen_hype_cand1.wav"),
+                  "ref_text": os.path.join(ROOT, "out", "voice_tests", "qwen_hype_ref.txt")},
 }
 _whisper = None
 

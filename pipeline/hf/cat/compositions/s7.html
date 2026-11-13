@@ -1,0 +1,130 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s7-hero, #s7-flash { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s7" data-width="1080" data-height="1920">
+   <div id="s7-all" style="position:absolute;inset:0;">
+
+    <div id="s7-hit" style="position:absolute;inset:0;">
+      <svg width="1080" height="1920" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><line x1="60" y1="1340" x2="1020" y2="1340" stroke="#fff" stroke-width="5" /><polygon id="s7-sh0" points="539,1290 529,1307 487,1315" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh1" points="487,1311 552,1293 498,1322" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh2" points="578,1289 567,1303 505,1293" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh3" points="534,1323 516,1318 489,1289" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh4" points="521,1320 533,1303 563,1327" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh5" points="574,1328 522,1343 507,1310" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh6" points="499,1325 563,1319 573,1304" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh7" points="539,1335 582,1313 558,1290" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh8" points="588,1303 550,1325 518,1313" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh9" points="546,1294 500,1309 555,1291" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh10" points="583,1336 536,1310 543,1337" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh11" points="503,1300 526,1320 506,1286" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh12" points="583,1326 544,1322 558,1289" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh13" points="581,1309 546,1292 567,1290" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh14" points="512,1289 483,1295 491,1307" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh15" points="514,1301 531,1307 511,1335" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh16" points="503,1292 526,1301 568,1295" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh17" points="510,1318 500,1317 583,1336" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh18" points="505,1331 538,1331 520,1299" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /><polygon id="s7-sh19" points="581,1333 575,1299 556,1307" fill="none" stroke="#fff" stroke-width="5" stroke-linejoin="round" /></svg>
+    </div>
+    <div id="s7-flash" style="position:absolute;inset:0;background:#fff;"></div>
+    <div id="s7-hero" style="position:absolute;inset:0;">
+      <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 40% at 50% 38%, rgba(242,179,61,0.22) 0%, rgba(242,179,61,0) 70%);"></div>
+      <svg width="1080" height="1920" id="s7-set" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round"><rect x="330" y="770" width="420" height="950" rx="18" /><line x1="330" y1="1010" x2="750" y2="1010" /><line x1="370" y1="840" x2="370" y2="950" stroke-width="9.600000000000001" /><line x1="370" y1="1070" x2="370" y2="1310" stroke-width="9.600000000000001" /></g>
+        <line x1="40" y1="1720" x2="1040" y2="1720" stroke="#fff" stroke-width="4" stroke-opacity="0.5" /></svg>
+      <svg width="1080" height="1920" id="s7-cat" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g  transform="translate(540,770) scale(1.05)" fill="none" stroke="#fff" stroke-width="5.71" stroke-linecap="round" stroke-linejoin="round"><path d="M -92 0 C -112 -72 -98 -148 -52 -180 C -70 -192 -72 -222 -62 -240 L -46 -322 L -18 -286 C -6 -290 6 -290 18 -286 L 46 -322 L 62 -240 C 72 -222 70 -192 52 -180 C 98 -148 112 -72 92 0 C 40 8 -40 8 -92 0 Z" fill="#0c0c0c" /><path d="M 86 -8 C 150 -12 182 -64 160 -116 C 150 -140 124 -136 128 -114" /><path d="M -45 -240 Q -27 -258 -9 -240 Q -27 -222 -45 -240 Z" fill="#F2B33D" stroke="#F2B33D" /><line x1="-27" y1="-251" x2="-27" y2="-229" stroke="#000" stroke-width="4.76" /><path d="M 9 -240 Q 27 -258 45 -240 Q 27 -222 9 -240 Z" fill="#F2B33D" stroke="#F2B33D" /><line x1="27" y1="-251" x2="27" y2="-229" stroke="#000" stroke-width="4.76" /><path d="M -7 -220 L 7 -220 L 0 -212 Z" /><line x1="-14" y1="-214" x2="-62" y2="-222" /><line x1="-14" y1="-207" x2="-62" y2="-199" /><line x1="14" y1="-214" x2="62" y2="-222" /><line x1="14" y1="-207" x2="62" y2="-199" /></g></svg>
+      <div id="s7-sweep" style="position:absolute;left:-1100px;top:-200px;width:800px;height:2400px;
+           background:linear-gradient(105deg, rgba(242,179,61,0) 0%, rgba(255,226,160,0.10) 30%, rgba(255,226,160,0.26) 50%, rgba(255,226,160,0.10) 70%, rgba(242,179,61,0) 100%);mix-blend-mode:screen;"></div>
+    </div>
+    <svg width="1080" height="1920" id="s7-grain" style="opacity:0.11;mix-blend-mode:screen;">
+      <filter id="s7-n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" /></filter>
+      <rect x="-60" y="-60" width="1200" height="2040" filter="url(#s7-n)" />
+    </svg>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s7-flash", {opacity:0.85}, {opacity:0, duration:0.14, ease:'power2.out'}, 0.000);
+    tl.to("#s7-sh0", {x:367, y:-42, rotation:-204, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh1", {x:392, y:-101, rotation:197, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh2", {x:415, y:-171, rotation:-84, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh3", {x:449, y:-266, rotation:-129, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh4", {x:365, y:-296, rotation:-113, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh5", {x:288, y:-317, rotation:113, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh6", {x:158, y:-242, rotation:86, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh7", {x:172, y:-386, rotation:89, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh8", {x:109, y:-421, rotation:-146, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh9", {x:23, y:-269, rotation:-22, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh10", {x:-34, y:-401, rotation:201, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh11", {x:-70, y:-273, rotation:-36, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh12", {x:-143, y:-322, rotation:176, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh13", {x:-266, y:-408, rotation:-190, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh14", {x:-209, y:-231, rotation:-209, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh15", {x:-413, y:-336, rotation:217, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh16", {x:-349, y:-207, rotation:-210, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh17", {x:-530, y:-219, rotation:86, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh18", {x:-335, y:-87, rotation:137, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.to("#s7-sh19", {x:-590, y:-68, rotation:-207, transformOrigin:'50% 50%', duration:0.7, ease:'expo.out'}, 0.000);
+    tl.set("#s7-hit", {opacity:0}, 0.880);
+    tl.set("#s7-hero", {opacity:1}, 0.880);
+    tl.fromTo("#s7-hero", {scale:1, transformOrigin:'50.00% 46.88%'}, {scale:1.07, duration:3.300, ease:'none'}, 0.880);
+    tl.fromTo("#s7-sweep", {x:0}, {x:2400, duration:1.7, ease:'power1.inOut'}, 1.400);
+    tl.set("#s7-grain", {x:-30, y:-30}, 0.000);
+    tl.set("#s7-grain", {x:7, y:23}, 0.067);
+    tl.set("#s7-grain", {x:-16, y:16}, 0.133);
+    tl.set("#s7-grain", {x:21, y:9}, 0.200);
+    tl.set("#s7-grain", {x:-2, y:2}, 0.267);
+    tl.set("#s7-grain", {x:-25, y:-5}, 0.333);
+    tl.set("#s7-grain", {x:12, y:-12}, 0.400);
+    tl.set("#s7-grain", {x:-11, y:-19}, 0.467);
+    tl.set("#s7-grain", {x:26, y:-26}, 0.533);
+    tl.set("#s7-grain", {x:3, y:27}, 0.600);
+    tl.set("#s7-grain", {x:-20, y:20}, 0.667);
+    tl.set("#s7-grain", {x:17, y:13}, 0.733);
+    tl.set("#s7-grain", {x:-6, y:6}, 0.800);
+    tl.set("#s7-grain", {x:-29, y:-1}, 0.867);
+    tl.set("#s7-grain", {x:8, y:-8}, 0.933);
+    tl.set("#s7-grain", {x:-15, y:-15}, 1.000);
+    tl.set("#s7-grain", {x:22, y:-22}, 1.067);
+    tl.set("#s7-grain", {x:-1, y:-29}, 1.133);
+    tl.set("#s7-grain", {x:-24, y:24}, 1.200);
+    tl.set("#s7-grain", {x:13, y:17}, 1.267);
+    tl.set("#s7-grain", {x:-10, y:10}, 1.333);
+    tl.set("#s7-grain", {x:27, y:3}, 1.400);
+    tl.set("#s7-grain", {x:4, y:-4}, 1.467);
+    tl.set("#s7-grain", {x:-19, y:-11}, 1.533);
+    tl.set("#s7-grain", {x:18, y:-18}, 1.600);
+    tl.set("#s7-grain", {x:-5, y:-25}, 1.667);
+    tl.set("#s7-grain", {x:-28, y:28}, 1.733);
+    tl.set("#s7-grain", {x:9, y:21}, 1.800);
+    tl.set("#s7-grain", {x:-14, y:14}, 1.867);
+    tl.set("#s7-grain", {x:23, y:7}, 1.933);
+    tl.set("#s7-grain", {x:0, y:0}, 2.000);
+    tl.set("#s7-grain", {x:-23, y:-7}, 2.067);
+    tl.set("#s7-grain", {x:14, y:-14}, 2.133);
+    tl.set("#s7-grain", {x:-9, y:-21}, 2.200);
+    tl.set("#s7-grain", {x:28, y:-28}, 2.267);
+    tl.set("#s7-grain", {x:5, y:25}, 2.333);
+    tl.set("#s7-grain", {x:-18, y:18}, 2.400);
+    tl.set("#s7-grain", {x:19, y:11}, 2.467);
+    tl.set("#s7-grain", {x:-4, y:4}, 2.533);
+    tl.set("#s7-grain", {x:-27, y:-3}, 2.600);
+    tl.set("#s7-grain", {x:10, y:-10}, 2.667);
+    tl.set("#s7-grain", {x:-13, y:-17}, 2.733);
+    tl.set("#s7-grain", {x:24, y:-24}, 2.800);
+    tl.set("#s7-grain", {x:1, y:29}, 2.867);
+    tl.set("#s7-grain", {x:-22, y:22}, 2.933);
+    tl.set("#s7-grain", {x:15, y:15}, 3.000);
+    tl.set("#s7-grain", {x:-8, y:8}, 3.067);
+    tl.set("#s7-grain", {x:29, y:1}, 3.133);
+    tl.set("#s7-grain", {x:6, y:-6}, 3.200);
+    tl.set("#s7-grain", {x:-17, y:-13}, 3.267);
+    tl.set("#s7-grain", {x:20, y:-20}, 3.333);
+    tl.set("#s7-grain", {x:-3, y:-27}, 3.400);
+    tl.set("#s7-grain", {x:-26, y:26}, 3.467);
+    tl.set("#s7-grain", {x:11, y:19}, 3.533);
+    tl.set("#s7-grain", {x:-12, y:12}, 3.600);
+    tl.set("#s7-grain", {x:25, y:5}, 3.667);
+    tl.set("#s7-grain", {x:2, y:-2}, 3.733);
+    tl.set("#s7-grain", {x:-21, y:-9}, 3.800);
+    tl.set("#s7-grain", {x:16, y:-16}, 3.867);
+    tl.set("#s7-grain", {x:-7, y:-23}, 3.933);
+    tl.set("#s7-grain", {x:-30, y:-30}, 4.000);
+    tl.set("#s7-grain", {x:7, y:23}, 4.067);
+    tl.set("#s7-grain", {x:-16, y:16}, 4.133);
+    tl.to("#s7-all", {opacity:0, duration:0.3}, 3.880);
+    window.__timelines["s7"] = tl;
+  </script>
+</template>
