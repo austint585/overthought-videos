@@ -809,7 +809,9 @@ def apply_frame(chars, plan, f):
         for k, v in p["keys"].items():
             if k in kb:
                 kb[k].value = max(0.0, min(1.0, v))
-        R = (Matrix.Rotation(p["yaw"], 3, "Z") @ Matrix.Rotation(p["pitch"], 3, ch["right"])
+        # pitch > 0 tips the head down (a turn about "right" by +a lifts the face, hence the minus; fixed Nov 24
+        # after "look down" turned faces to the sky)
+        R = (Matrix.Rotation(p["yaw"], 3, "Z") @ Matrix.Rotation(-p["pitch"], 3, ch["right"])
              @ Matrix.Rotation(p["roll"], 3, ch["fwd"])).to_quaternion()
         _turn(ch, "neck02", Quaternion().slerp(R, 0.4).to_matrix())
         _turn(ch, "head", Quaternion().slerp(R, 0.6).to_matrix())

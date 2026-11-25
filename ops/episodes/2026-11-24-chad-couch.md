@@ -32,7 +32,8 @@ Wide from just over the table's front edge (16 mm, so all four heads and tags fi
 ## Checks
 
 - Preview stills: Nov 24, after reframing the four-person wide (first pass cut the outer two tags off and showed legs under the table).
-- Full render, then: frame sheet, Whisper transcript against the script, `qa_audio.py`, loudness. `qa_voice.py` measures a single narrator's pace and does not apply to a four-voice dialogue; the transcript and the sheet stand in for it.
+- Full render, Nov 24: transcript matched the script, -12.9 LUFS, no steady tones. The frame check then caught the finance and big tech guys looking up at the sky when their phones ring (head pitch was inverted in `cutscene_scene.py`). Fixed and re-rendered the same night, before its slot.
+- Checks on every render: frame sheet, Whisper transcript against the script, `qa_audio.py`, loudness. `qa_voice.py` measures a single narrator's pace and does not apply to a four-voice dialogue; the transcript and the sheet stand in for it.
 
 ## Caption
 

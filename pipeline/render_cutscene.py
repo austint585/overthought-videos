@@ -115,7 +115,7 @@ EPISODES["chad_tryptophan"] = {
     "hook": "POV: Friendsgiving with the guy who learned everything from reels",
     "music": "zeromrr",
     "beats": [
-        {"who": "suit", "say": "[groaning, stuffed, leaning back] Turkey's kicking in. I'm done.",
+        {"who": "suit", "say": "[stuffed, tired, quick] Turkey's kicking in. I'm done.",
          "cam": "group", "on": ["jacket", "suit", "chad"], "tag": ["MBA", "$140K", "green"], "to": "jacket"},
         {"who": "jacket", "say": "[smug know-it-all, explaining slowly] Tryptophan. Turkey's loaded with it.",
          "cam": "wide", "tag": ["PRE-MED", "YEAR 3", "green"], "faces": {"jacket": "smug"}, "to": "suit"},
