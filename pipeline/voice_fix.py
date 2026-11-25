@@ -55,6 +55,8 @@ def syllables(word):
     n = len(re.findall(r"[aeiouy]+", w))
     if w.endswith("e") and n > 1 and not w.endswith(("le", "ee")):
         n -= 1
+    elif w.endswith("es") and n > 1 and not w.endswith(("ses", "xes", "zes", "ches", "shes", "ces", "ges", "ies", "ees")):
+        n -= 1                                       # silent -es: takes, minutes (Nov 25: read as one syllable too many)
     return max(1, n)
 
 def spoken_syllables(text):
