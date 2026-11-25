@@ -1010,5 +1010,21 @@
     "posted_at": null,
     "permalink": null,
     "error": null
+  },
+  {
+    "id": "2026-11-24-chad-tryptophan",
+    "title": "Saw It On A Reel",
+    "format": "game cutscene (chad)",
+    "video": "videos/2026-11-24_Saw_It_On_A_Reel.mp4",
+    "caption": "Send this to whoever blames the turkey every year. #thanksgiving #turkey #funfacts",
+    "trial": "SS_PERFORMANCE",
+    "slot": "2026-11-25T17:30:00-05:00",
+    "status": "ready",
+    "approved": "standing approval (Oct 26 2026)",
+    "qa": "passed",
+    "watched": "passed",
+    "posted_at": null,
+    "permalink": null,
+    "error": null
   }
 ]
