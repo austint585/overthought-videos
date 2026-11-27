@@ -7,8 +7,9 @@ DMed (@visualizemy_, research_notes/2026-11-26_PS2_Look_With_Claude.md), in Blen
   square on the front of the head; an expression is another square (eyes x brows x mouth), swapped per frame.
   Shirts, ties, lapels and overall bibs are one 32 x 64 square on the front of the torso.
 - The look (270 x 480, wobble, dither, 4x) comes from ps2look.apply/post.
-- Same people as the MakeHuman cast (cutscene_chars.py): the chad (brown quiff, blue eyes, square jaw, stubble, grey
-  tee), suit (finance: side part, navy suit, orange tie), jacket (big tech: black crop, olive jacket over a red
+- Same people as the MakeHuman cast (cutscene_chars.py), except the chad: since the evening of Nov 26 he has the
+  Matt Hagen (Clayface) look Austin asked for, chin-length wavy dirty-blond hair with curtain bangs, blue-grey eyes,
+  light stubble, a dark tee. Then suit (finance: side part, navy suit, orange tie), jacket (big tech: black crop, olive jacket over a red
   plaid shirt) and overalls (the plumber: buzz cut, white tee, denim overalls, work boots).
 
 In Blender:  import lowpoly_cast as LC; p = LC.build("chad"); p.pose("point"); p.face("smug", mouth="open")
@@ -35,11 +36,14 @@ TEETH = (238, 232, 220)
 
 # ------------------------------------------------------------------ the cast (sRGB 0..255)
 CAST = {
+    # the chad, from Nov 26 evening: Austin asked for "the actor that play matt hagan in clayface" (Tom Rhys Harries),
+    # "emphasis on the wavy hair". A look, not a portrait: chin-length wavy dirty-blond hair with curtain bangs off a
+    # middle part, blue-grey hooded eyes, a leaner jaw, light stubble, a dark heather tee (his first-look photo).
     "chad": dict(
-        skin=(214, 160, 122), lip=(168, 98, 84), stubble=0.5, iris=(62, 112, 172), brow=(46, 29, 18), brow_rows=3,
-        eye_rows=3, chin=0.050, jaw=0.073, rest="smirk0",
-        hair="quiff", hair_cols=((26, 15, 8), (58, 35, 18), (107, 68, 38), (154, 106, 62)),
-        top="tee", cloth=((110, 120, 135), (97, 107, 122), (124, 134, 148)), sleeve="short",
+        skin=(222, 170, 134), lip=(176, 106, 92), stubble=0.16, iris=(92, 126, 150), brow=(96, 70, 44), brow_rows=2,
+        eye_rows=2, chin=0.044, jaw=0.068, rest="smirk0",
+        hair="wavy", hair_cols=((62, 44, 26), (112, 82, 48), (158, 118, 70), (204, 166, 106)),
+        top="tee", cloth=((56, 64, 82), (48, 55, 72), (66, 74, 94)), sleeve="short",
         legs=((42, 55, 86), (52, 67, 100), (34, 44, 70)), shoes=((228, 228, 222), (200, 200, 196), (150, 150, 150)),
         build=dict(shoulder=1.0, waist=1.0, arm=1.0, neck=1.0)),
     "suit": dict(
@@ -263,6 +267,19 @@ def paint_hair(S):
             a[y, :10] = H[r.choice([0, 1, 2], p=[0.3, 0.45, 0.25])]
         a[:, 10] = shade(S["skin"], 0.8)                      # the part line
         speckle(a, [H[0]], 0.1, 7)
+    elif style == "wavy":                                     # locks snake along v; roots darker, ends sun-bleached
+        for x0 in range(0, 32, 2):
+            c = H[r.choice([0, 1, 2, 2, 3], p=[0.16, 0.24, 0.26, 0.2, 0.14])]
+            ph = r.uniform(0, 2 * math.pi)
+            for y in range(32):
+                x = int(round(x0 + 2.2 * math.sin(2 * math.pi * y / 11 + ph)))
+                px(a, x % 32, y, c)
+                px(a, (x + 1) % 32, y, c)
+        a[:6] = a[:6] * 0.8 + np.array(H[0], np.float32) * 0.2
+        a[25:] = a[25:] * 0.6 + np.array(H[3], np.float32) * 0.4
+        speckle(a, [H[0]], 0.05, 7)
+        for y in range(21, 32):                               # the middle part (top projection: x = 0, the front)
+            px(a, 16, y, H[0])
     elif style == "crop":                                     # short, textured, a little spiky
         speckle(a, [H[0], H[2], H[3]], 0.45, 7)
     else:                                                     # buzz: scalp showing through
@@ -495,6 +512,80 @@ HAIR = {
     "buzz": [(0.186, 0.092, 1.03, 0, 0), (0.222, 0.170, 1.035, 0, 0), (0.242, 0.226, 0.86, 0, 0),
              (0.249, 0.238, 0.5, 0, 0)],
 }
+HAIR_RING = (0.074, 0.100, 0.002, 0.55, 0.68)   # the brow ring every hair shell is scaled from (hx, hy, yoff, k, kf)
+
+
+def ring16(hx, hy, yoff, k, kf):
+    """ring() with its edges split: 16 (x, y). 1 is the front centre, 5 and 13 the sides, 9 the back centre;
+    i and (2 - i) % 16 are mirror pairs."""
+    r = ring(hx, hy, 0, yoff, k, kf)
+    out = []
+    for i in range(8):
+        a, b = r[i], r[(i + 1) % 8]
+        out += [a[:2], ((a[0] + b[0]) / 2, (a[1] + b[1]) / 2)]
+    return out
+
+
+# wavy (the chad since Nov 26 evening): a cap whose front edge is curtain bangs (high at the middle part, down to the
+# brows at the outer forehead, past the temples), plus an open skirt from one cheek round the back to the other that
+# hangs to the jaw, kinks in and out (the waves) and flicks out at the ends.
+WAVY_HEM = {1: 0.190, 2: 0.141, 3: 0.096, 4: 0.088, 5: 0.112, 6: 0.128, 7: 0.13, 8: 0.13, 9: 0.13}
+WAVY_TOP = {1: 0.213, 2: 0.200, 3: 0.180, 4: 0.176, 5: 0.180, 6: 0.176, 7: 0.172, 8: 0.168, 9: 0.168}
+WAVY_SKIRT = [(None, 1.07), (0.100, 1.16), (0.066, 1.11), (0.036, 1.22)]   # rows: (z, scale); None = under the cap
+
+
+def wavy_hair():
+    """bmesh of the wavy style, in head-mesh space (chin at z 0, face toward -y)."""
+    import bmesh
+    hx0, hy0, yo0, k0, kf0 = HAIR_RING
+
+    def zmap(table, i):
+        return table[i] if i in table else table[(2 - i) % 16]
+
+    def cap_ring(s, z_of, lump=0.0):
+        pts = ring16(hx0 * s, hy0 * s, yo0, k0, kf0)
+        out = []
+        for i, (x, y) in enumerate(pts):
+            t = (y - yo0 + hy0 * s) / (2 * hy0 * s)
+            m = 1.0 if i in (0, 1, 2) else 1 + lump * (1 if i % 2 else -1)    # lumps: tousled, not a helmet
+            out.append((x * m, yo0 + (y - yo0) * m, z_of(i, t)))
+        return out
+    rings = [cap_ring(1.09, lambda i, t: zmap(WAVY_HEM, i)),
+             cap_ring(1.14, lambda i, t: zmap(WAVY_TOP, i), 0.03),
+             cap_ring(1.0, lambda i, t: 0.245 - 0.017 * t, 0.02),
+             cap_ring(0.6, lambda i, t: 0.259 - 0.013 * t)]
+    bm = loft(rings, cap_bottom=False)
+    uv = bm.loops.layers.uv.verify()
+    for f in bm.faces:
+        for l in f.loops:
+            co = l.vert.co
+            l[uv].uv = ((co.x + 0.09) / 0.18, (co.y + 0.12) / 0.24)
+    cols = list(range(3, 16))                                # temple (+x) round the back to temple (-x)
+    grid = []
+    for row, (z, s) in enumerate(WAVY_SKIRT):
+        pts = ring16(hx0 * s, hy0 * s, yo0, k0, kf0)
+        line = []
+        for c, i in enumerate(cols):
+            x, y = pts[i]
+            wave = 0.0 if row == 0 else (0.035 if (c + row) % 2 else -0.025)
+            x, y = x * (1 + wave), yo0 + (y - yo0) * (1 + wave)
+            if y > yo0 and row >= 2:                         # the back falls onto the nape, not straight down
+                y = yo0 + (y - yo0) * (0.86 if row == 2 else 0.8)
+            zz = zmap(WAVY_HEM, i) + 0.02 if z is None else z
+            if row == 3:
+                zz += 0.016 if c % 2 else 0.0                 # uneven tips
+                if c in (0, len(cols) - 1):
+                    zz += 0.014                               # the front ends stop at the jaw corner
+            line.append(bm.verts.new((x, y, zz)))
+        grid.append(line)
+    for r0, r1 in zip(grid, grid[1:]):
+        for c in range(len(cols) - 1):
+            f = bm.faces.new((r0[c], r0[c + 1], r1[c + 1], r1[c]))
+            for l in f.loops:
+                ci = c if l.vert in (r0[c], r1[c]) else c + 1
+                l[uv].uv = (0.02 + 0.43 * ci / (len(cols) - 1), (l.vert.co.z - 0.02) / 0.2)
+    bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
+    return bm
 
 
 class Person:
@@ -568,7 +659,7 @@ def build(who, x=0.0, y=0.0, rot_z=0.0, name=None):
         uv_box(bm, 2.0)
         parts.append(to_object(f"{name}.ear", bm, [M["head"]], J["head"], (0.077 * sx, 0.03, -0.035)))
     # hair: a shell over the top of the head, low at the back, shaped per style at the front
-    hx0, hy0, yo0, k0, kf0 = 0.074, 0.100, 0.002, 0.55, 0.68
+    hx0, hy0, yo0, k0, kf0 = HAIR_RING
 
     def hair_ring(z_front, z_back, s, lift=0.0, fwd=0.0):
         pts = []
@@ -577,12 +668,15 @@ def build(who, x=0.0, y=0.0, rot_z=0.0, name=None):
             front = 1.0 - t
             pts.append((px_, py_ - fwd * front, z_front + (z_back - z_front) * t + lift * front ** 2))
         return pts
-    bm = loft([hair_ring(*r) for r in HAIR[S["hair"]]], cap_bottom=False)
-    uv = bm.loops.layers.uv.verify()
-    for f in bm.faces:
-        for l in f.loops:
-            co = l.vert.co
-            l[uv].uv = ((co.x + 0.09) / 0.18, (co.y + 0.12) / 0.24)
+    if S["hair"] == "wavy":
+        bm = wavy_hair()
+    else:
+        bm = loft([hair_ring(*r) for r in HAIR[S["hair"]]], cap_bottom=False)
+        uv = bm.loops.layers.uv.verify()
+        for f in bm.faces:
+            for l in f.loops:
+                co = l.vert.co
+                l[uv].uv = ((co.x + 0.09) / 0.18, (co.y + 0.12) / 0.24)
     parts.append(to_object(f"{name}.hair", bm, [M["hair"]], J["head"], HEAD_OFF))
 
     nk = B["neck"]                                           # neck: six sides

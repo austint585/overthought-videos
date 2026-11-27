@@ -51,3 +51,18 @@ Filtering the MakeHuman people (`ps2_scene.py`, since deleted) wasn't enough. Au
   - Blender 5.2 moved node-modifier inputs to `mod.properties.inputs.<id>.value`.
 
 First episode: "Saw It On A Reel: Black Friday", re-rendered with this cast the night it was made.
+
+## Later that night: the chad gets the Matt Hagen look
+
+Austin: "no kinda make him look like the actor that play matt hagan in clayface", then "emphasis on the wavy hair". That's Tom Rhys Harries. The reference is DC's first-look photo of him as Hagen on a magazine cover (/Film, Apr 21 2026: https://www.slashfilm.com/2153514/clayface-dc-studios-movie-tom-rhys-harries-matt-hagen-first-look/). In it he has chin-length, wavy dirty-blond hair, darker at the roots, with curtain bangs off a middle part. He also has hooded blue-grey eyes, a long straight nose, a lean face, light stubble and a dark heather tee.
+
+- **Hair** (`wavy_hair()` in `lowpoly_cast.py`, 601 triangles in all):
+  - a cap of 16-point rings, whose front edge is the curtain bangs: high at the middle part, down to the brows at the outer forehead, then past the temples to the cheekbones
+  - an open skirt from one temple round the back to the other, hanging to the jaw
+  - alternate columns kink in and out (the waves), and the tips are uneven and flick out
+  - a few lumps in the cap so it reads tousled, not a helmet
+  - the texture is wavy locks, darker roots and sun-bleached ends
+- **Face:** blue-grey hooded eyes (two rows), lighter brows, a narrower chin and jaw, stubble cut to a third.
+- It's a look, not a portrait, and we never name the actor or the film in a post.
+
+Black Friday was rendered a third time with him before its Nov 27 slot.
