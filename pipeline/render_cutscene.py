@@ -180,6 +180,38 @@ EPISODES["chad_black_friday"] = {
 }
 
 
+# Episode 4 with the chad (Nov 27, for the weekend trees go up). Austin: "it doesn't always have to compare him to a
+# group of other people" and "change up your scenery", so no friends, no salary tags, no phone check: the chad and his
+# girlfriend decorating the tree at night (lowpoly_sets.living_room, rendered with render_ps2.py). Facts in
+# ops/episodes/2026-11-27-chad-rudolph.md: Robert L. May, a Montgomery Ward copywriter, created Rudolph in 1939 for
+# the store's Christmas giveaway booklet (Smithsonian), and he almost named him Reginald (Smithsonian Magazine).
+EPISODES["chad_rudolph"] = {
+    "cast": [{"name": "gf", "x": -0.28, "rot": 12, "arms": "table", "voice": "af_heart"},
+             {"name": "chad", "x": 0.28, "rot": -12, "arms": "table", "voice": "am_michael"}],
+    "hook": "Never decorate the tree with the reel guy",
+    "music": "zeromrr",
+    "beats": [
+        {"who": "gf", "say": "[happy, cozy, a little dreamy] Rudolph's my favorite. He's so old-school.",
+         "cam": "two", "on": ["gf", "chad"], "to": "chad", "faces": {"gf": "smile", "chad": "neutral"}},
+        {"who": "chad", "say": "[deadpan, not looking up] He's an ad.", "cam": "close", "to": "gf",
+         "pose": "sit_back"},
+        {"who": "gf", "say": "[confused, half laughing] He's a what?", "cam": "single", "to": "chad",
+         "faces": {"gf": "shock"}},
+        {"who": "chad", "say": "[calm, matter-of-fact] A department store made him up. Nineteen thirty-nine.",
+         "cam": "close", "to": "gf", "pose": "sit_hand"},
+        {"who": "chad", "say": "[deadpan, a small shrug] Almost named him Reginald.", "cam": "wide", "to": "gf",
+         "pose": "sit_palms", "faces": {"gf": "neutral"}},
+        {"who": "gf", "say": "[quiet, horrified] Reginald?", "cam": "close", "to": "chad", "faces": {"gf": "shock"},
+         "pose": "sit_lean"},
+        {"who": "gf", "say": "[suspicious, slow] Where are you getting this?", "cam": "two", "on": ["gf", "chad"],
+         "to": "chad", "faces": {"gf": "serious"}},
+        {"who": "chad", "say": "[warm, completely sure of himself] Saw it on a reel.", "cam": "close", "punch": True,
+         "to": "gf", "pose": "sit_back", "faces": {"chad": "smirk"}},
+        {"pause": 1.2, "cam": "single", "on": "gf", "look": {"gf": "cam"}, "faces": {"gf": "serious"}},
+    ],
+}
+
+
 def strip_notes(s):
     return re.sub(r"\[[^\]]*\]", "", s).strip()
 

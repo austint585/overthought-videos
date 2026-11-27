@@ -16,6 +16,9 @@ import render_cutscene as rc
 from common import save_wav
 
 AUTO = ("sit_hand", "sit_lean", "sit_point")       # lines with nothing more specific rotate through these
+# where each episode is set (lowpoly_sets.SETS); missing = the patio table. Austin, Nov 27: "change up your
+# scenery", so a new chad episode gets a place that fits its topic. PS2_SET=<name> (or "table") overrides.
+SETS = {"chad_black_friday": "tv_aisle", "chad_rudolph": "living_room"}
 
 
 def pose_events(ep, duration):
@@ -98,6 +101,9 @@ def main():
     duration = rc.timeline(ep)
     T = rc.timing_json(ep, duration)
     T["poses"] = pose_events(ep, duration)
+    st = os.environ.get("PS2_SET", SETS.get(name))
+    if st and st != "table":
+        T["set"] = st
     tj = os.path.join(out_dir, "timing.json")
     json.dump(T, open(tj, "w"))
     NF = int(round(duration * rc.FPS))

@@ -20,31 +20,50 @@ out = os.path.abspath(out)
 sys.argv = [sys.argv[0], "--", timing, out, "anchors"]
 ns = runpy.run_path(os.path.join(HERE, "cutscene_scene.py"), run_name="cutscene_scene")
 import lowpoly_cast as LC
+import lowpoly_sets as LS
 import ps2look
 
 T, NF, FPS, B = ns["T"], ns["NF"], ns["FPS"], ns["B"]
+SET = T.get("set")                                            # None: the patio table (lowpoly_sets.SETS)
+STANDING = SET in LS.STANDING
 scene = bpy.context.scene
 D = math.radians
+
+
+def spot(c):
+    """Where a cast member stands or sits: at the table as written, or spread into a shallow arc when standing."""
+    if STANDING:
+        return c["x"] * 1.25, 0.15 + (0.1 if abs(c["x"]) < 0.5 else 0.0)
+    return c["x"], c.get("y", 0.15)
+
+
+def pose_name(name):
+    return LS.STAND.get(name, name) if STANDING else name
 
 
 def build():
     cast = T["cast"]
     xs = [c["x"] for c in cast]
-    ns["patio"]()
-    {"friendsgiving": ns["friendsgiving_props"], "blackfriday": ns["blackfriday_props"]}.get(
-        T.get("props"), ns["props_on_table"])(xs)
+    if SET:
+        LS.SETS[SET]()
+    else:
+        ns["patio"]()
+        {"friendsgiving": ns["friendsgiving_props"], "blackfriday": ns["blackfriday_props"]}.get(
+            T.get("props"), ns["props_on_table"])(xs)
     people = {}
     for c in cast:
-        p = LC.build(c["name"], x=c["x"], y=c.get("y", 0.15), rot_z=D(c.get("rot", 0)))
-        p.base = "sit_crossed" if c.get("arms") == "crossed" else "sit_table"
+        x, y = spot(c)
+        p = LC.build(c["name"], x=x, y=y, rot_z=D(c.get("rot", 0)))
+        p.base = pose_name("sit_crossed" if c.get("arms") == "crossed" else "sit_table")
         p.pose(p.base)
         people[c["name"]] = p
-    sun, to_sun = ns["golden_hour"]()
-    ns["leaf_shadows"](to_sun, (0, 1.5, 1.4))
     cam = B.camera(lens=35, fstop=5.6)
     cam.data.dof.use_dof = False                              # console cutscenes have no depth of field
-    B.area("fill", (1.6, -1.6, 1.4), (0, 0.15, 1.15), 1.4, 28, color=ns["hexc"]("dfe6ff"))
-    B.area("rim", (-1.2, 1.6, 2.2), (0, 0.15, 1.3), 0.8, 60, color=ns["hexc"]("ffc890"))
+    if not SET:
+        sun, to_sun = ns["golden_hour"]()
+        ns["leaf_shadows"](to_sun, (0, 1.5, 1.4))
+        B.area("fill", (1.6, -1.6, 1.4), (0, 0.15, 1.15), 1.4, 28, color=ns["hexc"]("dfe6ff"))
+        B.area("rim", (-1.2, 1.6, 2.2), (0, 0.15, 1.3), 0.8, 60, color=ns["hexc"]("ffc890"))
     B.render_settings(FPS, samples=16, motion_blur=0, look="AgX - Medium High Contrast")
     scene.view_settings.view_transform = "Standard"           # painted colours stay as painted
     scene.view_settings.look = "None"
@@ -98,8 +117,8 @@ def plan(people):
         for f in range(NF):
             t = f / FPS
             i = _at(poses, t)
-            cur = poses[i][1] if i >= 0 else p.base
-            prev = poses[i - 1][1] if i >= 1 else p.base
+            cur = pose_name(poses[i][1]) if i >= 0 else p.base
+            prev = pose_name(poses[i - 1][1]) if i >= 1 else p.base
             w = LC.ease_back((t - poses[i][0]) / 0.22) if i >= 0 else 1.0
             ei = _at(exprs, t)
             expr = exprs[ei][1] if ei >= 0 else "neutral"
@@ -131,7 +150,7 @@ def plan_camera(people, heads, fwds):
     """Per frame (location, aim target, lens): the MakeHuman kit's framing (cutscene_scene.plan_camera), with heads and
     facing from the low-poly cast."""
     cast = T["cast"]
-    xs = [c["x"] for c in cast]
+    xs = [spot(c)[0] for c in cast]
     shots = T["shots"]
     res = []
     for f in range(NF):
@@ -142,7 +161,11 @@ def plan_camera(people, heads, fwds):
         u = (t - sh["t0"]) / max(0.5, t1 - sh["t0"])
         kind, who = sh["cam"], sh.get("who", [])
         push = 1 - 0.035 * u
-        if kind == "wide" and max(xs) - min(xs) > 1.2:
+        if kind == "wide" and STANDING:                       # full bodies and the set behind them
+            k = max(0.62, min(1.0, (max(xs) - min(xs) + 1.6) / 3.5))   # two people: closer than four
+            tgt = Vector((sum(xs) / len(xs), 0.15, 1.32))
+            off, lens = Vector((0, -2.45, 0.32)) * k * push, 18
+        elif kind == "wide" and max(xs) - min(xs) > 1.2:
             tgt = Vector((sum(xs) / len(xs), 0.15, 1.0))
             off, lens = Vector((0, -1.72, 0.72)) * push, 16
         elif kind == "wide":

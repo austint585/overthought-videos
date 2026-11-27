@@ -66,3 +66,24 @@ Austin: "no kinda make him look like the actor that play matt hagan in clayface"
 - It's a look, not a portrait, and we never name the actor or the film in a post.
 
 Then Austin said "not a long face". The chad's head joint now has a scale (`head_scale` in his spec: 1.07 wide, 0.87 tall) that the face, ears and hair all follow, and his jaw is back to nearly its old width. Black Friday was rendered again with him before its Nov 27 slot.
+
+## Nov 27: iterating against the photo, and a new set
+
+Austin asked "why did you stop iterating", so the chad went through three more rounds, each compared side by side with the photo (`pipeline/out/chadlite/2026-11-27_Chad_vs_Reference.png`):
+
+- The hair top was lowered and rounded, so it no longer reads as a box.
+- The bangs now part off-centre and sweep diagonally to the outer brows. Low, even bangs had read as a bowl cut.
+- The hair colour is more even.
+- The stubble was cut to a trace.
+- The nose is shallower and the jaw tapered a little.
+- He has smile lines.
+
+Austin also said "change up your scenery" (the finance bro at a table every time), so the cast can now stand in sets from `pipeline/lowpoly_sets.py`:
+
+- **Painted textures:** the signs use a 5 x 7 pixel font, and the TVs play pictures painted at 32 x 18.
+- **Poses:** the seated poses have standing versions (`lowpoly_sets.STAND`).
+- **Cameras:** the wide frames full bodies and the set behind them.
+
+The first set, `tv_aisle`, is a store's TV wall on Black Friday. It has a BLACK FRIDAY banner, pallets of boxed TVs with 60% OFF and DOORBUSTER signs, grey tile, fluorescent light and the screens' blue glow. `render_ps2.SETS` picks the set per episode, and `PS2_SET` overrides it.
+
+`ops/questions.md` came out of the same morning.
