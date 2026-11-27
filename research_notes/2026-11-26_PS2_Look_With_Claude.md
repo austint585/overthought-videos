@@ -65,4 +65,4 @@ Austin: "no kinda make him look like the actor that play matt hagan in clayface"
 - **Face:** blue-grey hooded eyes (two rows), lighter brows, a narrower chin and jaw, stubble cut to a third.
 - It's a look, not a portrait, and we never name the actor or the film in a post.
 
-Black Friday was rendered a third time with him before its Nov 27 slot.
+Then Austin said "not a long face". The chad's head joint now has a scale (`head_scale` in his spec: 1.07 wide, 0.87 tall) that the face, ears and hair all follow, and his jaw is back to nearly its old width. Black Friday was rendered again with him before its Nov 27 slot.

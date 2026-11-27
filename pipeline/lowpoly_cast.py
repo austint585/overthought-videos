@@ -41,7 +41,8 @@ CAST = {
     # middle part, blue-grey hooded eyes, a leaner jaw, light stubble, a dark heather tee (his first-look photo).
     "chad": dict(
         skin=(222, 170, 134), lip=(176, 106, 92), stubble=0.16, iris=(92, 126, 150), brow=(96, 70, 44), brow_rows=2,
-        eye_rows=2, chin=0.044, jaw=0.068, rest="smirk0",
+        eye_rows=2, chin=0.049, jaw=0.072, rest="smirk0",
+        head_scale=(1.07, 1.02, 0.87),                   # "not a long face" (Austin): shorter and a bit wider
         hair="wavy", hair_cols=((62, 44, 26), (112, 82, 48), (158, 118, 70), (204, 166, 106)),
         top="tee", cloth=((56, 64, 82), (48, 55, 72), (66, 74, 94)), sleeve="short",
         legs=((42, 55, 86), (52, 67, 100), (34, 44, 70)), shoes=((228, 228, 222), (200, 200, 196), (150, 150, 150)),
@@ -620,6 +621,8 @@ def build(who, x=0.0, y=0.0, rot_z=0.0, name=None):
     J["spine"] = joint(f"{name}.spine", J["pelvis"], (0, 0, 0.06))
     J["neck"] = joint(f"{name}.neck", J["spine"], (0, 0.01, 0.445 * TK))
     J["head"] = joint(f"{name}.head", J["neck"], (0, 0, 0.09))
+    if S.get("head_scale"):                                  # head, ears and hair all hang on this joint
+        J["head"].scale = S["head_scale"]
     sw = 0.205 * B["shoulder"]
     for s, sx in (("L", 1), ("R", -1)):
         J[f"shoulder{s}"] = joint(f"{name}.shoulder{s}", J["spine"], (sw * sx, 0.01, 0.39 * TK))
