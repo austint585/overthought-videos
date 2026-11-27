@@ -142,6 +142,44 @@ EPISODES["chad_tryptophan"] = {
 }
 
 
+# Episode 3 with the chad (Nov 26, for Black Friday, Nov 27): the "reel educated" bit again. Facts in
+# ops/episodes/2026-11-26-chad-black-friday.md: Philadelphia police called the day after Thanksgiving "Black Friday" in
+# the 1950s for the traffic chaos (History.com), and retailers' "in the black" story came in the late 1980s, which
+# History.com calls inaccurate. "Same price in March" is the chad's joke on Which?'s yearly finding that most Black
+# Friday deals are the same price or cheaper at other times of the year.
+EPISODES["chad_black_friday"] = {
+    "cast": EPISODES["chad_couch"]["cast"],
+    "props": "blackfriday",
+    "hook": "POV: Black Friday with the guy who learned everything from reels",
+    "music": "zeromrr",
+    "beats": [
+        {"who": "suit", "say": "[confident, explaining, quick] Black Friday. Stores finally go in the black.",
+         "cam": "group", "on": ["jacket", "suit", "chad"], "tag": ["MBA", "$140K", "green"], "to": "jacket",
+         "faces": {"suit": "smug"}},
+        {"who": "chad", "say": "[calm, casual, barely interested] Philly cops named it.", "cam": "close",
+         "tag": ["EDUCATION", "REELS", "white"], "to": "suit"},
+        {"pause": 1.4, "cam": "wide", "faces": {"jacket": "laugh", "suit": "laugh", "overalls": "laugh"},
+         "sfx": [[LAUGH, 0.05, 0.5, 0.0, 1.5, 0.94], [LAUGH, 0.2, 0.4, 0.0, 1.3, 1.08]]},
+        {"who": "suit", "say": "[still laughing, condescending] Okay. Let me just check.", "cam": "single",
+         "look": {"suit": "down"}, "faces": {"suit": "smug"}},
+        {"pause": 3.2, "insert": "search",
+         "search": {"query": "why is it called black friday", "source": "HISTORY.COM",
+                    "title": "Philadelphia police named it in the 1950s",
+                    "body": "For the traffic chaos. The 'in the black' story came in the late 1980s."}},
+        {"pause": 1.5, "cam": "wide", "drops": [["suit", "WRONG"], ["chad", "REELS", "yellow"]],
+         "faces": {"suit": "shock", "jacket": "shock", "overalls": "laugh", "chad": "smirk"},
+         "look": {"jacket": "chad", "suit": "chad", "overalls": "chad"}},
+        {"who": "jacket", "say": "[excited, showing off a deal] Whatever. This TV's sixty percent off.",
+         "cam": "single", "tag": ["BIG TECH", "$310K", "green"], "to": "chad", "faces": {"jacket": "smug"}},
+        {"who": "chad", "say": "[deadpan] Same price in March.", "cam": "close", "to": "jacket"},
+        {"who": "overalls", "say": "[slow, suspicious] Where are you getting all this?", "cam": "single",
+         "to": "chad", "faces": {"overalls": "neutral"}},
+        {"who": "chad", "say": "[warm, completely sure of himself] Saw it on a reel.", "cam": "close", "punch": True,
+         "to": "overalls"},
+    ],
+}
+
+
 def strip_notes(s):
     return re.sub(r"\[[^\]]*\]", "", s).strip()
 

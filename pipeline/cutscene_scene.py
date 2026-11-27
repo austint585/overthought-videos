@@ -216,6 +216,18 @@ def _stubble(m, density, scalp, hair_col="1c120c"):
     nt.links.new(out, b.inputs["Base Color"])
 
 
+HERO_TEE = os.path.join(CHAR_DIR, "chad_tee.png")    # the series shirt Chad wears (python merch.py hero), Nov 26
+
+
+def hero_tee(ch):
+    """The printed tee texture for this character: CUTSCENE_TEE=<png> (or 'none') for a one-off, otherwise the
+    series shirt on chad when merch.py hero has made it."""
+    env = os.environ.get("CUTSCENE_TEE")
+    if env:
+        return None if env == "none" else env
+    return HERO_TEE if ch["name"] == "chad" and os.path.exists(HERO_TEE) else None
+
+
 def restyle(ch, skin_tint=(1.0, 0.93, 0.86), brow=0.28):
     """The game look: warm, slightly glossy 'plastic' skin, heavy dark brows, clean saturated clothes."""
     st = ch["style"]
@@ -255,7 +267,7 @@ def restyle(ch, skin_tint=(1.0, 0.93, 0.86), brow=0.28):
             elif "teeth" in low or "tongue" in low:
                 _grade_texture(m, val=0.85)
             else:                                                     # hair and clothes
-                tee = os.environ.get("CUTSCENE_TEE")                 # a printed tee (merch.py texture), Nov 24
+                tee = hero_tee(ch)                                   # a printed tee (merch.py texture), Nov 24
                 if tee and "t-shirt" in (low + m.name.lower()):
                     for n in m.node_tree.nodes:
                         if n.type == "TEX_IMAGE" and n.image and                                 os.path.basename(n.image.filepath).lower() == "t-shirt_basic.png":
@@ -593,6 +605,41 @@ def friendsgiving_props(seat_xs):
             ph.rotation_euler = (0, 0, -0.35)
 
 
+def blackfriday_props(seat_xs):
+    """Black Friday morning (Nov 26): coffee and leftover turkey sandwiches, shopping bags with rope handles on the
+    table ends, a store receipt, and phones in reach for the 'look it up' beat."""
+    z = TABLE_H
+    props_on_table(seat_xs)
+    bread = plain("bread", hexc("d8a868"), rough=0.75)
+    meat = plain("turkeyslice", hexc("d9b48a"), rough=0.6)
+    lettuce = plain("lettuce", hexc("6c9a3a"), rough=0.6)
+    cer = plain("ceramic2", hexc("efe9e0"), rough=0.25, coat=0.3)
+    for sx in (seat_xs[0], seat_xs[2]):
+        y = -0.3
+        B.mesh_from("sandplate", B.cyl_z(0.11, z, z + 0.012, sx + 0.05, y, seg=28, r2=0.09), [cer])
+        for k, (h0, h1, m) in enumerate(((0.012, 0.028, bread), (0.028, 0.036, lettuce), (0.036, 0.05, meat),
+                                         (0.05, 0.066, bread))):
+            sw = B.mesh_from("sandwich", B.box(-0.06, 0.06, -0.045, 0.045, z + h0, z + h1), [m])
+            sw.location = (sx + 0.05, y, 0)
+            sw.rotation_euler = (0, 0, 0.5)
+    colors = [("bagred", "c2242c"), ("bagwhite", "efece6"), ("bagblack", "1c1c20")]
+    rope = plain("rope", hexc("1a1a1a"), rough=0.6)
+    spots = [(-0.46, -1.04, 0.25), (0.46, -1.06, -0.2), (0.72, -0.9, 0.1)]     # front corners: in the group and wide shots
+    for (name, col), (bx, by, rz) in zip(colors, spots):
+        m = plain(name, hexc(col), rough=0.55, coat=0.15)
+        bag = B.mesh_from(name, B.box(-0.11, 0.11, -0.045, 0.045, z, z + 0.26), [m])
+        bag.location = (bx, by, 0)
+        bag.rotation_euler = (0, 0, rz)
+        for hx in (-0.06, 0.06):
+            h = B.mesh_from("handle", B.box(hx - 0.006, hx + 0.006, -0.003, 0.003, z + 0.26, z + 0.33), [rope])
+            h.location = (bx, by, 0)
+            h.rotation_euler = (0, 0, rz)
+    paper = plain("receipt", hexc("f6f4ee"), rough=0.9)
+    rc = B.mesh_from("receipt", B.box(-0.04, 0.04, -0.12, 0.12, z, z + 0.002), [paper])
+    rc.location = (0.02, -1.08, 0)
+    rc.rotation_euler = (0, 0, -0.3)
+
+
 def golden_hour(az=232, el=19, strength=3.8):
     world(hexc("9fb2cc"), 1.0)                        # blue sky fill from everywhere
     s = B.sun("sun", azimuth_deg=az, elevation_deg=el, strength=strength, color=hexc("ffc690"), angle_deg=2.2)
@@ -870,7 +917,8 @@ def plan_camera(chars, cast):
 def episode():
     cast = T["cast"]
     patio()
-    (friendsgiving_props if T.get("props") == "friendsgiving" else props_on_table)([c["x"] for c in cast])
+    {"friendsgiving": friendsgiving_props, "blackfriday": blackfriday_props}.get(T.get("props"), props_on_table)(
+        [c["x"] for c in cast])
     chars = {}
     for c in cast:
         ch = load_char(c["name"])
@@ -949,6 +997,36 @@ def portraits():
             bpy.data.objects.remove(ob, do_unlink=True)
 
 
+def tee_map():
+    """Where the front of the seated character's tee lands on its texture: writes OUT/tee_map.json with
+    [world x, world z, texture px x, texture px y] for every corner of every front-facing face, so merch.py can lay a
+    print on as if projected straight from the front (the stock UVs bend straight lines)."""
+    ch = load_char(os.environ.get("CUTSCENE_MERCH_CHAR", "chad"))
+    seat(ch, 0.0, 0.15, arms="table")
+    bpy.context.view_layer.update()
+    tee = next(o for o in ch["parts"] if "t-shirt" in o.name.lower())
+    ev = tee.evaluated_get(bpy.context.evaluated_depsgraph_get())
+    me = ev.to_mesh()
+    mw = ev.matrix_world
+    img = next(n.image for s in tee.material_slots for n in s.material.node_tree.nodes
+               if n.type == "TEX_IMAGE" and n.image)
+    W, H = img.size
+    uv = me.uv_layers.active.data
+    pts = []
+    for p in me.polygons:
+        if (mw.to_3x3() @ p.normal).normalized().y > -0.3:
+            continue
+        for li in p.loop_indices:
+            co = mw @ me.vertices[me.loops[li].vertex_index].co
+            u, v = uv[li].uv
+            pts.append([round(co.x, 5), round(co.z, 5), round(u * W, 2), round((1 - v) * H, 2)])
+    mid = [q for q in pts if abs(q[0]) < 0.03 and q[3] < H / 2]
+    os.makedirs(OUT, exist_ok=True)
+    with open(os.path.join(OUT, "tee_map.json"), "w") as fh:
+        json.dump({"size": [W, H], "neck_z": max(q[1] for q in mid), "points": pts}, fh)
+    print("tee_map", len(pts), "points")
+
+
 def merch_shot():
     """Chad at the table in his printed tee (CUTSCENE_TEE=<texture from merch.py>), framed like the reference's
     single shot where the hero's shirt reads under his caption."""
@@ -963,9 +1041,11 @@ def merch_shot():
     ch = load_char(os.environ.get("CUTSCENE_MERCH_CHAR", "chad"))
     restyle(ch)
     seat(ch, 0.0, 0.15, arms="table")
+    _base(ch)                                   # strand hair set at the seated pose, as in episode()
     face(ch, EXPRESSIONS[ch["style"].get("rest", "neutral")])
     h = head_pos(ch)
-    shots = {"single": (-0.34, (0.1, -1.75, -0.04), 42), "close": (-0.24, (0.06, -1.25, 0.0), 48)}
+    # camera near chin height looking a little down: the print reads square and the hair keeps its height
+    shots = {"single": (-0.34, (0.3, -1.7, 0.2), 42), "close": (-0.22, (0.28, -1.2, 0.17), 48)}
     for tag, (dz, off, lens) in shots.items():
         cam_on(cam, h + Vector((0, 0, dz)), off, lens, fstop=4.0)
         scene.render.filepath = os.path.join(OUT, f"merch_{tag}.png")
@@ -973,7 +1053,9 @@ def merch_shot():
 
 
 if __name__ == "__main__":
-    if MODE == "merch":
+    if MODE == "teemap":
+        tee_map()
+    elif MODE == "merch":
         merch_shot()
     elif MODE == "look":
         look_test()
