@@ -2,6 +2,8 @@
 
 **Why now:** Black Friday is Friday, Nov 27. Everyone repeats the "stores finally go in the black" story that day, and it isn't true. Timely reels are one of our two idea sources that work (`ops/make.md`), and the last one in this shape, "Saw It On A Reel" (tryptophan, Nov 25), is our best recent reel: 5.4K plays, 73% watched, 12 shares (`reports/daily/2026-11-25.md`). This is the third episode of the "reel educated" chad bit (`research_notes/2026-11-24_Series_And_Shirt_Concept.md`). No new DM this run: Chrome wasn't connected, so the DM check was skipped.
 
+**Re-rendered the same evening with the low-poly cast** (`pipeline/render_ps2.py chad_black_friday`): Austin DMed the PS1/PS2 recipe, OK'd the chadlite test and said "Yes, rebuild them" for the friends. The script, voices, cards, timing and caption are unchanged; only the people and the look changed (`research_notes/2026-11-26_PS2_Look_With_Claude.md`). The MakeHuman render is kept as `videos/2026-11-26_Saw_It_On_A_Reel_Black_Friday.mp4`; the queue now points at the low-poly one.
+
 **Format:** game cutscene (`pipeline/render_cutscene.py`, episode `chad_black_friday`). The same four characters at the patio table, now a Black Friday morning set (`blackfriday_props` in `cutscene_scene.py`): coffee, leftover turkey sandwiches, shopping bags on the front corners of the table and a receipt. The post just before this one (The Turkey Is Still A Rock) was the pastel toy kit, so the set and the opening shot are new to the feed.
 
 ## Script
