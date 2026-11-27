@@ -1,0 +1,43 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s4-reg { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s4" data-width="1080" data-height="1920">
+   <div id="s4-all" style="position:absolute;inset:0;">
+
+    <svg width="1080" height="1920" id="s4-crowd" style="opacity:0.3;"><line x1="90" y1="1120" x2="990" y2="1120" stroke="#fff" stroke-width="4"/><g transform="translate(150,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(232,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(314,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(396,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(478,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(560,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(642,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g><g transform="translate(724,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></svg>
+    <div id="s4-tags" style="position:absolute;inset:0;opacity:0.3;"><div class="t" id="s4-t1" style="top:760px;"><span class="pillin" style="font-size:40px;padding:17px 42px;">70% OFF</span></div></div>
+    <svg width="1080" height="1920" id="s4-reg" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g transform="translate(800,900) scale(1.1)" fill="none" stroke="#fff" stroke-width="5.45" stroke-linejoin="round"><path d="M -110 -100 L 110 -100 L 130 40 L -130 40 Z"/><rect x="-50" y="-170" width="100" height="56" rx="8"/><line x1="0" y1="-114" x2="0" y2="-100"/><rect x="-70" y="-70" width="26" height="18" rx="4"/><rect x="-30" y="-70" width="26" height="18" rx="4"/><rect x="10" y="-70" width="26" height="18" rx="4"/><rect x="50" y="-70" width="26" height="18" rx="4"/><rect x="-70" y="-40" width="26" height="18" rx="4"/><rect x="-30" y="-40" width="26" height="18" rx="4"/><rect x="10" y="-40" width="26" height="18" rx="4"/><rect x="50" y="-40" width="26" height="18" rx="4"/><rect x="-70" y="-10" width="26" height="18" rx="4"/><rect x="-30" y="-10" width="26" height="18" rx="4"/><rect x="10" y="-10" width="26" height="18" rx="4"/><rect x="50" y="-10" width="26" height="18" rx="4"/><rect x="-140" y="40" width="280" height="56" rx="6"/><line x1="-30" y1="68" x2="30" y2="68"/></g></svg>
+    <svg width="1080" height="1920" id="s4-man" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><g transform="translate(120,1280) scale(1.6)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></svg>
+    <div class="t glow" id="s4-a" style="top:520px;font-size:84px;"><span class="w" id="s4-a-0">ONE</span> <span class="w" id="s4-a-1">MAN</span></div>
+    <div class="t glow" id="s4-b" style="top:520px;font-size:46px;"><span class="w" id="s4-b-0">STRAIGHT</span> <span class="w" id="s4-b-1">TO</span> <span class="w" id="s4-b-2">THE</span> <span class="w" id="s4-b-3">REGISTER</span></div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s4-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.258);
+    tl.fromTo("#s4-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.544);
+    tl.fromTo("#s4-man", {x:0}, {x:560, duration:3.93, ease:'none'}, 0.000);
+    tl.set("#s4-a", {opacity:0}, 3.059);
+    tl.to("#s4-crowd, #s4-tags", {opacity:0.08, duration:0.3}, 3.059);
+    tl.fromTo("#s4-b-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 3.099);
+    tl.fromTo("#s4-b-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 3.577);
+    tl.fromTo("#s4-b-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 3.869);
+    tl.fromTo("#s4-b-3", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 4.026);
+    tl.fromTo("#s4-reg", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 4.026);
+    tl.to("#s4-b", {opacity:0.25, duration:0.4}, 4.655);
+    tl.to("#s4-all", {opacity:0, filter:'blur(8px)', duration:0.06, ease:'power2.in'}, 6.148);
+    window.__timelines["s4"] = tl;
+  </script>
+</template>

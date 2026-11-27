@@ -1,0 +1,45 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s5-flash, #s5-fp, #s5-pct, #s5-tag { opacity: 0; }
+#s5-tag path { stroke-dasharray: 1; stroke-dashoffset: 1; }
+</style>
+  <div id="root" data-composition-id="s5" data-width="1080" data-height="1920">
+   <div id="s5-all" style="position:absolute;inset:0;">
+
+    <div class="t glow" id="s5-a" style="top:560px;font-size:60px;"><span class="w" id="s5-a-0">HE</span> <span class="w" id="s5-a-1">WANNA</span> <span class="w" id="s5-a-2">PAY</span></div>
+    <div id="s5-flash" style="position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%, rgba(242,179,61,0.4) 0%, rgba(242,179,61,0) 60%);"></div>
+    <svg width="1080" height="1920" id="s5-tag" style="filter: drop-shadow(0 0 14px rgba(242,179,61,0.95)) drop-shadow(0 0 44px rgba(242,179,61,0.5));"><g transform="translate(560,1250) scale(1.5)" fill="none" stroke="#F2B33D" stroke-width="5.33" stroke-linejoin="round" stroke-linecap="round"><path d="M -150 -70 L 110 -70 L 170 0 L 110 70 L -150 70 Z" pathLength="1"/><circle cx="112" cy="0" r="14"/><path d="M 126 0 C 170 -40 200 -60 240 -40"/></g></svg>
+    <div class="t" id="s5-fp" style="top:680px;font-size:150px;color:#F2B33D;text-shadow:0 0 18px rgba(242,179,61,0.85),0 0 60px rgba(242,179,61,0.45);">FULL<br>PRICE</div>
+    <div class="t" id="s5-pct" style="top:1212px;font-size:60px;color:#F2B33D;">0% OFF</div>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s5-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s5-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.290);
+    tl.fromTo("#s5-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.647);
+    tl.fromTo("#s5-fp", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 0.825);
+    tl.to("#s5-fp", {x:7, duration:0.033, ease:'none'}, 1.025);
+    tl.to("#s5-fp", {x:-6, duration:0.033, ease:'none'}, 1.058);
+    tl.to("#s5-fp", {x:4, duration:0.033, ease:'none'}, 1.091);
+    tl.to("#s5-fp", {x:-2, duration:0.033, ease:'none'}, 1.124);
+    tl.to("#s5-fp", {x:0, duration:0.033, ease:'none'}, 1.157);
+    tl.fromTo("#s5-flash", {opacity:0}, {opacity:1, duration:0.06}, 0.825);
+    tl.to("#s5-flash", {opacity:0.35, duration:0.9, ease:'power2.out'}, 0.925);
+    tl.to("#s5-tag", {opacity:1, duration:0.01}, 0.875);
+    tl.fromTo("#s5-tag path", {strokeDasharray:1, strokeDashoffset:1}, {strokeDashoffset:0, duration:0.4, ease:'power3.out'}, 0.875);
+    tl.fromTo("#s5-pct", {opacity:0, scale:0.92}, {opacity:1, scale:1, duration:0.32, ease:'expo.out'}, 1.275);
+    window.__timelines["s5"] = tl;
+  </script>
+</template>

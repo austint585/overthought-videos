@@ -1,0 +1,41 @@
+<template>
+  <style>
+#root { position: absolute; inset: 0; font-family: 'Montserrat', sans-serif; color: #fff; }
+.t { position: absolute; left: 0; width: 1080px; text-align: center; font-weight: 800; letter-spacing: 0.12em;
+     text-transform: uppercase; white-space: nowrap; }
+.glow { text-shadow: 0 0 16px rgba(255,255,255,0.55), 0 0 44px rgba(255,255,255,0.22); }
+.dim { color: rgba(255,255,255,0.55); }
+.pillin { display: inline-block; background: #fff; color: #000; font-weight: 800; letter-spacing: 0.14em;
+          border-radius: 999px; box-shadow: 0 0 26px rgba(255,255,255,0.25); }
+.h { opacity: 0; }
+.w { display: inline-block; }
+svg { position: absolute; left: 0; top: 0; overflow: visible; }
+#s2-d { opacity: 0; }
+</style>
+  <div id="root" data-composition-id="s2" data-width="1080" data-height="1920">
+   <div id="s2-all" style="position:absolute;inset:0;">
+
+    <div class="t dim" id="s2-a" style="top:520px;font-size:40px;"><span class="w" id="s2-a-0">EVERY</span> <span class="w" id="s2-a-1">BLACK</span> <span class="w" id="s2-a-2">FRIDAY</span></div>
+    <div class="t glow" id="s2-d" style="top:600px;font-size:84px;">A DISCOUNT</div>
+    <svg width="1080" height="1920" style="filter: drop-shadow(0 0 12px rgba(255,255,255,0.65)) drop-shadow(0 0 36px rgba(255,255,255,0.25));"><line x1="90" y1="1120" x2="990" y2="1120" stroke="#fff" stroke-width="4"/><g id="s2-p0"><g transform="translate(170,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p1"><g transform="translate(252,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p2"><g transform="translate(334,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p3"><g transform="translate(416,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p4"><g transform="translate(498,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p5"><g transform="translate(580,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p6"><g transform="translate(662,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g><g id="s2-p7"><g transform="translate(744,1120) scale(1.1)"><circle cx="0" cy="-58" r="15" fill="#fff"/><rect x="-19" y="-38" width="38" height="38" rx="12" fill="#fff"/></g></g></svg>
+
+   </div>
+  </div>
+  <script>
+    const tl = gsap.timeline({ paused: true });
+        tl.fromTo("#s2-a-0", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.120);
+    tl.fromTo("#s2-a-1", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.551);
+    tl.fromTo("#s2-a-2", {opacity:0, filter:'blur(8px)'}, {opacity:1, filter:'blur(0px)', duration:0.13, ease:'power4.out'}, 0.982);
+    tl.fromTo("#s2-p0", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.050);
+    tl.fromTo("#s2-p1", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.130);
+    tl.fromTo("#s2-p2", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.210);
+    tl.fromTo("#s2-p3", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.290);
+    tl.fromTo("#s2-p4", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.370);
+    tl.fromTo("#s2-p5", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.450);
+    tl.fromTo("#s2-p6", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.530);
+    tl.fromTo("#s2-p7", {opacity:0, x:-60}, {opacity:1, x:0, duration:0.4, ease:'power3.out'}, 0.610);
+    tl.fromTo("#s2-d", {opacity:0, scale:1.25}, {opacity:1, scale:1, duration:0.2, ease:'expo.out'}, 4.636);
+    tl.to("#s2-all", {opacity:0, filter:'blur(8px)', duration:0.16, ease:'power2.in'}, 5.278);
+    window.__timelines["s2"] = tl;
+  </script>
+</template>
